@@ -6,6 +6,7 @@ import './App.css'
 import Test from './pages/Test'
 import Login from './pages/login'
 import Tracking from './pages/Tracking'
+import M2BDashboard from './pages/dashboard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -121,7 +122,7 @@ function App() {
   // )
 
   return (
-    <Tracking></Tracking>
+    <M2BDashboard></M2BDashboard>
   )
 }
 

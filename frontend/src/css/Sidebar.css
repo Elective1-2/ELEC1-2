@@ -1,0 +1,143 @@
+/* ===================================================
+   SIDEBAR
+=================================================== */
+.sidebar {
+  width: clamp(160px, 14vw, 210px);
+  min-width: clamp(160px, 14vw, 210px);
+  /* fills full viewport height and stays fixed while main scrolls */
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  background: #1e2d3d;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0 0;
+  border-right: 3px solid #38bdf8;
+  z-index: 60;
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: transform 0.28s ease;
+}
+
+/* ── Logo ── */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 18px 28px;
+  flex-shrink: 0;
+}
+
+.sidebar-logo-seg {
+  width: clamp(28px, 2.6vw, 38px);
+  height: clamp(28px, 2.6vw, 38px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: clamp(13px, 1.3vw, 18px);
+  line-height: 1;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.sidebar-logo-seg.seg-m { background: #2d4a6b; }
+.sidebar-logo-seg.seg-2 { background: #38bdf8; }
+.sidebar-logo-seg.seg-b { background: #f5a623; }
+
+/* ── Nav items ── */
+.sidebar-nav-item {
+  margin: 1px 8px;
+  padding: clamp(9px, 0.9vw, 12px) 14px;
+  color: #7a96b0;
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sidebar-nav-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+}
+
+.sidebar-nav-item.active {
+  background: #3b82f6;
+  color: #fff;
+}
+
+/* ===================================================
+   MOBILE + TABLET PORTRAIT (< 768px)
+   Hidden by default — slides in as drawer
+=================================================== */
+@media (max-width: 767px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 210px;
+    min-width: 210px;
+    height: 100vh;
+    z-index: 70;
+    padding-top: 16px;
+    transform: translateX(-100%);
+    display: flex;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* ===================================================
+   TABLET LANDSCAPE (768px – 1023px)
+=================================================== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sidebar {
+    width: 170px;
+    min-width: 170px;
+  }
+
+  .sidebar-logo-seg {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+}
+
+/* ===================================================
+   DESKTOP (1024px – 1919px)
+=================================================== */
+@media (min-width: 1024px) and (max-width: 1919px) {
+  .sidebar {
+    width: clamp(170px, 13vw, 200px);
+    min-width: clamp(170px, 13vw, 200px);
+  }
+}
+
+/* ===================================================
+   4K / ULTRA-WIDE (≥ 1920px)
+=================================================== */
+@media (min-width: 1920px) {
+  .sidebar {
+    width: clamp(200px, 11vw, 260px);
+    min-width: clamp(200px, 11vw, 260px);
+  }
+
+  .sidebar-logo-seg {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  .sidebar-nav-item {
+    font-size: 16px;
+    padding: 13px 18px;
+  }
+}
