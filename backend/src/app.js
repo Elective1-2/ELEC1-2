@@ -31,6 +31,7 @@ app.use("/health", healthRoutes);
 app.use("/db-test", dbTestRoutes);
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
+app.use(cookieParser());
 
 //? TESTING 
 
