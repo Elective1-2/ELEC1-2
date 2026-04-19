@@ -1,8 +1,8 @@
 import React from 'react';
-import Schedule from './pages/Schedule';
+import Passenger from './pages/Passenger';
 
 function App() {
-  return <Schedule/>
+  return <Passenger />; 
 }
 
 export default App;
