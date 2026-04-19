@@ -17,33 +17,51 @@ router.get(
   })
 );
 
-// 2) Handle Google callback
+// 2) Handle Google callback - MODIFIED to handle no_account case
 router.get(
   "/google/callback",
-  passport.authenticate("google", { session: false, failureRedirect: "/auth/failure" }),
-  async (req, res) => {
-    // Passport attached `req.user` from our strategy
-    const user = req.user;
+  (req, res, next) => {
+    passport.authenticate("google", { session: false }, (err, user, info) => {
+      // Handle errors
+      if (err) {
+        console.error("OAuth error:", err);
+        return res.redirect(`${process.env.FRONTEND_URL || "http://localhost:5000"}/auth/error?message=server_error`);
+      }
 
-    // Issue JWT
-    const token = signUser(user);
+      // Handle "no_account" case - redirect to signup with Google data
+      if (info && info.message === "no_account" && info.googleData) {
+        const { email, googleSub, fullName, isEmailVerified } = info.googleData;
+        const signupUrl = `${process.env.FRONTEND_URL || "http://localhost:5000"}/auth/signup?` +
+          `email=${encodeURIComponent(email)}&` +
+          `google_sub=${encodeURIComponent(googleSub)}&` +
+          `name=${encodeURIComponent(fullName || "")}&` +
+          `verified=${isEmailVerified}`;
+        return res.redirect(signupUrl);
+      }
 
-    // Set cookie (HttpOnly); in production also set `secure: true` and `sameSite: "none"` if cross-site
-    const isProd = process.env.NODE_ENV === "production";
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: isProd,           // true on HTTPS
-      sameSite: isProd ? "none" : "lax",
-      maxAge: 60 * 60 * 1000,   // 1h in ms
-    });
+      // Handle other failures (deactivated account, etc.)
+      if (!user) {
+        const message = info?.message || "authentication_failed";
+        return res.redirect(`${process.env.FRONTEND_URL || "http://localhost:5000"}/auth/error?message=${message}`);
+      }
 
-    // Redirect back to frontend (e.g., /dashboard)
-    const frontend = process.env.FRONTEND_URL || "http://localhost:5173";
-    res.redirect(`${frontend}/auth/success`);
+      // Success - user exists and is authenticated
+      const token = signUser(user);
+      const isProd = process.env.NODE_ENV === "production";
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: isProd ? "none" : "lax",
+        maxAge: 60 * 60 * 1000,
+      });
+
+      const frontend = process.env.FRONTEND_URL || "http://localhost:5000";
+      res.redirect(`${frontend}/auth/success`);
+    })(req, res, next);
   }
 );
 
-// 3) Failure route (optional)
+// 3) Failure route (fallback)
 router.get("/failure", (_req, res) => {
   res.status(401).json({ error: "Google authentication failed" });
 });
