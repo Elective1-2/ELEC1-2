@@ -156,73 +156,148 @@
   font-weight: 400;
 }
 
-.landing-carousel-wrap { position: relative; max-width: 500px; margin: 0 auto; }
-.landing-carousel-track { display: flex; align-items: center; justify-content: center; gap: 10px; }
+/* CAROUSEL (MOBILE & TABLET REFINEMENT) */
+.landing-carousel-wrap { 
+  position: relative; 
+  max-width: 600px; 
+  margin: 0 auto; 
+  overflow: hidden; 
+  padding: 20px 0; /* Increased padding for shadow clearance */
+}
 
+.landing-carousel-track { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 15px; 
+  /* Smooth track movement */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* SIDE CARDS (THE PREVIEW CARDS) */
 .landing-carousel-side {
   background-color: #1A2B3C;
-  border-radius: 8px;
-  padding: 20px 16px;
-  width: 70px;
-  min-height: 140px;
-  opacity: 0.4;
+  border-radius: 12px;
+  width: 12%; 
+  min-height: 160px;
+  opacity: 0.2; /* Lower opacity for more focus on the center */
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Added transition for when this card becomes the main card */
+  transition: transform 0.4s ease, opacity 0.4s ease;
 }
 
 .landing-carousel-side-title {
+  display: none; 
+}
+
+/* MAIN ACTIVE CARD */
+.landing-carousel-main {
+  background-color: #1A2B3C;
+  border-radius: 16px;
+  padding: 35px 25px;
+  flex: 1;
+  min-height: 210px;
+  box-sizing: border-box;
+  z-index: 2;
+  position: relative;
+  
+  /* --- CARD TRANSITION LOGIC --- */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              box-shadow 0.4s ease, 
+              background-color 0.3s ease;
+  
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.landing-card-title {
   font-family: 'Basement Grotesque', sans-serif;
   color: #F1C40F;
   font-weight: 900;
-  font-size: 11px;
-  margin-bottom: 10px;
   text-transform: uppercase;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
 }
 
-.landing-carousel-main {
-  background-color: #1A2B3C;
-  border-radius: 8px;
-  padding: 28px 24px;
-  flex: 1;
-  min-height: 180px;
-  box-sizing: border-box;
-}
-
-.landing-arrow-btn {
+.landing-card-desc {
   font-family: 'Figtree', sans-serif;
+  color: #cbd5e0;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.landing-carousel-main:hover {
+  transform: scale(1.03); /* Subtle "pop" effect */
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+}
+
+/* NAVIGATION ARROWS */
+.landing-arrow-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   background-color: #F1C40F;
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 18px;
+  width: 46px; 
+  height: 46px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 900;
-  color: #1A2B3C;
-  z-index: 5;
-  transition: all 0.2s;
+  z-index: 10;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+}
+.landing-arrow-left { left: 8px; }
+.landing-arrow-right { right: 8px; }
+
+.landing-arrow-btn:hover {
+  background-color: #e2b80e;
+  transform: translateY(-50%) scale(1.1);
 }
 
-.landing-arrow-left { left: -10px; }
-.landing-arrow-right { right: -10px; }
+.landing-arrow-btn:active {
+  transform: translateY(-50%) scale(0.9);
+}
 
-.landing-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+/* DOTS NAVIGATION */
+.landing-dots { 
+  display: flex; 
+  justify-content: center; 
+  gap: 12px; 
+  margin-top: 30px; 
+}
+
 .landing-dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background-color: #aaa;
-  transition: all 0.3s;
+  background-color: #4A5568;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   border: none;
-  padding: 0;
 }
 
-.landing-dot.active { width: 24px; border-radius: 4px; background-color: #F1C40F; }
+.landing-dot.active { 
+  width: 35px; 
+  border-radius: 6px; 
+  background-color: #F1C40F; 
+}
 
 .landing-hero { --hero-image: url('../assets/herohome.png'); }
+
+/* MOBILE SPECIFIC OVERLAP FIX */
+@media (max-width: 500px) {
+  .landing-carousel-side {
+    display: none; 
+  }
+  .landing-carousel-main {
+    margin: 0 10px;
+    padding: 30px 20px;
+  }
+}
+
