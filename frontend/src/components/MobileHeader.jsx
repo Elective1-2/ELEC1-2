@@ -1,16 +1,13 @@
 import React from "react";
 import "../css/MobileHeader.css";
+import logoImage from "../assets/M2B logo.png";
 
 function MobileHeader({ setMenuOpen }) {
   return (
     <div className="mobile-header">
       {/* Logo — LEFT */}
       <div className="mobile-header-left">
-        <div className="mobile-logo">
-          <div className="mobile-logo-seg seg-m">M</div>
-          <div className="mobile-logo-seg seg-2">2</div>
-          <div className="mobile-logo-seg seg-b">B</div>
-        </div>
+        <img src={logoImage} alt="M2B Logo" className="mobile-logo-img" />
       </div>
 
       {/* Hamburger — RIGHT (space-between handles placement) */}
