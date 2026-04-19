@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/Sidebar.css";
-import logoImage from "../assets/M2B logo.png";
+import logoImage from "../assets/M2B logo for DB BG.png";
 
 function Sidebar({ menuOpen, setMenuOpen, activePage, setActivePage }) {
   const navItems = ["Dashboard", "Live Tracking", "Analytics", "Management"];

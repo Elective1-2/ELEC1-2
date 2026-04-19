@@ -3,6 +3,7 @@ import "../css/dashboard.css";
 import Sidebar from "../components/Sidebar";
 import AdminNavbar from "../components/AdminNavbar";
 import MobileHeader from "../components/MobileHeader";
+import Footer from "../components/Footer"; // Import Footer
 
 function M2BDashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -214,9 +215,7 @@ function M2BDashboard() {
             unreadCount={unreadCount}
           />
           {renderContent()}
-          <div className="m2b-footer">
-            2026, M2B. Developed by BSCpE Students, Bulacan State University.
-          </div>
+          <Footer /> {/* Use Footer component instead of inline footer */}
         </div>
       </div>
     </>
