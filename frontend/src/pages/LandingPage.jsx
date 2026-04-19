@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import herohome from '../assets/herohome.png';
-import MobileNavbar from "../components/MobileNavbar";
+import Navbar from "../components/Navbar"; 
 import "../css/Landingpage.css";
-
 
 function LandingPage() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -15,12 +14,10 @@ function LandingPage() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // Breakpoints matching the design spec
-  const isMobile = screenWidth < 768;       // Mobile: 1 - 799
-  const isTablet = screenWidth >= 768 && screenWidth < 1280; // Tablet: 800 - 1279
-  const isDesktop = screenWidth >= 1280;    // Desktop: 1280+
+  const isMobile = screenWidth < 768;
+  const isTablet = screenWidth >= 768 && screenWidth < 1280;
+  const isDesktop = screenWidth >= 1280;
 
-  // Mobile uses carousel; tablet and desktop use grid
   const useCarousel = isMobile;
 
   const features = [
@@ -38,41 +35,9 @@ function LandingPage() {
   const prevCard = features[(activeIndex - 1 + features.length) % features.length];
   const nextCard = features[(activeIndex + 1) % features.length];
 
-  const LogoMark = ({ size = "48px", fontSize = "22px" }) => (
-    <div className="logo-mark">
-      <span className="logo-m" style={{ width: size, height: size, fontSize }}>M</span>
-      <span className="logo-2" style={{ width: size, height: size, fontSize }}>2</span>
-      <span className="logo-b" style={{ width: size, height: size, fontSize }}>B</span>
-    </div>
-  );
-
   return (
     <div className="landing-root">
-      {/* NAVBAR */}
-      <nav className="landing-nav">
-        <div className="landing-logo">
-          <LogoMark />
-        </div>
-
-        {/* Reusable Mobile Navbar - only renders on mobile */}
-        <MobileNavbar isMobile={isMobile}>
-          <a href="#" className="mobile-nav-link">HOME</a>
-          <a href="#" className="mobile-nav-link">ABOUT</a>
-          <a href="#" className="mobile-nav-link">SCHEDULE</a>
-          <hr className="mobile-divider" />
-          <button className="mobile-login-btn">LOGIN</button>
-        </MobileNavbar>
-
-        {/* Desktop & Tablet: show full nav links */}
-        {!isMobile && (
-          <ul className="landing-nav-links">
-            <li><a href="#" className="landing-nav-link">ABOUT</a></li>
-            <li><a href="#" className="landing-nav-link">SCHEDULE</a></li>
-            <li><button className="landing-passenger-btn">PASSENGER</button></li>
-            <li><button className="landing-login-btn">LOGIN</button></li>
-          </ul>
-        )}
-      </nav>
+      <Navbar />
 
       {/* HERO */}
       <section className={`landing-hero ${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}`}>
@@ -93,7 +58,6 @@ function LandingPage() {
         </p>
 
         {useCarousel ? (
-          /* MOBILE: Carousel */
           <div className="landing-carousel-wrap">
             <div className="landing-carousel-track">
               <div className="landing-carousel-side">
@@ -120,7 +84,6 @@ function LandingPage() {
             </div>
           </div>
         ) : (
-          /* TABLET & DESKTOP: 3-column grid */
           <div className="landing-grid">
             {features.map((f, i) => (
               <div key={i} className="landing-card">
