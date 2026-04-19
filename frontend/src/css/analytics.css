@@ -1,10 +1,13 @@
-* ── Root wrapper ── */
+/* Import Figtree Font */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap');
+
+/* ── Root wrapper ── */
 .analytics-root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background: #f3f4f6;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* ── Body = sidebar + main side-by-side ── */
@@ -41,7 +44,7 @@
 .analytics-chart-card {
   background: #fff;
   border-radius: 12px;
-  padding: clamp(16px, 1.8vw, 24px);
+  padding: clamp(20px, 2vw, 28px);
   box-shadow: 0 1px 4px rgba(0,0,0,0.07);
 }
 
@@ -49,19 +52,23 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: clamp(12px, 1.2vw, 18px);
+  margin-bottom: clamp(16px, 1.6vw, 24px);
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .analytics-chart-title {
-  font-size: clamp(14px, 1.1vw, 17px);
+  font-size: clamp(18px, 1.6vw, 22px);
   font-weight: 700;
   color: #111827;
+  font-family: 'Figtree', sans-serif;
 }
 
 .analytics-chart-subtitle {
-  font-size: clamp(10px, 0.8vw, 12px);
-  color: #9ca3af;
-  margin-top: 3px;
+  font-size: clamp(12px, 0.9vw, 14px);
+  color: #6b7280;
+  margin-top: 4px;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* SVG charts fill the card width */
@@ -82,21 +89,22 @@
 .analytics-hbar-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .analytics-hbar-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .analytics-hbar-label {
-  font-size: clamp(11px, 0.85vw, 13px);
+  font-size: clamp(13px, 1vw, 15px);
   color: #374151;
   font-weight: 500;
-  min-width: clamp(130px, 16vw, 200px);
+  min-width: clamp(140px, 16vw, 200px);
   flex-shrink: 0;
+  font-family: 'Figtree', sans-serif;
 }
 
 .analytics-hbar-track {
@@ -114,12 +122,13 @@
 }
 
 .analytics-hbar-value {
-  font-size: clamp(11px, 0.85vw, 13px);
+  font-size: clamp(13px, 1vw, 15px);
   color: #6b7280;
   font-weight: 600;
   min-width: 48px;
   text-align: right;
   flex-shrink: 0;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* ===================================================
@@ -128,18 +137,18 @@
 .analytics-trip-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   margin-top: 4px;
 }
 
 .analytics-trip-item {
   background: #f9fafb;
   border-radius: 10px;
-  padding: clamp(10px, 1vw, 14px) clamp(12px, 1.2vw, 18px);
+  padding: clamp(14px, 1.4vw, 20px) clamp(16px, 1.6vw, 22px);
   display: flex;
   align-items: center;
   gap: 12px;
-  border: 1px solid #f3f4f6;
+  border: 1px solid #eef2f6;
 }
 
 .analytics-trip-left {
@@ -148,15 +157,17 @@
 }
 
 .analytics-trip-bus {
-  font-size: clamp(13px, 1vw, 15px);
+  font-size: clamp(15px, 1.2vw, 18px);
   font-weight: 700;
   color: #111827;
+  font-family: 'Figtree', sans-serif;
 }
 
 .analytics-trip-route {
-  font-size: clamp(10px, 0.8vw, 12px);
+  font-size: clamp(12px, 0.9vw, 14px);
   color: #6b7280;
   margin-top: 2px;
+  font-family: 'Figtree', sans-serif;
 }
 
 .analytics-trip-meta {
@@ -168,15 +179,17 @@
 }
 
 .analytics-trip-date {
-  font-size: clamp(10px, 0.8vw, 11px);
+  font-size: clamp(11px, 0.85vw, 13px);
   color: #9ca3af;
+  font-family: 'Figtree', sans-serif;
 }
 
 .analytics-trip-status {
-  font-size: clamp(10px, 0.75vw, 11px);
+  font-size: clamp(11px, 0.85vw, 13px);
   font-weight: 700;
-  padding: 2px 8px;
+  padding: 4px 12px;
   border-radius: 99px;
+  font-family: 'Figtree', sans-serif;
 }
 
 .analytics-trip-status.ontime {
@@ -193,14 +206,15 @@
   background: #1e2d3d;
   color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 7px 14px;
-  font-size: clamp(10px, 0.8vw, 12px);
+  border-radius: 8px;
+  padding: clamp(10px, 1vw, 14px) clamp(20px, 2vw, 28px);
+  font-size: clamp(12px, 0.9vw, 14px);
   font-weight: 700;
   cursor: pointer;
   flex-shrink: 0;
   letter-spacing: 0.5px;
   transition: background 0.15s;
+  font-family: 'Figtree', sans-serif;
 }
 
 .analytics-trip-btn:hover { background: #374151; }
@@ -210,11 +224,12 @@
 =================================================== */
 .analytics-footer {
   padding: clamp(12px, 1.2vw, 16px) clamp(16px, 2vw, 28px);
-  font-size: clamp(10px, 0.8vw, 12px);
+  font-size: clamp(11px, 0.85vw, 13px);
   color: #9ca3af;
   border-top: 1px solid #e5e7eb;
   background: #fff;
   flex-shrink: 0;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* ===================================================
@@ -251,12 +266,23 @@
    TABLET PORTRAIT  480 – 767 px
 =================================================== */
 @media (min-width: 480px) and (max-width: 767px) {
+  .analytics-hbar-label {
+    min-width: 100px;
+    font-size: 12px;
+  }
 }
 
 /* ===================================================
    PHONE  < 480 px
 =================================================== */
 @media (max-width: 479px) {
+  .analytics-hbar-row {
+    flex-wrap: wrap;
+  }
+  
+  .analytics-hbar-label {
+    min-width: 100%;
+  }
 }
 
 /* ===================================================
@@ -274,7 +300,9 @@
     gap: 28px;
   }
 
-  .analytics-chart-title { font-size: 19px; }
-  .analytics-trip-bus    { font-size: 16px; }
-  .analytics-trip-btn    { font-size: 13px; padding: 9px 18px; }
+  .analytics-chart-title { font-size: 24px; }
+  .analytics-trip-bus    { font-size: 18px; }
+  .analytics-trip-btn    { font-size: 15px; padding: 11px 24px; }
+  .analytics-hbar-label  { font-size: 16px; }
+  .analytics-hbar-value  { font-size: 16px; }
 }

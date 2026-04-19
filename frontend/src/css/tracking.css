@@ -1,9 +1,12 @@
+/* Import Figtree Font */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;800&display=swap');
+
 .track-root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background: #f3f4f6;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* ── Body = sidebar + main side-by-side ── */
@@ -53,9 +56,10 @@
 }
 
 .track-card-title {
-  font-size: clamp(16px, 1.3vw, 20px);
+  font-size: clamp(22px, 2vw, 24px);
   font-weight: 700;
-  color: #111827;
+  color: #1a2a3f;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* Yellow rounded-square badge — matches screenshot */
@@ -71,6 +75,7 @@
   align-items: center;
   justify-content: center;
   padding: 0 10px;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* ===================================================
@@ -107,6 +112,7 @@
   color: #111827;
   line-height: 1.3;
   text-align: left;
+  font-family: 'Figtree', sans-serif;
 }
 
 .track-bus-route {
@@ -114,6 +120,7 @@
   color: #6b7280;
   text-align: left;
   margin-bottom: 4px;
+  font-family: 'Figtree', sans-serif;
 }
 
 .track-bus-status-row {
@@ -130,6 +137,7 @@
   padding: 4px 14px;
   border-radius: 99px;
   color: #fff;
+  font-family: 'Figtree', sans-serif;
 }
 
 .track-status-badge.ontrack { background: #4ade80; }
@@ -138,6 +146,7 @@
 .track-eta {
   font-size: clamp(12px, 0.9vw, 14px);
   color: #374151;
+  font-family: 'Figtree', sans-serif;
 }
 
 .track-eta strong {
@@ -159,6 +168,7 @@
   letter-spacing: 0.5px;
   transition: background 0.15s;
   align-self: center;
+  font-family: 'Figtree', sans-serif;
 }
 
 .track-view-btn:hover { background: #374151; }
@@ -168,6 +178,7 @@
   color: #9ca3af;
   text-align: center;
   padding: 24px 0;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* ===================================================
@@ -187,6 +198,7 @@
   font-weight: 700;
   color: #111827;
   padding: clamp(16px, 1.6vw, 22px) clamp(16px, 1.6vw, 22px) clamp(12px, 1.2vw, 16px);
+  font-family: 'Figtree', sans-serif;
 }
 
 /* Map body — same sizing as dashboard .m2b-map-body */
@@ -233,9 +245,15 @@
   line-height: 1.6;
   text-align: center;
   margin-bottom: 3px;
+  font-family: 'Figtree', sans-serif;
 }
 
-.track-pin-sub  { display: block; font-size: clamp(8px, 0.7vw, 10px); font-weight: 500; }
+.track-pin-sub  { 
+  display: block; 
+  font-size: clamp(8px, 0.7vw, 10px); 
+  font-weight: 500; 
+  font-family: 'Figtree', sans-serif;
+}
 .sub-green      { color: #16a34a; }
 .sub-blue       { color: #2563eb; }
 .sub-red        { color: #dc2626; }
@@ -269,6 +287,7 @@
   font-weight: 700;
   color: #111827;
   margin-bottom: 6px;
+  font-family: 'Figtree', sans-serif;
 }
 
 .track-leg-row {
@@ -278,6 +297,7 @@
   font-size: clamp(10px, 0.8vw, 12px);
   color: #374151;
   margin-bottom: 4px;
+  font-family: 'Figtree', sans-serif;
 }
 
 .track-leg-row:last-child { margin-bottom: 0; }
@@ -299,6 +319,7 @@
   border-top: 1px solid #e5e7eb;
   background: #fff;
   flex-shrink: 0;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* ===================================================
