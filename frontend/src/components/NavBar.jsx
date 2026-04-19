@@ -26,8 +26,8 @@ const Navbar = () => {
 
         <div className={`navbar-menu ${isOpen ? 'open' : ''}`}>
           <ul className="navbar-links">
-            <li><a href="/about" className="nav-item" onClick={toggleMenu}>ABOUT</a></li>
-            <li><a href="/schedule" className="nav-item" onClick={toggleMenu}>SCHEDULE</a></li>
+            <li><a href="/" className="nav-item" onClick={toggleMenu}>ABOUT</a></li>
+            <li><a href="/" className="nav-item" onClick={toggleMenu}>SCHEDULE</a></li>
           </ul>
           
           <div className="navbar-actions">
