@@ -1,8 +1,8 @@
-import Login from "./pages/Login";
-import LandingPage from './pages/LandingPage';
+import React from 'react';
+import Schedule from './pages/Schedule';
 
 function App() {
-  return <LandingPage/>;
+  return <Schedule/>
 }
 
 export default App;
