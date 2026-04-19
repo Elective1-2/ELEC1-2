@@ -219,18 +219,6 @@
 
 .analytics-trip-btn:hover { background: #374151; }
 
-/* ===================================================
-   FOOTER
-=================================================== */
-.analytics-footer {
-  padding: clamp(12px, 1.2vw, 16px) clamp(16px, 2vw, 28px);
-  font-size: clamp(11px, 0.85vw, 13px);
-  color: #9ca3af;
-  border-top: 1px solid #e5e7eb;
-  background: #fff;
-  flex-shrink: 0;
-  font-family: 'Figtree', sans-serif;
-}
 
 /* ===================================================
    MOBILE OVERLAY (sidebar drawer backdrop)

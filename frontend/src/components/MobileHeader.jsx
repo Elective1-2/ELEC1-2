@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/MobileHeader.css";
-import logoImage from "../assets/M2B logo.png";
+import logoImage from "../assets/M2B logo for DB BG.png";
 
 function MobileHeader({ setMenuOpen }) {
   return (

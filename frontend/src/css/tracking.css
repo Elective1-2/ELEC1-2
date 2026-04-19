@@ -309,18 +309,6 @@
   flex-shrink: 0;
 }
 
-/* ===================================================
-   FOOTER
-=================================================== */
-.track-footer {
-  padding: clamp(12px, 1.2vw, 16px) clamp(16px, 2vw, 28px);
-  font-size: clamp(10px, 0.8vw, 12px);
-  color: #9ca3af;
-  border-top: 1px solid #e5e7eb;
-  background: #fff;
-  flex-shrink: 0;
-  font-family: 'Figtree', sans-serif;
-}
 
 /* ===================================================
    MOBILE  (< 768 px) — sidebar drawer mode

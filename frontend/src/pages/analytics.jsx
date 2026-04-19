@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
 import MobileHeader from "../components/MobileHeader";
 import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 import "../css/analytics.css";
 
 // ── Inline SVG chart helpers ──────────────────────────────────────────────
@@ -262,10 +263,8 @@ function Analytics() {
 
           </div>{/* /analytics-content */}
 
-          {/* Footer */}
-          <div className="analytics-footer">
-            2026, M2B. Developed by BSCpE Students, Bulacan State University.
-          </div>
+          {/* Footer - Using reusable Footer component */}
+          <Footer />
         </div>{/* /analytics-main */}
       </div>{/* /analytics-body */}
     </div>
