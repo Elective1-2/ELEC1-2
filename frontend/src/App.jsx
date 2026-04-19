@@ -1,35 +1,67 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import Login from './pages/Login';
+import SecretCodeSignup from './pages/SecretCodeSignup';
+// import Dashboard from './pages/Dashboard';
+// import Tracking from './pages/Tracking';
+import GoogleAuthTest from './pages/test/GoogleAuthTest';  // ← Import test page
 
-//? routes import
-import Login from './pages/login'
-import Tracking from './pages/Tracking'
-import Signup from './auth/Signup'
+// Protected route wrapper
+const ProtectedRoute = ({ children, allowedRoles = [] }) => {
+  const { isAuthenticated, user, loading } = useAuth();
+  
+  if (loading) return <div>Loading...</div>;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (allowedRoles.length && !allowedRoles.includes(user?.role)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+  return children;
+};
 
-//? assets import
-// import reactLogo from './assets/react.svg'
-// import viteLogo from './assets/vite.svg'
-// import heroImg from './assets/hero.png'
-
-//? CSS
-import './App.css'
-
-function App() {
+function AppRoutes() {
   return (
-    <BrowserRouter>
-      <Routes>
-        
-         <Route path="/auth">
-          <Route path="signup" element={<Signup />} />
-          {/* <Route path="error" element={<ErrorPage />} /> */}
-        
-        </Route>
-
-        <Route path="./pages/login" element={<Login />} />
-        {/* <Route path="/" element={<HSome />} /> */}
-      </Routes> 
-    </BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup-secret" element={<SecretCodeSignup />} />
+      
+      {/* Test route - accessible without auth */}
+      <Route path="/test-auth" element={<GoogleAuthTest />} />
+      
+      {/* <Route 
+        path="/dashboard" 
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'driver']}>
+            <Dashboard />
+          </ProtectedRoute>
+        } 
+      /> */}
+      {/* <Route 
+        path="/tracking" 
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'driver']}>
+            <Tracking />
+          </ProtectedRoute>
+        } 
+      /> */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
+    </Routes>
   );
 }
 
-export default App
+function App() {
+  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  return (
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <BrowserRouter>
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
+      </BrowserRouter>
+    </GoogleOAuthProvider>
+  );
+}
+
+export default App;
