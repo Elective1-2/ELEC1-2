@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;800&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Figtree', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.navbar {
+  background-color: #F0F0F0;
+  padding: 10px 30px;
+  display: flex;
+  justify-content: center; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+}
+
+.navbar-container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+}
+
+.logo-image {
+  height: 50px;
+  width: auto; 
+  padding: 10px 0;
+  display: block;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-right: 25px;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #1a2c41;
+  font-family: 'Figtree', sans-serif;
+  font-weight: 700; 
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
+  display: block;
+}
+
+.nav-item:hover {
+  color: #3e5e82;
+}
+
+.navbar-actions {
+  display: flex;
+  gap: 15px; 
+}
+
+.btn-passenger, .btn-login {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-family: 'Figtree', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-passenger {
+  background-color: #1a2c41;
+  color: #ffffff;
+  border: 1px solid #1a2c41;
+}
+
+.btn-passenger:hover {
+  background-color: #3e5e82;
+  border-color: #3e5e82;
+}
+
+.btn-login {
+  background-color: transparent;
+  color: #1a2c41; 
+  border: 1px solid #1a2c41;
+}
+
+.btn-login:hover {
+  background-color: rgba(26, 44, 65, 0.05);
+}
+
+.hamburger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: #1a2c41;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+    z-index: 10;
+  }
+
+  .hamburger.active .bar:nth-child(2) { opacity: 0; }
+  .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  .navbar-menu {
+    display: flex; 
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: #F0F0F0;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease-in-out;
+    pointer-events: none;
+  }
+
+  .navbar-menu.open {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 20px 0;
+    pointer-events: all;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    align-items: center;
+    margin-right: 0;
+    gap: 15px;
+  }
+
+  .navbar-actions {
+    flex-direction: column;
+    width: 80%;
+    gap: 10px;
+    padding-bottom: 20px;
+  }
+
+  .btn-passenger, .btn-login {
+    width: 100%;
+  }
+}
