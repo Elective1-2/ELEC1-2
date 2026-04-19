@@ -1,3 +1,6 @@
+/* Import Figtree Font */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;800&display=swap');
+
 /* ===================================================
    SIDEBAR
 =================================================== */
@@ -13,40 +16,30 @@
   display: flex;
   flex-direction: column;
   padding: 20px 0 0;
-  border-right: 3px solid #38bdf8;
+  border-right: 3px solid #1e2d3d;
   z-index: 60;
   flex-shrink: 0;
   overflow-y: auto;
   overflow-x: hidden;
   transition: transform 0.28s ease;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* ── Logo ── */
 .sidebar-logo {
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
   padding: 4px 18px 28px;
   flex-shrink: 0;
 }
 
-.sidebar-logo-seg {
-  width: clamp(28px, 2.6vw, 38px);
-  height: clamp(28px, 2.6vw, 38px);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: clamp(13px, 1.3vw, 18px);
-  line-height: 1;
-  flex-shrink: 0;
-  color: #fff;
+/* Logo Image - Consistent size across all screens */
+.sidebar-logo-img {
+  max-width: 100%;
+  height: auto;
+  width: 80px;
 }
-
-.sidebar-logo-seg.seg-m { background: #2d4a6b; }
-.sidebar-logo-seg.seg-2 { background: #38bdf8; }
-.sidebar-logo-seg.seg-b { background: #f5a623; }
 
 /* ── Nav items ── */
 .sidebar-nav-item {
@@ -60,6 +53,7 @@
   user-select: none;
   white-space: nowrap;
   transition: background 0.15s, color 0.15s;
+  font-family: 'Figtree', sans-serif;
 }
 
 .sidebar-nav-item:hover {
@@ -93,6 +87,11 @@
   .sidebar.open {
     transform: translateX(0);
   }
+
+  /* Logo stays the same size */
+  .sidebar-logo-img {
+    width: 80px;
+  }
 }
 
 /* ===================================================
@@ -104,10 +103,9 @@
     min-width: 170px;
   }
 
-  .sidebar-logo-seg {
-    width: 30px;
-    height: 30px;
-    font-size: 14px;
+  /* Logo stays the same size */
+  .sidebar-logo-img {
+    width: 80px;
   }
 }
 
@@ -118,6 +116,11 @@
   .sidebar {
     width: clamp(170px, 13vw, 200px);
     min-width: clamp(170px, 13vw, 200px);
+  }
+
+  /* Logo stays the same size */
+  .sidebar-logo-img {
+    width: 80px;
   }
 }
 
@@ -130,14 +133,13 @@
     min-width: clamp(200px, 11vw, 260px);
   }
 
-  .sidebar-logo-seg {
-    width: 44px;
-    height: 44px;
-    font-size: 20px;
-  }
-
   .sidebar-nav-item {
     font-size: 16px;
     padding: 13px 18px;
+  }
+
+  /* Logo stays the same size even on 4K */
+  .sidebar-logo-img {
+    width: 80px;
   }
 }

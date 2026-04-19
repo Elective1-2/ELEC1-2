@@ -1,0 +1,53 @@
+.footer-container {
+  background-color: #F0F0F0; /* Matches your Navbar background [cite: 25] */
+  color: #1a2c41; /* Matches your Nav link color [cite: 60] */
+  padding: 40px 20px;
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: 'Figtree', sans-serif; /* Consistent with your brand font [cite: 56] */
+}
+
+.footer-content {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.footer-logo-img {
+  height: 40px;
+  width: auto;
+  margin-bottom: 5px;
+}
+
+.footer-credits {
+  line-height: 1;
+}
+
+.credit-text {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.footer-divider {
+  width: 80px;
+  height: 3px;
+  background-color: #1a2c41;
+  margin: 10px 0;
+}
+
+.footer-copyright {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Mobile Responsiveness  */
+@media (max-width: 768px) {
+  .footer-container {
+    padding: 30px 15px;
+  }
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import "../css/Sidebar.css";
+import logoImage from "../assets/M2B logo.png";
 
 function Sidebar({ menuOpen, setMenuOpen, activePage, setActivePage }) {
   const navItems = ["Dashboard", "Live Tracking", "Analytics", "Management"];
@@ -12,9 +13,7 @@ function Sidebar({ menuOpen, setMenuOpen, activePage, setActivePage }) {
   return (
     <div className={`sidebar ${menuOpen ? "open" : ""}`}>
       <div className="sidebar-logo">
-        <div className="sidebar-logo-seg seg-m">M</div>
-        <div className="sidebar-logo-seg seg-2">2</div>
-        <div className="sidebar-logo-seg seg-b">B</div>
+        <img src={logoImage} alt="M2B Logo" className="sidebar-logo-img" />
       </div>
       
       {navItems.map((item) => (
