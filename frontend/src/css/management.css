@@ -1,0 +1,203 @@
+mgmt-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f3f4f6;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Body = sidebar + main side-by-side ── */
+.mgmt-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Main column ── */
+.mgmt-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+/* ── Page content padding ── */
+.mgmt-content {
+  padding: clamp(16px, 2vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.5vw, 22px);
+  flex: 1;
+}
+
+/* ===================================================
+   TABLE CARDS
+=================================================== */
+.mgmt-table-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Card header: title + add button ── */
+.mgmt-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(14px, 1.4vw, 20px) clamp(16px, 1.6vw, 22px);
+  flex-shrink: 0;
+}
+
+.mgmt-table-title {
+  font-size: clamp(14px, 1.1vw, 17px);
+  font-weight: 700;
+  color: #111827;
+}
+
+.mgmt-add-btn {
+  background: #1e2d3d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: clamp(7px, 0.7vw, 9px) clamp(12px, 1.2vw, 18px);
+  font-size: clamp(11px, 0.85vw, 13px);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.mgmt-add-btn:hover { background: #374151; }
+
+/* ===================================================
+   SCROLLABLE TABLE WRAPPER
+   Fixed height so the table scrolls independently
+=================================================== */
+.mgmt-table-scroll {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 340px;   /* ~13 rows visible, then scrolls */
+  border-top: 1px solid #e5e7eb;
+}
+
+/* ── Table ── */
+.mgmt-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;    /* prevents columns from collapsing on narrow screens */
+  font-size: clamp(12px, 0.9vw, 14px);
+}
+
+/* ── Sticky header inside the scroll box ── */
+.mgmt-table thead th {
+  position: sticky;
+  top: 0;
+  background: #f9fafb;
+  z-index: 2;
+  padding: clamp(9px, 0.9vw, 12px) clamp(12px, 1.2vw, 18px);
+  text-align: left;
+  font-size: clamp(11px, 0.85vw, 13px);
+  font-weight: 600;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+/* ── Body rows ── */
+.mgmt-table tbody td {
+  padding: clamp(10px, 1vw, 14px) clamp(12px, 1.2vw, 18px);
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+  white-space: nowrap;
+}
+
+.mgmt-table tbody tr:last-child td { border-bottom: none; }
+
+.mgmt-table tbody tr:hover td { background: #f9fafb; }
+
+.mgmt-bold { font-weight: 700; color: #111827; }
+
+/* ── Action column ── */
+.mgmt-action-cell {
+  text-align: center;
+  width: 48px;
+}
+
+.mgmt-dots-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.mgmt-dots-btn:hover { background: #f3f4f6; }
+
+/* ===================================================
+   FOOTER
+=================================================== */
+.mgmt-footer {
+  padding: clamp(12px, 1.2vw, 16px) clamp(16px, 2vw, 28px);
+  font-size: clamp(10px, 0.8vw, 12px);
+  color: #9ca3af;
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+/* ===================================================
+   MOBILE  (< 768 px) — sidebar drawer mode
+=================================================== */
+@media (max-width: 767px) {
+  .mgmt-body  { overflow: visible; }
+  .mgmt-main  { height: auto; overflow-y: visible; }
+  .mgmt-root  { overflow-y: auto; }
+
+  /* slightly shorter table scroll boxes on phones */
+  .mgmt-table-scroll { max-height: 260px; }
+}
+
+/* ===================================================
+   PHONE  < 480 px
+=================================================== */
+@media (max-width: 479px) {
+  .mgmt-table-header { flex-wrap: wrap; gap: 8px; }
+  .mgmt-add-btn      { width: 100%; text-align: center; }
+}
+
+/* ===================================================
+   TABLET PORTRAIT  480 – 767 px
+=================================================== */
+@media (min-width: 480px) and (max-width: 767px) {
+  .mgmt-table-scroll { max-height: 300px; }
+}
+
+/* ===================================================
+   TABLET LANDSCAPE  768 – 1023 px
+=================================================== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .mgmt-table-scroll { max-height: 300px; }
+}
+
+/* ===================================================
+   4K / ULTRA-WIDE  ≥ 1920 px
+=================================================== */
+@media (min-width: 1920px) {
+  .mgmt-content        { padding: 36px 48px; gap: 28px; }
+  .mgmt-table-scroll   { max-height: 420px; }
+  .mgmt-table-title    { font-size: 19px; }
+  .mgmt-table thead th { font-size: 14px; }
+  .mgmt-table tbody td { font-size: 15px; }
+  .mgmt-add-btn        { font-size: 14px; padding: 10px 22px; }
+}
