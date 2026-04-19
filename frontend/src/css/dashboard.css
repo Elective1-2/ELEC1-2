@@ -1,0 +1,384 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+body {
+  background: #edf0f4;
+}
+
+/* ===================================================
+   APP SHELL — sidebar + main side by side
+=================================================== */
+.m2b-app {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===================================================
+   MAIN COLUMN — scrollable vertically
+=================================================== */
+.m2b-main {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: #edf0f4;
+  /* allow vertical scroll so map is never clipped */
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+/* ===================================================
+   PAGE CONTENT — natural flow, no flex-grow tricks
+=================================================== */
+.m2b-content {
+  padding: clamp(14px, 2.5vw, 30px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.5vw, 20px);
+  /* let content be as tall as it needs to be */
+  flex: 1;
+}
+
+.m2b-page-title {
+  font-size: clamp(16px, 1.8vw, 22px);
+  font-weight: 700;
+  color: #111827;
+  flex-shrink: 0;
+}
+
+/* ===================================================
+   STAT CARDS — always 2 columns on all screen sizes
+=================================================== */
+.m2b-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 1.2vw, 18px);
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.m2b-stat-card {
+  background: #fff;
+  border-radius: clamp(10px, 0.9vw, 14px);
+  padding: clamp(14px, 1.4vw, 22px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  min-width: 0;
+  gap: 10px;
+}
+
+.m2b-stat-lbl {
+  font-size: clamp(11px, 0.85vw, 13px);
+  color: #6b7280;
+  font-weight: 500;
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.m2b-stat-val {
+  font-size: clamp(18px, 1.8vw, 26px);
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.1;
+}
+
+.m2b-stat-icon {
+  width: clamp(44px, 4vw, 60px);
+  height: clamp(44px, 4vw, 60px);
+  border-radius: clamp(10px, 0.9vw, 14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ic-navy   { background: #1e3a5f; }
+.ic-green  { background: #22c55e; }
+.ic-orange { background: #f97316; }
+.ic-red    { background: #ef4444; }
+
+/* ===================================================
+   MAP CARD — fixed tall height so it always shows fully
+=================================================== */
+.m2b-map-card {
+  background: #fff;
+  border-radius: clamp(10px, 0.9vw, 14px);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.m2b-map-title {
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 600;
+  color: #111827;
+  padding: clamp(12px, 1vw, 16px) clamp(14px, 1.2vw, 20px);
+  border-bottom: 1px solid #f0f2f5;
+}
+
+/* Map body: explicit height — always fully visible, never clipped */
+.m2b-map-body {
+  position: relative;
+  background: #f0f2f5;
+  /* tall enough to see the full map on every device */
+  height: clamp(280px, 45vw, 520px);
+  overflow: hidden;
+  width: 100%;
+}
+
+.m2b-route {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 50%;
+  height: clamp(10px, 0.9vw, 18px);
+  border-radius: 8px;
+  transform: translateY(-50%) rotate(-8deg);
+  background: linear-gradient(to right, #ef4444 0%, #ef4444 35%, #22c55e 60%, #22c55e 100%);
+}
+
+/* ── Bus pins ── */
+.m2b-pin {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.m2b-pin-label {
+  background: #fff;
+  border: 1px solid #dde1e7;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: clamp(9px, 0.75vw, 11px);
+  font-weight: 700;
+  color: #111827;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 3px;
+}
+
+.m2b-pin-sub { display: block; font-size: clamp(8px, 0.7vw, 10px); font-weight: 500; }
+.sub-green   { color: #16a34a; }
+.sub-blue    { color: #2563eb; }
+.sub-red     { color: #dc2626; }
+
+.m2b-pin-dot {
+  width: clamp(9px, 0.7vw, 12px);
+  height: clamp(9px, 0.7vw, 12px);
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.dot-blue { background: #3b82f6; }
+.dot-red  { background: #ef4444; }
+
+/* ── Legend ── */
+.m2b-legend {
+  position: absolute;
+  bottom: clamp(8px, 1vw, 16px);
+  right: clamp(8px, 1vw, 16px);
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: clamp(7px, 0.8vw, 12px) clamp(10px, 0.9vw, 16px);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  min-width: 110px;
+}
+
+.m2b-legend-title {
+  font-size: clamp(10px, 0.8vw, 12px);
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.m2b-leg-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(10px, 0.8vw, 12px);
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.m2b-leg-row:last-child { margin-bottom: 0; }
+
+.m2b-leg-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ===================================================
+   FOOTER
+=================================================== */
+.m2b-footer {
+  text-align: center;
+  font-size: clamp(10px, 0.8vw, 12px);
+  color: #9ca3af;
+  padding: clamp(12px, 1vw, 18px) 24px;
+  background: #fff;
+  border-top: 1px solid #e2e6ea;
+  width: 100%;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+/* ===================================================
+   PLACEHOLDER (other pages)
+=================================================== */
+.placeholder-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 60px 40px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+}
+
+.placeholder-content p {
+  color: #6b7280;
+  font-size: 15px;
+}
+
+/* ===================================================
+   OVERLAY
+=================================================== */
+.m2b-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 50;
+}
+
+.m2b-overlay.open { display: block; }
+
+/* ===================================================
+   BREAKPOINTS
+=================================================== */
+
+/* ── Phone < 600px ── */
+@media (max-width: 599px) {
+  .m2b-app {
+    flex-direction: column;
+  }
+
+  /* single column cards on phone */
+  .m2b-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .m2b-stat-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* map still tall so it's fully visible while scrolling */
+  .m2b-map-body {
+    height: 300px;
+  }
+
+  .m2b-main {
+    height: auto;
+    overflow-y: visible;
+  }
+}
+
+/* ── Tablet portrait 600–767px ── */
+@media (min-width: 600px) and (max-width: 767px) {
+  .m2b-app {
+    flex-direction: column;
+  }
+
+  .m2b-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .m2b-map-body {
+    height: 340px;
+  }
+
+  .m2b-main {
+    height: auto;
+    overflow-y: visible;
+  }
+}
+
+/* ── Tablet landscape 768–1023px ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .m2b-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .m2b-map-body {
+    height: 360px;
+  }
+}
+
+/* ── Desktop 1024–1439px ── */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .m2b-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .m2b-map-body {
+    height: 420px;
+  }
+}
+
+/* ── Large desktop / 2K  1440–2559px ── */
+@media (min-width: 1440px) and (max-width: 2559px) {
+  .m2b-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .m2b-map-body {
+    height: 480px;
+  }
+}
+
+/* ── 4K / Ultra-wide ≥ 2560px ── */
+@media (min-width: 2560px) {
+  .m2b-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .m2b-map-body {
+    height: 600px;
+  }
+
+  .m2b-content {
+    padding: 40px 48px;
+    gap: 28px;
+  }
+}
