@@ -1,0 +1,280 @@
+* ── Root wrapper ── */
+.analytics-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f3f4f6;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Body = sidebar + main side-by-side ── */
+.analytics-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Main column ── */
+.analytics-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  /* makes this column the scroller, not the whole page */
+  height: 100vh;
+  overflow-y: auto;
+}
+
+/* ── Page content padding ── */
+.analytics-content {
+  padding: clamp(16px, 2vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.5vw, 22px);
+  flex: 1;
+}
+
+/* ===================================================
+   CHART CARDS (shared wrapper)
+=================================================== */
+.analytics-chart-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: clamp(16px, 1.8vw, 24px);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+.analytics-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: clamp(12px, 1.2vw, 18px);
+}
+
+.analytics-chart-title {
+  font-size: clamp(14px, 1.1vw, 17px);
+  font-weight: 700;
+  color: #111827;
+}
+
+.analytics-chart-subtitle {
+  font-size: clamp(10px, 0.8vw, 12px);
+  color: #9ca3af;
+  margin-top: 3px;
+}
+
+/* SVG charts fill the card width */
+.analytics-chart-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+
+.analytics-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===================================================
+   HORIZONTAL BAR CHART (Route Performance)
+=================================================== */
+.analytics-hbar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.analytics-hbar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.analytics-hbar-label {
+  font-size: clamp(11px, 0.85vw, 13px);
+  color: #374151;
+  font-weight: 500;
+  min-width: clamp(130px, 16vw, 200px);
+  flex-shrink: 0;
+}
+
+.analytics-hbar-track {
+  flex: 1;
+  height: 10px;
+  background: #f3f4f6;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.analytics-hbar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.analytics-hbar-value {
+  font-size: clamp(11px, 0.85vw, 13px);
+  color: #6b7280;
+  font-weight: 600;
+  min-width: 48px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ===================================================
+   TRIP HISTORY
+=================================================== */
+.analytics-trip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.analytics-trip-item {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: clamp(10px, 1vw, 14px) clamp(12px, 1.2vw, 18px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #f3f4f6;
+}
+
+.analytics-trip-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.analytics-trip-bus {
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 700;
+  color: #111827;
+}
+
+.analytics-trip-route {
+  font-size: clamp(10px, 0.8vw, 12px);
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.analytics-trip-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.analytics-trip-date {
+  font-size: clamp(10px, 0.8vw, 11px);
+  color: #9ca3af;
+}
+
+.analytics-trip-status {
+  font-size: clamp(10px, 0.75vw, 11px);
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+
+.analytics-trip-status.ontime {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.analytics-trip-status.delayed {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.analytics-trip-btn {
+  background: #1e2d3d;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: clamp(10px, 0.8vw, 12px);
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+  transition: background 0.15s;
+}
+
+.analytics-trip-btn:hover { background: #374151; }
+
+/* ===================================================
+   FOOTER
+=================================================== */
+.analytics-footer {
+  padding: clamp(12px, 1.2vw, 16px) clamp(16px, 2vw, 28px);
+  font-size: clamp(10px, 0.8vw, 12px);
+  color: #9ca3af;
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+/* ===================================================
+   MOBILE OVERLAY (sidebar drawer backdrop)
+=================================================== */
+@media (max-width: 767px) {
+  .analytics-body {
+    overflow: visible;
+  }
+
+  .analytics-main {
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .analytics-root {
+    overflow-y: auto;
+  }
+
+  .analytics-trip-item {
+    flex-wrap: wrap;
+  }
+
+  .analytics-trip-meta {
+    align-items: flex-start;
+  }
+
+  .analytics-hbar-label {
+    min-width: 110px;
+  }
+}
+
+/* ===================================================
+   TABLET PORTRAIT  480 – 767 px
+=================================================== */
+@media (min-width: 480px) and (max-width: 767px) {
+}
+
+/* ===================================================
+   PHONE  < 480 px
+=================================================== */
+@media (max-width: 479px) {
+}
+
+/* ===================================================
+   TABLET LANDSCAPE  768 – 1023 px
+=================================================== */
+@media (min-width: 768px) and (max-width: 1023px) {
+}
+
+/* ===================================================
+   4K / ULTRA-WIDE  ≥ 1920 px
+=================================================== */
+@media (min-width: 1920px) {
+  .analytics-content {
+    padding: 36px 48px;
+    gap: 28px;
+  }
+
+  .analytics-chart-title { font-size: 19px; }
+  .analytics-trip-bus    { font-size: 16px; }
+  .analytics-trip-btn    { font-size: 13px; padding: 9px 18px; }
+}
