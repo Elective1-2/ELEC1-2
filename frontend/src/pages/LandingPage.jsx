@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import herohome from '../assets/herohome.png';
 import Navbar from "../components/Navbar"; 
+import Footer from "../components/Footer"; // Imported the new Footer component
 import "../css/Landingpage.css";
 
 function LandingPage() {
@@ -95,20 +96,8 @@ function LandingPage() {
         )}
       </section>
 
-      {/* FOOTER */}
-      <footer className={`landing-footer ${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}`}>
-        <div className="landing-footer-left">
-          <span className="landing-footer-brand">✳ Namedly</span>
-          <a href="#" className="landing-footer-link">Features</a>
-          <a href="#" className="landing-footer-link">Learn more</a>
-          <a href="#" className="landing-footer-link">Support</a>
-        </div>
-        <div className="landing-footer-icons">
-          <a href="#" className="landing-icon">ig</a>
-          <a href="#" className="landing-icon">in</a>
-          <a href="#" className="landing-icon">X</a>
-        </div>
-      </footer>
+      {/* FOOTER CALL */}
+      <Footer />
     </div>
   );
 }
