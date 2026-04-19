@@ -11,6 +11,9 @@ const healthRoutes = require("./routes/health.routes");
 const dbTestRoutes = require("./routes/db-test.routes");
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
+const locationRoutes = require('./routes/location.routes');
+const trafficRoutes = require('./routes/traffic.routes');
+const mapRoutes = require('./routes/map.routes');
 
 
 const app = express();
