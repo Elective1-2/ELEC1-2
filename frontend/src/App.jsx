@@ -1,8 +1,8 @@
 import React from 'react';
-import Aboutus from './pages/Aboutus';
+import Schedule from './pages/Schedule';
 
 function App() {
-  return <Aboutus/>
+  return <Schedule/>
 }
 
 export default App;
