@@ -94,6 +94,28 @@ router.get('/maps/directions', getDirections);
 router.post('/maps/geocode', geocode);
 router.post('/maps/reverse-geocode', reverseGeocode);
 
+
+router.get('/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV,
+    dbHost: process.env.DB_HOST,
+    apiUrl: process.env.VITE_API_URL || 'Not set (frontend build-time var)'
+  });
+});
+
+// Also add a DB test endpoint
+router.get('/health/db', async (req, res) => {
+  try {
+    const pool = require('../config/db');
+    await pool.query('SELECT 1');
+    res.json({ status: 'ok', database: 'connected' });
+  } catch (error) {
+    res.status(500).json({ status: 'error', database: error.message });
+  }
+});
+
 //! ========== TEST ENDPOINTS (for development only - remove in production) ==========
 if (process.env.NODE_ENV !== 'production') {
   const pool = require('../config/db');
