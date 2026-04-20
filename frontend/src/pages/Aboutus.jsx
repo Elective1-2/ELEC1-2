@@ -1,10 +1,11 @@
 import React from 'react';
 import '../css/Aboutus.css';
-import Navbar from "../components/Navbar"; 
 
-// --- Imports: Backgrounds and Photos ---
-// Ensure these exact filenames exist in your src/assets/ folder!
-import heroImage from '../assets/herohome.png'; 
+// --- Shared Components ---
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+
+// --- Imports: Photos ---
 import glenPic from '../assets/glen.jpg'; 
 import christianPic from '../assets/christian.jpg'; 
 import davePic from '../assets/dave.jpg';
@@ -12,7 +13,6 @@ import princessPic from '../assets/princess.jpg';
 import sophiaPic from '../assets/sophia.jpg';
 
 function Aboutus() {
-  // Data array using your imported photos
   const creators = [
     { name: "Glen Justine Batis", role: "Developer", image: glenPic },
     { name: "Christian Joeffrey Castro", role: "Developer", image: christianPic },
@@ -22,123 +22,80 @@ function Aboutus() {
   ];
 
   return (
-    <div className="about-page">
-      {/* Navigation Bar */}
-      {/* <nav className="navbar">
-        <div className="nav-logo">
-          <span className="logo-m">M</span>
-          <span className="logo-2">2</span>
-          <span className="logo-b">B</span>
-        </div>
-        <div className="nav-links">
-          <a href="#about">ABOUT</a>
-          <a href="#schedule">SCHEDULE</a>
-          <button className="btn-passenger">PASSENGER</button>
-          <button className="btn-login">LOGIN</button>
-        </div>
-      </nav> */}
-      <Navbar/>
-      {/* Banner Section */}
-      <div 
-        className="banner-section"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
-        <h1 className="banner-title">ABOUT US</h1>
+    <div className="about-root">
+      <Navbar />
+
+      {/* Hero Section - Subtext Removed */}
+      <div className="about-hero desktop">
+        <h1 className="about-hero-title">ABOUT US</h1>
       </div>
 
       {/* Intro Section */}
-      <div className="intro-section container">
-        <h2 className="intro-heading">
-          <span className="text-dark">BY COMMUTERS, </span>
-          <span className="text-yellow">FOR COMMUTERS.</span>
-        </h2>
-        <div className="intro-text">
-          <p>
-            M2B (Manila to Bulacan) is a Smart Public Transportation Analytics Platform designed to transform how commuters, planners, and stakeholders understand and navigate transit systems between Metro Manila and Bulacan.
-          </p>
-          <p>
-            With the growing demand for efficient, reliable, and data-driven transportation, M2B bridges the gap between raw transit data and real-world decision-making—delivering insights that empower smarter mobility.
-          </p>
-        </div>
+      <div className="about-feat-section desktop">
+        <h1 className="about-feat-h1">BY COMMUTERS,</h1>
+        <h2 className="about-feat-h2">FOR COMMUTERS.</h2>
+        <p className="about-feat-desc">
+          M2B or Metropolitan to Boundaries is a Smart Public Transportation Analytics Platform designed to transform how 
+          commuters and planners navigate transit systems between Metro Manila and adjacent provinces.
+        </p>
       </div>
 
       {/* Mission & Vision Section */}
-      <div className="mission-vision-section container">
-        <div className="mv-card">
-          <h3>MISSION</h3>
-          <p>
-            To enhance public transportation efficiency by leveraging data analytics, enabling commuters to travel smarter and helping authorities make informed, impactful decisions.
-          </p>
-        </div>
-        <div className="mv-card">
-          <h3>VISION</h3>
-          <p>
-            We envision a future where commuting between Manila and Bulacan is seamless, predictable, and optimized through intelligent systems—reducing congestion, saving time, and improving quality of life.
-          </p>
-        </div>
-      </div>
-
-      {/* What We Do Section */}
-      <div className="what-we-do-wrapper">
-        <div className="container">
-          <h2 className="what-we-do-main-title">WHAT WE DO</h2>
-          
-          <div className="what-we-do-content">
-            <div className="wwd-left">
-              <p>
-                M2B provides a centralized dashboard that transforms complex transportation data into easy-to-understand insights. Inspired by modern P2P bus systems, our platform monitors and analyzes transit performance in real time.
-              </p>
-            </div>
-            
-            <div className="wwd-divider"></div>
-            
-            <div className="wwd-right">
-              <p className="support-heading">We aim to support:</p>
-              <ul>
-                <li>Daily commuters seeking efficient routes</li>
-                <li>Transport operators optimizing services</li>
-                <li>Authorities improving our public transportation</li>
-              </ul>
-            </div>
+      <div className="about-grid-container">
+        <div className="about-grid">
+          <div className="about-card">
+            <h3 className="about-card-title">MISSION</h3>
+            <p className="about-card-desc">
+              To enhance public transportation efficiency by leveraging data analytics, 
+              enabling commuters to travel smarter and helping authorities make informed decisions.
+            </p>
+          </div>
+          <div className="about-card">
+            <h3 className="about-card-title">VISION</h3>
+            <p className="about-card-desc">
+              A future where commuting is seamless, predictable, and optimized through 
+              intelligent systems—reducing congestion and improving quality of life.
+            </p>
           </div>
         </div>
       </div>
 
-      {/* The Creators Section */}
-      <div className="creators-section container">
-        <h2 className="creators-title">THE CREATORS</h2>
-        <div className="creators-intro">
-          <p>
-            M2B (Manila to Bulacan) is a Smart Public Transportation Analytics Platform designed to transform how commuters, planners, and stakeholders understand and navigate transit systems between Metro Manila and Bulacan.
+      {/* What We Do Section */}
+      <div className="about-wwd-wrapper">
+        <h2 className="about-feat-h1">WHAT WE DO</h2>
+        <div className="about-wwd-flex">
+          <p className="about-wwd-text">
+            M2B provides a centralized dashboard that transforms complex transportation data 
+            into easy-to-understand insights.
           </p>
-          <p>
-            With the growing demand for efficient, reliable, and data-driven transportation, M2B bridges the gap between raw transit data and real-world decision-making—delivering insights that empower smarter mobility.
-          </p>
+          <div className="about-wwd-divider"></div>
+          <ul className="about-wwd-list">
+            <li>Daily commuters seeking efficient routes</li>
+            <li>Transport operators optimizing services</li>
+            <li>Authorities improving public transportation</li>
+          </ul>
         </div>
+      </div>
 
-        <div className="creators-list">
+      {/* Creators Section */}
+      <div className="about-creators-wrapper">
+        <h2 className="about-feat-h1">THE CREATORS</h2>
+        <div className="about-creators-list">
           {creators.map((creator, index) => (
-            <div className="creator-row-card" key={index}>
-              <div className="creator-avatar">
-                {/* Image source pulled from the array */}
-                <img 
-                  src={creator.image} 
-                  alt={creator.name} 
-                />
+            <div className="about-creator-row" key={index}>
+              <div className="about-creator-avatar">
+                <img src={creator.image} alt={creator.name} />
               </div>
-              <div className="creator-info">
-                <h4>{creator.name}</h4>
-                <p>{creator.role}</p>
+              <div className="about-creator-info">
+                <h4 className="about-creator-name">{creator.name}</h4>
+                <p className="about-creator-desc">{creator.role}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="simple-footer">
-        <p>© 2026, M2B. Developed by BSCpE Students, Bulacan State University.</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
