@@ -86,6 +86,8 @@ app.get('/debug/env', (req, res) => {
 if (process.env.NODE_ENV === 'production') {
     // KEEP THIS EXACT PATH - it's the correct Hostinger build output location
     const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
+
+    app.use('/assets', express.static(path.join(frontendBuildPath, 'assets')));
     
     const fs = require('fs');
     console.log(`📁 Checking frontend path: ${frontendBuildPath}`);
