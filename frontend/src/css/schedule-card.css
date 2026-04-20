@@ -1,0 +1,139 @@
+.schedule-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.schedule-card-header {
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #1a2a3a 0%, #2c3e50 100%);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.schedule-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.operating-days-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.schedule-operating-hours {
+  padding: 16px 24px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.hours-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.875rem;
+}
+
+.hours-label {
+  font-weight: 600;
+  color: #495057;
+}
+
+.hours-value {
+  color: #2c3e50;
+  font-family: monospace;
+  font-weight: 500;
+}
+
+.schedule-tables {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  padding: 24px;
+}
+
+.schedule-table {
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #f1f3f5;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.direction {
+  color: #1a2a3a;
+}
+
+.departure-label {
+  color: #6c757d;
+}
+
+.table-body {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.table-row {
+  padding: 8px 16px;
+  border-bottom: 1px solid #f1f3f5;
+  font-family: monospace;
+  font-size: 0.875rem;
+  color: #2c3e50;
+}
+
+.table-row:hover {
+  background: #f8f9fa;
+}
+
+.empty-message {
+  padding: 24px 16px;
+  text-align: center;
+  color: #adb5bd;
+  font-size: 0.875rem;
+}
+
+.schedule-footer {
+  padding: 12px 24px;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  font-size: 0.75rem;
+  color: #6c757d;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .schedule-tables {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .schedule-card-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .schedule-operating-hours {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

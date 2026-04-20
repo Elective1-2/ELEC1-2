@@ -39,6 +39,7 @@ const {
   reportCongestion,
 } = require('../controllers/admin.controller');
 
+const scheduleController = require('../controllers/schedule.controller');
 const mapsController = require('../controllers/maps.controller');
 const getMapsETA = mapsController.getETA;
 const getDirections = mapsController.getDirections;
@@ -57,6 +58,11 @@ router.get('/auth/me', authenticateToken, getMe);
 router.get('/buses/:busNumber/active-trip', getActiveTripByBusNumber);
 router.get('/trips/:tripId/location', getLiveLocation);
 router.get('/trips/:tripId/eta', getETA);
+
+// Schedule routes (public)
+router.get('/schedules/routes', scheduleController.getAllRoutesSimple);
+router.get('/schedules/:routeId', scheduleController.getRouteSchedule);
+
 
 // ========== DRIVER ROUTES (authenticated) ==========
 router.post('/trips/:tripId/start', authenticateToken, startTrip);

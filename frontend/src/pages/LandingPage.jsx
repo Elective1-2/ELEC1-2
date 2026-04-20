@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import herohome from '../assets/herohome.png';
+import { Link, useNavigate } from 'react-router-dom';
+
 import Navbar from "../components/NavBar"; 
 import Footer from "../components/Footer"; // Imported the new Footer component
 import "../css/Landingpage.css";
@@ -36,6 +38,8 @@ function LandingPage() {
   const prevCard = features[(activeIndex - 1 + features.length) % features.length];
   const nextCard = features[(activeIndex + 1) % features.length];
 
+  const navigate = useNavigate();
+    
   return (
     <div className="landing-root">
       <Navbar />
@@ -47,7 +51,14 @@ function LandingPage() {
           Revolutionizing how cities move. Monitor transit performance, predict traffic
           congestion, and optimize passenger flow using real-time data.
         </p>
-        <button className="landing-monitor-btn">Monitor Your Trip</button>
+        <button 
+          className="landing-monitor-btn"
+          onClick={() => navigate('/passenger')}
+          >
+          Monitor Your Trip
+        </button>
+
+
       </section>
 
       {/* FEATURES */}
