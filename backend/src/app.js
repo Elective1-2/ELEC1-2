@@ -23,15 +23,15 @@ app.set('trust proxy', 1);
 // 2. Security middleware
 app.use(helmet());
 
-// 3. CORS - FIXED: Add production origins
+// 3. CORS (before rate limiting) - FIXED
 app.use(cors({
     origin: [
         'http://localhost:5173',
         'http://localhost:3000',
         'https://www.m2b-p2p.com',
         'https://m2b-p2p.com',
-        process.env.FRONTEND_URL
-    ].filter(Boolean), // Remove undefined values
+        process.env.FRONTEND_URL // Keep this for flexibility
+    ].filter(Boolean), // Remove undefined/null values
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
@@ -72,25 +72,52 @@ app.get('/health', (req, res) => {
     });
 });
 
+app.get('/debug/env', (req, res) => {
+    res.json({
+        NODE_ENV: process.env.NODE_ENV,
+        FRONTEND_URL: process.env.FRONTEND_URL,
+        PORT: process.env.PORT,
+        cwd: process.cwd(),
+        __dirname: __dirname,
+    });
+});
+
 // 9. Frontend serving (production only)
 if (process.env.NODE_ENV === 'production') {
-    // KEEP THIS EXACT PATH - it's the correct Hostinger build output location
-    const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
+    // Try multiple possible paths for Hostinger's build output
+    const possiblePaths = [
+        path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist'),
+        path.join(__dirname, 'dist'),
+        path.join(__dirname, 'frontend/dist'),
+        path.join(__dirname, '../dist'),
+    ];
     
     const fs = require('fs');
-    console.log(`📁 Checking frontend path: ${frontendBuildPath}`);
-    console.log(`📁 Path exists: ${fs.existsSync(frontendBuildPath)}`);
+    let frontendBuildPath = null;
     
-    if (fs.existsSync(frontendBuildPath)) {
-        const files = fs.readdirSync(frontendBuildPath);
-        console.log(`📁 Files in dist: ${files.join(', ')}`);
-        
-        // Serve static files
+    for (const testPath of possiblePaths) {
+        console.log(`📁 Checking path: ${testPath}`);
+        if (fs.existsSync(testPath)) {
+            frontendBuildPath = testPath;
+            console.log(`✅ Found frontend build at: ${frontendBuildPath}`);
+            
+            // List files for debugging
+            try {
+                const files = fs.readdirSync(frontendBuildPath);
+                console.log(`📁 Files in dist: ${files.slice(0, 10).join(', ')}${files.length > 10 ? '...' : ''}`);
+            } catch (e) {
+                console.log(`⚠️ Could not read directory: ${e.message}`);
+            }
+            break;
+        }
+    }
+    
+    if (frontendBuildPath) {
         app.use(express.static(frontendBuildPath));
         
         // Handle React Router - return index.html for all non-API routes
         app.get('*', (req, res, next) => {
-            // Don't intercept API or health check routes
+            // Don't interfere with API routes
             if (req.path.startsWith('/api/') || req.path === '/health') {
                 return next();
             }
@@ -99,7 +126,8 @@ if (process.env.NODE_ENV === 'production') {
         
         console.log('✅ Static file serving configured');
     } else {
-        console.error('❌ Frontend build directory not found at:', frontendBuildPath);
+        console.error('❌ Could not find frontend build directory!');
+        console.error('   Checked paths:', possiblePaths);
     }
 } else {
     // Development root endpoint
