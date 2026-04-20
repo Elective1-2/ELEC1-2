@@ -24,11 +24,18 @@ import GoogleAuthTest from '../pages/test/GoogleAuthTest';
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const { isAuthenticated, user, loading } = useAuth();
   
-  if (loading) return <div>Loading...</div>;
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (loading) {
+    return <div>Loading session...</div>; // Show loading while checking
+  }
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  
   if (allowedRoles.length && !allowedRoles.includes(user?.role)) {
     return <Navigate to="/unauthorized" replace />;
   }
+  
   return children;
 };
 

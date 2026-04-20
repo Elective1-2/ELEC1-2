@@ -22,15 +22,16 @@ async function getActiveTripByBusNumber(req, res) {
 
     const bus = buses[0];
 
-    // Find active trip for this bus
+    // Find active trip for this bus - prioritize en_route > delayed > scheduled
     const [trips] = await pool.query(
-      `SELECT t.trip_id, t.scheduled_departure, t.status, t.actual_departure,
+      `SELECT t.trip_id, t.scheduled_departure, t.actual_departure, t.status,
               r.name as route_name, r.start_location, r.end_location, r.base_duration_minutes,
-              r.distance_km
+              r.distance_km, u.full_name as driver_name
        FROM trips t
        JOIN routes r ON t.route_id = r.route_id
-       WHERE t.bus_id = ? AND t.status IN ('scheduled', 'en_route', 'delayed')
-       ORDER BY t.scheduled_departure ASC
+       LEFT JOIN users u ON t.driver_id = u.user_id
+       WHERE t.bus_id = ? AND t.status IN ('en_route', 'delayed', 'scheduled')
+       ORDER BY FIELD(t.status, 'en_route', 'delayed', 'scheduled'), t.scheduled_departure ASC
        LIMIT 1`,
       [bus.bus_id]
     );
@@ -64,19 +65,24 @@ async function getActiveTripByBusNumber(req, res) {
       [trip.trip_id]
     );
 
-    // Get ETA from Google Maps if trip is en_route
+    // Get ETA from Google Maps if trip is en_route and has location
     let eta = null;
     if (trip.status === 'en_route' && locations.length > 0) {
       try {
+        const mapsService = require('../services/maps.service');
         const origin = `${locations[0].latitude},${locations[0].longitude}`;
-        eta = await mapsService.getETAWithTraffic(origin, trip.end_location);
+        const etaData = await mapsService.getETAWithTraffic(origin, trip.end_location);
+        eta = {
+          minutes: etaData.etaMinutes,
+          text: etaData.etaText,
+        };
       } catch (error) {
         console.error('ETA fetch failed:', error.message);
         // Fallback to base duration
-        eta = { etaMinutes: trip.base_duration_minutes };
+        eta = { minutes: trip.base_duration_minutes, text: `${trip.base_duration_minutes} mins` };
       }
     } else if (trip.status === 'scheduled') {
-      eta = { etaMinutes: trip.base_duration_minutes };
+      eta = { minutes: trip.base_duration_minutes, text: `${trip.base_duration_minutes} mins` };
     }
 
     res.json({
@@ -95,6 +101,9 @@ async function getActiveTripByBusNumber(req, res) {
         startLocation: trip.start_location,
         endLocation: trip.end_location,
       },
+      driver: {
+        name: trip.driver_name || 'Not assigned',
+      },
       passengerCount: passengerCounts.length > 0 ? {
         count: passengerCounts[0].passenger_count,
         isOverflow: passengerCounts[0].is_overflow === 1,
@@ -107,17 +116,13 @@ async function getActiveTripByBusNumber(req, res) {
         heading: locations[0].heading,
         reportedAt: locations[0].reported_at,
       } : null,
-      eta: eta ? {
-        minutes: eta.etaMinutes,
-        text: eta.etaText,
-      } : null,
+      eta: eta,
     });
   } catch (error) {
     console.error('Get active trip error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 }
-
 /**
  * GET /api/buses
  * List all buses (admin)

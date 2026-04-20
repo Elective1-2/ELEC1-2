@@ -1,25 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import "../css/Signup.css";
 
-function Signup() {
+function SecretCodeSignup() {
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showSecretCode, setShowSecretCode] = useState(false);
-  
-  const [formData, setFormData] = useState({
-    email: "",
-    google_sub: "",
-    full_name: "",
-    phone: "",
-    role: "driver",
-    secret_code: "",
-  });
+  const [secretCode, setSecretCode] = useState("");
+  const [googleData, setGoogleData] = useState(null);
 
-  // Extract Google data from URL on component mount
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+  // Extract Google data from URL
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const email = params.get("email");
@@ -28,97 +22,95 @@ function Signup() {
     const verified = params.get("verified") === "true";
 
     if (email && googleSub) {
-      setFormData({
-        ...formData,
+      setGoogleData({
+        googleSub: googleSub,
         email: email,
-        google_sub: googleSub,
-        full_name: name || "",
+        fullName: name || "",
+        isEmailVerified: verified,
       });
-      
-      if (verified) {
-        console.log("Email verified by Google");
-      }
     } else {
+      // No Google data, redirect to login
       navigate("/login");
     }
   }, [location, navigate]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!secretCode.trim()) {
+      setError("Please enter the secret code");
+      return;
+    }
+
+    if (!googleData) {
+      setError("Session expired. Please login again.");
+      setTimeout(() => navigate("/login"), 2000);
+      return;
+    }
+
     setLoading(true);
     setError("");
 
-    if (!formData.email || !formData.google_sub) {
-      setError("Missing authentication data. Please try logging in again.");
-      setLoading(false);
-      return;
-    }
-
-    if (!formData.phone) {
-      setError("Phone number is required");
-      setLoading(false);
-      return;
-    }
-
-    const phoneRegex = /^[0-9+\-\s()]{10,15}$/;
-    if (!phoneRegex.test(formData.phone)) {
-      setError("Please enter a valid phone number");
-      setLoading(false);
-      return;
-    }
-
-    if (!formData.secret_code) {
-      setError("Secret code is required for registration");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/register-google`,
-        {
-          email: formData.email,
-          google_sub: formData.google_sub,
-          full_name: formData.full_name,
-          phone: formData.phone,
-          role: formData.role,
-          secret_code: formData.secret_code,
-        }
-      );
+      const res = await fetch(`${API_URL}/auth/verify-secret`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secretCode: secretCode,
+          googleData: googleData,
+        }),
+      });
 
-      if (response.data.success) {
-        localStorage.setItem("token", response.data.token);
-        navigate("/dashboard");
-      }
-    } catch (err) {
-      console.error("Signup error:", err);
-      if (err.response?.status === 403) {
-        setError(err.response.data.error || "Invalid secret code. Registration denied.");
-      } else if (err.response?.status === 409) {
-        setError("An account with this email already exists. Please login instead.");
-        setTimeout(() => navigate("/login"), 3000);
-      } else if (err.response?.data?.error) {
-        setError(err.response.data.error);
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        // Account created successfully
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        // Redirect based on role
+        if (data.user.role === 'admin') {
+          navigate('/management');
+        } else if (data.user.role === 'driver') {
+          navigate('/tracking');
+        } else {
+          navigate('/passenger');
+        }
       } else {
-        setError("Failed to create account. Please try again.");
+        setError(data.error || 'Signup failed. Check your secret code.');
       }
+    } catch (error) {
+      console.error('Signup error:', error);
+      setError('Network error. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  // Show loading while checking Google data
+  if (!googleData) {
+    return (
+      <div className="signup-root">
+        <div className="signup-page">
+          <div className="signup-card">
+            <p>Loading...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="signup-root">
       <div className="signup-page">
         <div className="signup-card">
-          <h1 className="signup-card-title">COMPLETE ACCOUNT</h1>
+          <h1 className="signup-card-title">COMPLETE SIGNUP</h1>
+          
           <p className="signup-subtitle">
-            Google has verified your email. Just a few more details.
+            Welcome, <strong>{googleData.fullName}</strong> ({googleData.email})
+          </p>
+          <p className="signup-instruction">
+            Please enter the administrator-provided secret code to complete your registration.
           </p>
 
           {error && (
@@ -127,77 +119,16 @@ function Signup() {
             </div>
           )}
 
-          <form className="signup-form" onSubmit={handleSubmit}>
-            {/* Email - Readonly */}
+          <form onSubmit={handleSubmit}>
             <div className="signup-input-wrap">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                readOnly
-                disabled
-                value={formData.email}
-                className="signup-input signup-input-readonly"
-                placeholder="Email address"
-              />
-            </div>
-
-            {/* Full Name */}
-            <div className="signup-input-wrap">
-              <input
-                id="full_name"
-                name="full_name"
-                type="text"
-                autoComplete="name"
-                value={formData.full_name}
-                onChange={handleChange}
-                className="signup-input"
-                placeholder="Full Name"
-              />
-            </div>
-
-            {/* Phone Number */}
-            <div className="signup-input-wrap">
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                autoComplete="tel"
-                required
-                value={formData.phone}
-                onChange={handleChange}
-                className="signup-input"
-                placeholder="Phone Number"
-              />
-            </div>
-
-            {/* Role Selection */}
-            <div className="signup-input-wrap">
-              <select
-                id="role"
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="signup-select"
-              >
-                <option value="driver">Driver</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-
-            {/* Secret Code with Eye Button */}
-            <div className="signup-input-wrap">
-              <input
-                id="secret_code"
-                name="secret_code"
                 type={showSecretCode ? "text" : "password"}
-                required
-                value={formData.secret_code}
-                onChange={handleChange}
+                placeholder="Enter secret code"
+                value={secretCode}
+                onChange={(e) => setSecretCode(e.target.value)}
                 className="signup-input"
-                placeholder="Secret Code"
+                autoFocus
+                disabled={loading}
               />
               <button 
                 type="button"
@@ -208,23 +139,21 @@ function Signup() {
               </button>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
               className="signup-submit-btn"
             >
-              {loading ? "Creating account..." : "COMPLETE SIGNUP"}
+              {loading ? "Verifying..." : "COMPLETE SIGNUP"}
             </button>
 
-            {/* Login Link */}
             <div className="signup-footer">
               <button
                 type="button"
                 onClick={() => navigate("/login")}
                 className="signup-link"
               >
-                Already have an account? Sign in
+                ← Back to Login
               </button>
             </div>
           </form>
@@ -234,4 +163,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default SecretCodeSignup;

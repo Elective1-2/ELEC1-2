@@ -3,6 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const path = require('path'); // ADD THIS LINE
 require('dotenv').config();
 
 const router = require('./routes/index.routes');
@@ -21,7 +22,7 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// CORS configuration
+// CORS configuration - UPDATE for production
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true,
@@ -42,7 +43,7 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-// API Routes
+// API Routes (must come BEFORE static file serving)
 app.use('/api', router);
 
 // Health check endpoint (no rate limiting)
@@ -55,33 +56,58 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Root endpoint
-app.get('/', (req, res) => {
-  res.json({
-    name: 'M2B Bus Tracker API',
-    version: '1.0.0',
-    status: 'running',
-    endpoints: {
-      auth: '/api/auth',
-      trips: '/api/trips',
-      buses: '/api/buses',
-      routes: '/api/admin/routes',
-      maps: '/api/maps',
-      admin: '/api/admin'
-    }
+// ===== ADD THIS SECTION: Serve React Frontend =====
+// Only serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React build folder
+  // Path: backend/src/../frontend/dist (since frontend builds to 'dist' with Vite)
+  const frontendBuildPath = path.join(__dirname, '../../frontend/dist');
+  
+  console.log(`📁 Serving frontend from: ${frontendBuildPath}`);
+  
+  // Serve static assets
+  app.use(express.static(frontendBuildPath));
+  
+  // For any route not starting with /api or /health, serve index.html
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendBuildPath, 'index.html'));
   });
-});
-
-// 404 handler - route not found
-app.use((req, res) => {
-  res.status(404).json({ 
-    error: 'Route not found',
-    path: req.originalUrl,
-    method: req.method
+} else {
+  // Development mode - just the API root response
+  app.get('/', (req, res) => {
+    res.json({
+      name: 'M2B Bus Tracker API',
+      version: '1.0.0',
+      status: 'running',
+      endpoints: {
+        auth: '/api/auth',
+        trips: '/api/trips',
+        buses: '/api/buses',
+        routes: '/api/admin/routes',
+        maps: '/api/maps',
+        admin: '/api/admin'
+      }
+    });
   });
-});
+}
 
-// Global error handler
+// Note: The 404 handler and error handler below should ONLY apply to API routes
+// But since we're serving React for all non-API routes in production,
+// we need to move them inside the development conditional
+
+// For development, keep the 404 handler
+if (process.env.NODE_ENV !== 'production') {
+  // 404 handler - route not found
+  app.use((req, res) => {
+    res.status(404).json({ 
+      error: 'Route not found',
+      path: req.originalUrl,
+      method: req.method
+    });
+  });
+}
+
+// Global error handler (keep this for all environments)
 app.use((err, req, res, next) => {
   console.error('❌ Error:', err.stack);
   
