@@ -1,9 +1,12 @@
-mgmt-root {
+/* Import Figtree Font */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap');
+
+.mgmt-root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background: #f3f4f6;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* ── Body = sidebar + main side-by-side ── */
@@ -50,14 +53,15 @@ mgmt-root {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: clamp(14px, 1.4vw, 20px) clamp(16px, 1.6vw, 22px);
+  padding: clamp(16px, 1.6vw, 22px) clamp(16px, 1.6vw, 22px);
   flex-shrink: 0;
 }
 
 .mgmt-table-title {
-  font-size: clamp(14px, 1.1vw, 17px);
+  font-size: clamp(18px, 1.6vw, 22px);
   font-weight: 700;
   color: #111827;
+  font-family: 'Figtree', sans-serif;
 }
 
 .mgmt-add-btn {
@@ -65,13 +69,14 @@ mgmt-root {
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: clamp(7px, 0.7vw, 9px) clamp(12px, 1.2vw, 18px);
-  font-size: clamp(11px, 0.85vw, 13px);
+  padding: clamp(8px, 0.8vw, 10px) clamp(16px, 1.6vw, 22px);
+  font-size: clamp(12px, 0.9vw, 14px);
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.15s;
   flex-shrink: 0;
+  font-family: 'Figtree', sans-serif;
 }
 
 .mgmt-add-btn:hover { background: #374151; }
@@ -83,7 +88,7 @@ mgmt-root {
 .mgmt-table-scroll {
   overflow-x: auto;
   overflow-y: auto;
-  max-height: 340px;   /* ~13 rows visible, then scrolls */
+  max-height: 400px;
   border-top: 1px solid #e5e7eb;
 }
 
@@ -91,8 +96,9 @@ mgmt-root {
 .mgmt-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 520px;    /* prevents columns from collapsing on narrow screens */
-  font-size: clamp(12px, 0.9vw, 14px);
+  min-width: 520px;
+  font-size: clamp(13px, 1vw, 15px);
+  font-family: 'Figtree', sans-serif;
 }
 
 /* ── Sticky header inside the scroll box ── */
@@ -101,28 +107,35 @@ mgmt-root {
   top: 0;
   background: #f9fafb;
   z-index: 2;
-  padding: clamp(9px, 0.9vw, 12px) clamp(12px, 1.2vw, 18px);
+  padding: clamp(12px, 1.2vw, 16px) clamp(12px, 1.2vw, 18px);
   text-align: left;
-  font-size: clamp(11px, 0.85vw, 13px);
+  font-size: clamp(13px, 1vw, 15px);
   font-weight: 600;
   color: #6b7280;
   border-bottom: 1px solid #e5e7eb;
   white-space: nowrap;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* ── Body rows ── */
 .mgmt-table tbody td {
-  padding: clamp(10px, 1vw, 14px) clamp(12px, 1.2vw, 18px);
+  padding: clamp(12px, 1.2vw, 16px) clamp(12px, 1.2vw, 18px);
   color: #374151;
   border-bottom: 1px solid #f3f4f6;
   white-space: nowrap;
+  font-family: 'Figtree', sans-serif;
+  font-size: clamp(13px, 1vw, 15px);
 }
 
 .mgmt-table tbody tr:last-child td { border-bottom: none; }
 
 .mgmt-table tbody tr:hover td { background: #f9fafb; }
 
-.mgmt-bold { font-weight: 700; color: #111827; }
+.mgmt-bold { 
+  font-weight: 700; 
+  color: #111827;
+  font-family: 'Figtree', sans-serif;
+}
 
 /* ── Action column ── */
 .mgmt-action-cell {
@@ -144,17 +157,6 @@ mgmt-root {
 
 .mgmt-dots-btn:hover { background: #f3f4f6; }
 
-/* ===================================================
-   FOOTER
-=================================================== */
-.mgmt-footer {
-  padding: clamp(12px, 1.2vw, 16px) clamp(16px, 2vw, 28px);
-  font-size: clamp(10px, 0.8vw, 12px);
-  color: #9ca3af;
-  border-top: 1px solid #e5e7eb;
-  background: #fff;
-  flex-shrink: 0;
-}
 
 /* ===================================================
    MOBILE  (< 768 px) — sidebar drawer mode
@@ -165,7 +167,7 @@ mgmt-root {
   .mgmt-root  { overflow-y: auto; }
 
   /* slightly shorter table scroll boxes on phones */
-  .mgmt-table-scroll { max-height: 260px; }
+  .mgmt-table-scroll { max-height: 300px; }
 }
 
 /* ===================================================
@@ -174,6 +176,7 @@ mgmt-root {
 @media (max-width: 479px) {
   .mgmt-table-header { flex-wrap: wrap; gap: 8px; }
   .mgmt-add-btn      { width: 100%; text-align: center; }
+  .mgmt-table-scroll { max-height: 260px; }
 }
 
 /* ===================================================
@@ -187,7 +190,7 @@ mgmt-root {
    TABLET LANDSCAPE  768 – 1023 px
 =================================================== */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .mgmt-table-scroll { max-height: 300px; }
+  .mgmt-table-scroll { max-height: 340px; }
 }
 
 /* ===================================================
@@ -195,9 +198,9 @@ mgmt-root {
 =================================================== */
 @media (min-width: 1920px) {
   .mgmt-content        { padding: 36px 48px; gap: 28px; }
-  .mgmt-table-scroll   { max-height: 420px; }
-  .mgmt-table-title    { font-size: 19px; }
-  .mgmt-table thead th { font-size: 14px; }
-  .mgmt-table tbody td { font-size: 15px; }
-  .mgmt-add-btn        { font-size: 14px; padding: 10px 22px; }
+  .mgmt-table-scroll   { max-height: 500px; }
+  .mgmt-table-title    { font-size: 24px; }
+  .mgmt-table thead th { font-size: 16px; }
+  .mgmt-table tbody td { font-size: 16px; }
+  .mgmt-add-btn        { font-size: 15px; padding: 10px 24px; }
 }
