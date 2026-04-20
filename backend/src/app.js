@@ -91,7 +91,7 @@ app.get('/debug/env', (req, res) => {
 
 // 9. Frontend serving (production only)
 if (process.env.NODE_ENV === 'production') {
-    const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
+    const frontendBuildPath = path.join(__dirname, '../../public_html/dist');
     
     const fs = require('fs');
     console.log(`📁 Frontend path: ${frontendBuildPath}`);
