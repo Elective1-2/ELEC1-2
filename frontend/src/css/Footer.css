@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;800&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Figtree', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .footer-container {
   width: 100%;
   background-color: #F0F0F0; 
@@ -30,6 +39,7 @@
 .credit-text {
   margin: 5px 0;
   font-size: 14px;
+  font-family: 'Figtree', sans-serif;
 }
 
 .footer-divider {
@@ -43,6 +53,7 @@
   font-size: 12px;
   color: #666;
   margin-top: 5px;
+  font-family: 'Figtree', sans-serif;
 }
 
 @media (max-width: 768px) {
