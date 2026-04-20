@@ -87,9 +87,7 @@ function Login() {
           if (data.user.role === 'admin') {
             console.log('5. Redirecting to /management');
             try {
-              setTimeout(() => {
-                navigate('/management');
-              }, 100);
+              navigate('/management');
               console.log('6. Navigate called successfully');
             } catch (err) {
               console.error('Navigate error:', err);
@@ -98,7 +96,7 @@ function Login() {
         } else if (data.user.role === 'driver') {
           console.log('5. Redirecting to /tracking');
           navigate('/tracking');
-        } else {
+        } else {//! won't happen since there is no role passenger 
           console.log('5. Redirecting to /passenger');
           navigate('/passenger');
         }

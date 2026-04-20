@@ -3,7 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const path = require('path'); // ADD THIS LINE
+const path = require('path');
 require('dotenv').config();
 
 const router = require('./routes/index.routes');
@@ -56,23 +56,26 @@ app.get('/health', (req, res) => {
   });
 });
 
-// ===== ADD THIS SECTION: Serve React Frontend =====
 // Only serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  // Serve static files from the React build folder
-  // Path: backend/src/../frontend/dist (since frontend builds to 'dist' with Vite)
-  const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
-  
-  console.log(`📁 Serving frontend from: ${frontendBuildPath}`);
-  
-  // Serve static assets
-  app.use(express.static(frontendBuildPath));
-  
-  // For any route not starting with /api or /health, serve index.html
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendBuildPath, 'index.html'));
-  });
-} else {
+  if (process.env.NODE_ENV === 'production') {
+    const frontendBuildPath = path.join(__dirname, '../../frontend/dist');
+    
+    // Add this debug code
+    const fs = require('fs');
+    console.log(`📁 Checking frontend path: ${frontendBuildPath}`);
+    console.log(`📁 Path exists: ${fs.existsSync(frontendBuildPath)}`);
+    
+    if (fs.existsSync(frontendBuildPath)) {
+      const files = fs.readdirSync(frontendBuildPath);
+      console.log(`📁 Files in dist: ${files.join(', ')}`);
+      console.log(`📁 index.html exists: ${fs.existsSync(path.join(frontendBuildPath, 'index.html'))}`);
+    }
+    
+    app.use(express.static(frontendBuildPath));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(frontendBuildPath, 'index.html'));
+    });
+  }else {
   // Development mode - just the API root response
   app.get('/', (req, res) => {
     res.json({
