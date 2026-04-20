@@ -1,6 +1,12 @@
 console.log('🚀 [app.js] Starting initialization...');
 
 const express = require('express');
+// CATCH EVERY SINGLE REQUEST - TOP OF MIDDLEWARE STACK
+app.use((req, res, next) => {
+    console.log(`🔥 [EXPRESS ENTRY] ${req.method} ${req.url}`);
+    next();
+});
+
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
@@ -87,7 +93,6 @@ if (process.env.NODE_ENV === 'production') {
     // KEEP THIS EXACT PATH - it's the correct Hostinger build output location
     const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
 
-    app.use('/assets', express.static(path.join(frontendBuildPath, 'assets')));
     
     const fs = require('fs');
     console.log(`📁 Checking frontend path: ${frontendBuildPath}`);
