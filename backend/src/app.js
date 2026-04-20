@@ -61,7 +61,7 @@ app.get('/health', (req, res) => {
 if (process.env.NODE_ENV === 'production') {
   // Serve static files from the React build folder
   // Path: backend/src/../frontend/dist (since frontend builds to 'dist' with Vite)
-  const frontendBuildPath = path.join(__dirname, '../../frontend/dist');
+  const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
   
   console.log(`📁 Serving frontend from: ${frontendBuildPath}`);
   
