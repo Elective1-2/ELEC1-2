@@ -1,41 +1,104 @@
-require("dotenv").config();
-require("./config/passport");
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+require('dotenv').config();
 
-const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const cookieParser = require("cookie-parser");
-
-
-const healthRoutes = require("./routes/health.routes");
-const dbTestRoutes = require("./routes/db-test.routes");
-const authRoutes = require("./routes/auth.routes");
-const userRoutes = require("./routes/user.routes");
-
+const router = require('./routes/index.routes');
 
 const app = express();
-const isProd = process.env.NODE_ENV === "production";
 
+// Security middleware
 app.use(helmet());
-app.use(express.json());
 
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL || "*",
-    credentials: true,
-  })
-);
+// Rate limiting - prevent abuse
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: { error: 'Too many requests, please try again later.' },
+  skipSuccessfulRequests: true, // Don't count successful requests against limit
+});
+app.use('/api/', limiter);
 
-//? TESTING ROUTES
-app.use("/health", healthRoutes);
-app.use("/db-test", dbTestRoutes);
-app.use("/auth", authRoutes);
-app.use("/users", userRoutes);
+// CORS configuration
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+}));
 
-//? TESTING 
+// Body parsing middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(cookieParser());
 
+// Request logging (development only)
+if (process.env.NODE_ENV !== 'production') {
+  app.use((req, res, next) => {
+    console.log(`📝 ${req.method} ${req.url}`);
+    next();
+  });
+}
+
+// API Routes
+app.use('/api', router);
+
+// Health check endpoint (no rate limiting)
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    name: 'M2B Bus Tracker API',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      auth: '/api/auth',
+      trips: '/api/trips',
+      buses: '/api/buses',
+      routes: '/api/admin/routes',
+      maps: '/api/maps',
+      admin: '/api/admin'
+    }
+  });
+});
+
+// 404 handler - route not found
 app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
+  res.status(404).json({ 
+    error: 'Route not found',
+    path: req.originalUrl,
+    method: req.method
+  });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('❌ Error:', err.stack);
+  
+  // Handle specific error types
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ error: 'Invalid JSON payload' });
+  }
+  
+  if (err.code === 'ER_DUP_ENTRY') {
+    return res.status(409).json({ error: 'Duplicate entry detected' });
+  }
+  
+  // Default error response
+  res.status(500).json({ 
+    error: 'Something went wrong!',
+    message: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
 });
 
 module.exports = app;
