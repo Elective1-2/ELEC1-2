@@ -84,40 +84,23 @@ app.get('/debug/env', (req, res) => {
 
 // 9. Frontend serving (production only)
 if (process.env.NODE_ENV === 'production') {
-    // Try multiple possible paths for Hostinger's build output
-    const possiblePaths = [
-        path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist'),
-        path.join(__dirname, 'dist'),
-        path.join(__dirname, 'frontend/dist'),
-        path.join(__dirname, '../dist'),
-    ];
+    // KEEP THIS EXACT PATH - it's the correct Hostinger build output location
+    const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
     
     const fs = require('fs');
-    let frontendBuildPath = null;
+    console.log(`📁 Checking frontend path: ${frontendBuildPath}`);
+    console.log(`📁 Path exists: ${fs.existsSync(frontendBuildPath)}`);
     
-    for (const testPath of possiblePaths) {
-        console.log(`📁 Checking path: ${testPath}`);
-        if (fs.existsSync(testPath)) {
-            frontendBuildPath = testPath;
-            console.log(`✅ Found frontend build at: ${frontendBuildPath}`);
-            
-            // List files for debugging
-            try {
-                const files = fs.readdirSync(frontendBuildPath);
-                console.log(`📁 Files in dist: ${files.slice(0, 10).join(', ')}${files.length > 10 ? '...' : ''}`);
-            } catch (e) {
-                console.log(`⚠️ Could not read directory: ${e.message}`);
-            }
-            break;
-        }
-    }
-    
-    if (frontendBuildPath) {
+    if (fs.existsSync(frontendBuildPath)) {
+        const files = fs.readdirSync(frontendBuildPath);
+        console.log(`📁 Files in dist: ${files.join(', ')}`);
+        
+        // Serve static files
         app.use(express.static(frontendBuildPath));
         
-        // Handle React Router - return index.html for all non-API routes
-        app.get('*', (req, res, next) => {
-            // Don't interfere with API routes
+        // Handle React Router - FIXED: Named wildcard parameter
+        app.get('/*splat', (req, res, next) => {
+            // Don't intercept API or health check routes
             if (req.path.startsWith('/api/') || req.path === '/health') {
                 return next();
             }
@@ -126,26 +109,8 @@ if (process.env.NODE_ENV === 'production') {
         
         console.log('✅ Static file serving configured');
     } else {
-        console.error('❌ Could not find frontend build directory!');
-        console.error('   Checked paths:', possiblePaths);
+        console.error('❌ Frontend build directory not found at:', frontendBuildPath);
     }
-} else {
-    // Development root endpoint
-    app.get('/', (req, res) => {
-        res.json({
-            name: 'M2B Bus Tracker API',
-            version: '1.0.0',
-            status: 'running',
-            endpoints: {
-                auth: '/api/auth',
-                trips: '/api/trips',
-                buses: '/api/buses',
-                routes: '/api/admin/routes',
-                maps: '/api/maps',
-                admin: '/api/admin'
-            }
-        });
-    });
 }
 
 // 10. 404 handler (only in development)
