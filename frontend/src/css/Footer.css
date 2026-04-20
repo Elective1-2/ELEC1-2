@@ -1,22 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;800&display=swap');
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  padding: 0;
   font-family: 'Figtree', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Iwas sa horizontal scroll sa buong page */
 }
 
 .footer-container {
   background-color: #F0F0F0;
-  color: #1a2c41; 
-  padding: 40px 20px;
-  width: 100%;
-  background-color: #F0F0F0; 
   color: #1a2c41;
-  padding: 40px 20px;
+  padding: 40px 20px 20px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   font-family: 'Figtree', sans-serif;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  display: block;
 }
 
 .footer-content {
@@ -36,7 +42,7 @@ body {
 }
 
 .footer-credits {
-  line-height: 1;
+  line-height: 1.2;
 }
 
 .credit-text {
@@ -59,8 +65,13 @@ body {
   font-family: 'Figtree', sans-serif;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .footer-container {
     padding: 30px 15px;
+  }
+  
+  .credit-text {
+    font-size: 13px;
   }
 }

@@ -1,9 +1,16 @@
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap');
-@import url('./MobileNavbar.css');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap');
+
+@font-face {
+  font-family: 'Basement Grotesque';
+  src: url('../assets/fonts/BasementGrotesque-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Root Container */
 .login-root {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Figtree', sans-serif;
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -11,310 +18,20 @@
   flex-direction: column;
 }
 
-/* ============================================ */
-/* NAVBAR STYLES */
-/* ============================================ */
-
-.login-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 28px;
-  background-color: #FFFFFF;
-  width: 100%;
-  z-index: 20;
-  box-sizing: border-box;
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Nunito', sans-serif;
-}
-
-.login-logo {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-weight: 900;
-  font-size: 20px;
-  font-family: 'Nunito', sans-serif;
-}
-
-.login-logo-m {
-  color: #FFFFFF;
-  background: #1A2B3C;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 22px;
-  font-family: 'Nunito', sans-serif;
-}
-
-.login-logo-2 {
-  color: #FFFFFF;
-  background: #3498db;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 22px;
-  font-family: 'Nunito', sans-serif;
-}
-
-.login-logo-b {
-  color: #FFFFFF;
-  background: #F1C40F;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 22px;
-  font-family: 'Nunito', sans-serif;
-}
-
-.login-nav-links {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-family: 'Nunito', sans-serif;
-}
-
-.login-nav-link {
-  color: #1A2B3C;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 700;
-  font-family: 'Nunito', sans-serif;
-  transition: color 0.2s;
-}
-
-.login-nav-link:hover {
-  color: #3498db;
-}
-
-.login-passenger-btn {
-  background-color: #1A2B3C;
-  color: #FFFFFF;
-  border: 2px solid #1A2B3C;
-  padding: 6px 14px;
-  border-radius: 4px;
-  font-weight: 800;
-  cursor: pointer;
-  font-size: 12px;
-  font-family: 'Nunito', sans-serif;
-  transition: all 0.2s;
-}
-
-.login-passenger-btn:hover {
-  background-color: #2a3b4c;
-  transform: translateY(-1px);
-}
-
-.login-nav-login-btn {
-  background-color: transparent;
-  color: #1A2B3C;
-  border: 2px solid #1A2B3C;
-  padding: 6px 14px;
-  border-radius: 4px;
-  font-weight: 800;
-  cursor: pointer;
-  font-size: 12px;
-  font-family: 'Nunito', sans-serif;
-  transition: all 0.2s;
-}
-
-.login-nav-login-btn:hover {
-  background-color: #1A2B3C;
-  color: #FFFFFF;
-}
-
-/* ============================================ */
-/* HAMBURGER MENU (MOBILE FULL-WIDTH MODAL) */
-/* ============================================ */
-
-.login-hamburger {
-  background: none;
-  border: none;
-  color: #1A2B3C;
-  font-size: 26px;
-  cursor: pointer;
-  display: none; /* Hidden by default, shown on mobile */
-  font-family: 'Nunito', sans-serif;
-  transition: opacity 0.2s;
-  padding: 8px;
-  z-index: 101;
-}
-
-.login-hamburger:hover {
-  opacity: 0.7;
-}
-
-/* Overlay background when menu is open (dark dim) */
-.login-mobile-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  animation: fadeIn 0.25s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Full-width modal menu that slides down from top */
-.login-mobile-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: #FFFFFF;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  width: 100%;
-  max-width: 100%;
-  overflow-y: auto;
-  animation: slideDown 0.3s ease;
-  border-bottom: 1px solid #e8ecef;
-  max-height: 85vh; /* Limits height so login remains visible */
-  border-radius: 0 0 20px 20px;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Menu header with logo and close button */
-.login-mobile-menu-header {
-  padding: 20px 24px;
-  text-align: center;
-  border-bottom: 1px solid #e8ecef;
-  background: #f8fafc;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* Close button inside modal */
-.login-mobile-close {
-  background: none;
-  border: none;
-  font-size: 28px;
-  cursor: pointer;
-  color: #666;
-  transition: all 0.2s;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-family: 'Nunito', sans-serif;
-}
-
-.login-mobile-close:hover {
-  color: #1A2B3C;
-  background-color: #eef2f5;
-}
-
-/* Navigation links in modal */
-.login-mobile-nav {
-  display: flex;
-  flex-direction: column;
-  padding: 16px 0;
-}
-
-.login-mobile-nav-link {
-  color: #1A2B3C;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
-  font-family: 'Nunito', sans-serif;
-  padding: 14px 28px;
-  transition: all 0.2s;
-  display: block;
-  text-align: center;
-  border-left: 3px solid transparent;
-}
-
-.login-mobile-nav-link:hover {
-  background-color: #f5f7fa;
-  color: #3498db;
-  border-left-color: #3498db;
-}
-
-.login-mobile-divider {
-  height: 1px;
-  background-color: #e8ecef;
-  margin: 12px 24px;
-}
-
-/* Login button in modal */
-.login-mobile-login-btn {
-  background-color: #1A2B3C;
-  color: #FFFFFF;
-  border: none;
-  padding: 14px 24px;
-  border-radius: 12px;
-  font-weight: 800;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: 'Nunito', sans-serif;
-  width: calc(100% - 48px);
-  margin: 16px 24px 28px 24px;
-  transition: all 0.2s;
-  letter-spacing: 0.5px;
-}
-
-.login-mobile-login-btn:hover {
-  background-color: #2a3b4c;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* ============================================ */
 /* HERO BACKGROUND */
-/* ============================================ */
-
 .login-page {
-  flex: 1;
-  background: linear-gradient(rgba(26, 43, 60, 0.80), rgba(26, 43, 60, 0.80)), var(--hero-image, url('../assets/herohome.png')) center/cover;
+  flex: 1; /* Grows to fill all available space between Navbar and Footer */
+  background: linear-gradient(rgba(26, 43, 60, 0.80), rgba(26, 43, 60, 0.80)), 
+              url('../assets/herohome.png') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
+  width: 100%;
+  min-height: 90vh;
 }
 
-/* ============================================ */
 /* LOGIN CARD */
-/* ============================================ */
 
 .login-card {
   background-color: #f0f0f0;
@@ -332,22 +49,19 @@
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .login-card-title {
-  font-family: 'Bebas Neue', sans-serif;
+  /* High-impact heading font */
+  font-family: 'Basement Grotesque', sans-serif;
   font-size: 42px;
+  font-weight: 900;
   color: #1A2B3C;
   margin: 0 0 8px;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   text-align: center;
 }
 
@@ -362,7 +76,7 @@
   border: 1.5px solid #d0d0d0;
   border-radius: 8px;
   font-size: 15px;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Figtree', sans-serif;
   color: #333;
   background-color: #fff;
   box-sizing: border-box;
@@ -385,11 +99,6 @@
   cursor: pointer;
   color: #888;
   font-size: 18px;
-  transition: color 0.2s;
-}
-
-.login-eye-btn:hover {
-  color: #1A2B3C;
 }
 
 .login-forgot-wrap {
@@ -402,7 +111,7 @@
   font-size: 14px;
   font-weight: 800;
   text-decoration: none;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Figtree', sans-serif;
   cursor: pointer;
   transition: color 0.2s;
 }
@@ -419,9 +128,11 @@
   border: none;
   border-radius: 8px;
   font-size: 16px;
-  font-weight: 800;
-  font-family: 'Bebas Neue', sans-serif;
+  /* Button heading style */
+  font-family: 'Basement Grotesque', sans-serif;
+  font-weight: 900;
   letter-spacing: 2px;
+  text-transform: uppercase;
   cursor: pointer;
   margin-top: 4px;
   transition: all 0.2s;
@@ -433,244 +144,12 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.login-submit-btn:active {
-  transform: translateY(0);
-}
-
-/* ============================================ */
-/* RESPONSIVE DESIGN */
-/* ============================================ */
-
-/* Tablet (600px - 899px) */
-@media (min-width: 600px) and (max-width: 899px) {
-  .login-nav {
-    padding: 12px 20px;
-  }
-  
-  .login-logo-m,
-  .login-logo-2,
-  .login-logo-b {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
-  }
-  
-  .login-card {
-    padding: 40px 32px;
-    max-width: 420px;
-  }
-  
-  .login-card-title {
-    font-size: 38px;
-  }
-  
-  .login-input {
-    padding: 12px 16px;
-    font-size: 14px;
-  }
-  
-  /* Tablet: full-width modal as well for better UX */
-  .login-hamburger {
-    display: block;
-  }
-  
-  .login-nav-links {
-    display: none;
-  }
-  
-  .login-mobile-menu {
-    max-height: 80vh;
-    border-radius: 0 0 20px 20px;
-  }
-  
-  .login-mobile-nav-link {
-    font-size: 17px;
-    padding: 12px 24px;
-  }
-}
-
-/* Mobile (below 600px) */
-@media (max-width: 599px) {
-  .login-nav {
-    padding: 12px 16px;
-  }
-  
-  .login-logo-m,
-  .login-logo-2,
-  .login-logo-b {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
-  
-  .login-page {
-    padding: 20px 16px;
-  }
-  
+/* Responsive Fixes */
+@media (max-width: 600px) {
   .login-card {
     padding: 32px 20px;
-    max-width: 100%;
   }
-  
   .login-card-title {
     font-size: 32px;
-    margin-bottom: 4px;
   }
-  
-  .login-input {
-    padding: 12px 14px;
-    font-size: 14px;
-  }
-  
-  .login-submit-btn {
-    padding: 12px;
-    font-size: 14px;
-  }
-  
-  .login-forgot-link {
-    font-size: 12px;
-  }
-  
-  /* Show hamburger, hide desktop nav */
-  .login-hamburger {
-    display: block;
-  }
-  
-  .login-nav-links {
-    display: none;
-  }
-  
-  /* Full-width modal menu styles for mobile */
-  .login-mobile-menu {
-    max-height: 80vh; /* Keeps login visible, menu scrolls if needed */
-    border-radius: 0 0 20px 20px;
-    top: 0;
-  }
-  
-  .login-mobile-logo-m,
-  .login-mobile-logo-2,
-  .login-mobile-logo-b {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
-  
-  .login-mobile-close {
-    font-size: 26px;
-    width: 36px;
-    height: 36px;
-  }
-  
-  .login-mobile-nav-link {
-    font-size: 16px;
-    padding: 12px 20px;
-  }
-  
-  .login-mobile-login-btn {
-    font-size: 15px;
-    padding: 12px 20px;
-    width: calc(100% - 40px);
-    margin: 12px 20px 24px 20px;
-    border-radius: 10px;
-  }
-  
-  .login-mobile-divider {
-    margin: 8px 20px;
-  }
-}
-
-/* Small Mobile (below 380px) */
-@media (max-width: 380px) {
-  .login-card {
-    padding: 24px 16px;
-  }
-  
-  .login-card-title {
-    font-size: 28px;
-  }
-  
-  .login-input {
-    padding: 10px 12px;
-    font-size: 13px;
-  }
-  
-  .login-submit-btn {
-    padding: 10px;
-    font-size: 13px;
-  }
-  
-  .login-mobile-menu {
-    max-height: 75vh;
-  }
-  
-  .login-mobile-nav-link {
-    font-size: 15px;
-    padding: 10px 16px;
-  }
-  
-  .login-mobile-login-btn {
-    font-size: 14px;
-    padding: 10px 16px;
-    margin: 10px 16px 20px 16px;
-    width: calc(100% - 32px);
-  }
-  
-  .login-mobile-close {
-    font-size: 24px;
-  }
-}
-
-/* Desktop (900px and above) - hide hamburger, show normal nav */
-@media (min-width: 900px) {
-  .login-hamburger {
-    display: none !important;
-  }
-  
-  .login-nav-links {
-    display: flex !important;
-  }
-  
-  /* Ensure overlay and mobile menu are not visible on desktop */
-  .login-mobile-overlay,
-  .login-mobile-menu {
-    display: none !important;
-  }
-}
-
-/* Fix for hero background image */
-.login-page {
-  --hero-image: url('../assets/herohome.png');
-}
-
-/* Additional utility to prevent body scroll when modal is open */
-body.modal-open {
-  overflow: hidden;
-}
-
-/* Smooth transitions for interactive elements */
-.login-mobile-nav-link, 
-.login-mobile-login-btn,
-.login-mobile-close {
-  transition: all 0.2s ease;
-}
-
-/* Make sure the login card stays above background but below modal when open */
-.login-card {
-  position: relative;
-  z-index: 1;
-}
-
-/* Ensure navbar has proper stacking context */
-.login-nav {
-  z-index: 100;
-  position: relative;
-}
-
-/* Improved focus states for accessibility */
-.login-mobile-close:focus-visible,
-.login-mobile-nav-link:focus-visible,
-.login-mobile-login-btn:focus-visible,
-.login-hamburger:focus-visible {
-  outline: 2px solid #3498db;
-  outline-offset: 2px;
 }

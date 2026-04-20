@@ -1,8 +1,8 @@
 import React from 'react';
-import About from './pages/Aboutus';
+import Login from './pages/login';
 
 function App() {
-  return <About/>
+  return <Login/>
 }
 
 export default App;
