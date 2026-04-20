@@ -1,3 +1,5 @@
+//! Won't delete this abomination of a debugging console logs
+
 // CATCH ALL UNHANDLED ERRORS
 process.on('uncaughtException', (err) => {
     console.error('🔥 UNCAUGHT EXCEPTION - THIS IS WHY THE SERVER IS CRASHING:');
