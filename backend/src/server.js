@@ -1,15 +1,12 @@
 //! Won't delete this abomination of a debugging console logs
-
 // CATCH ALL UNHANDLED ERRORS
 process.on('uncaughtException', (err) => {
-    console.error('🔥 UNCAUGHT EXCEPTION - THIS IS WHY THE SERVER IS CRASHING:');
-    console.error(err.stack);
-    process.exit(1); // Exit so Hostinger can log it
+    console.error('🔥 UNCAUGHT EXCEPTION:', err.stack);
+    process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-    console.error('🔥 UNHANDLED REJECTION - THIS IS WHY THE SERVER IS CRASHING:');
-    console.error(reason);
+    console.error('🔥 UNHANDLED REJECTION:', reason);
     process.exit(1);
 });
 
@@ -26,16 +23,14 @@ const PORT = process.env.PORT;
 console.log(`🔌 [4] Attempting to listen on port ${PORT}`);
 
 if (!PORT) {
-    console.error("❌ FATAL ERROR: process.env.PORT is not defined. The server cannot start.");
+    console.error("❌ FATAL ERROR: process.env.PORT is not defined.");
     process.exit(1);
 }
-
-console.log(`🔍 PORT value from Hostinger: "${process.env.PORT}"`);
-console.log(`🔍 PORT type: ${typeof process.env.PORT}`);
 
 const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ [5] Server is running on port ${PORT}`);
     console.log(`🌐 Health check: http://localhost:${PORT}/health`);
+    console.log(`📍 CORS allowed origins: localhost:5173, localhost:3000, m2b-p2p.com, www.m2b-p2p.com`);
 });
 
 server.on('error', (err) => {
