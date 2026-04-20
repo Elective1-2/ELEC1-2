@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import herohome from '../assets/herohome.png';
-import Navbar from "../components/Navbar"; 
+import Navbar from "../components/NavBar"; 
 import Footer from "../components/Footer"; // Imported the new Footer component
 import "../css/Landingpage.css";
 

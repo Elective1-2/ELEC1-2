@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/Aboutus.css';
+import Navbar from "../components/Navbar"; 
 
 // --- Imports: Backgrounds and Photos ---
 // Ensure these exact filenames exist in your src/assets/ folder!
@@ -23,7 +24,7 @@ function Aboutus() {
   return (
     <div className="about-page">
       {/* Navigation Bar */}
-      <nav className="navbar">
+      {/* <nav className="navbar">
         <div className="nav-logo">
           <span className="logo-m">M</span>
           <span className="logo-2">2</span>
@@ -35,8 +36,8 @@ function Aboutus() {
           <button className="btn-passenger">PASSENGER</button>
           <button className="btn-login">LOGIN</button>
         </div>
-      </nav>
-
+      </nav> */}
+      <Navbar/>
       {/* Banner Section */}
       <div 
         className="banner-section"

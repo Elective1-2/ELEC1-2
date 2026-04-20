@@ -1,4 +1,5 @@
 import React from 'react';
+import Navbar from "../components/NavBar"; 
 import '../css/Schedule.css';
 
 // Import the map background image
@@ -24,19 +25,8 @@ function Schedule() {
   return (
     <div className="schedule-page">
       {/* Navigation Bar */}
-      <nav className="navbar">
-        <div className="nav-logo">
-          <span className="logo-m">M</span>
-          <span className="logo-2">2</span>
-          <span className="logo-b">B</span>
-        </div>
-        <div className="nav-links">
-          <a href="#about">ABOUT</a>
-          <a href="#schedule">SCHEDULE</a>
-          <button className="btn-passenger">PASSENGER</button>
-          <button className="btn-login">LOGIN</button>
-        </div>
-      </nav>
+      <Navbar />
+
 
       {/* Banner Section */}
       <div 

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+
 import "../css/passenger.css";
 
 function LiveClock() {
@@ -40,11 +42,13 @@ function Passenger() {
         <div className="dmp-clock-wrap">
           <LiveClock />
         </div>
-        <div className="dmp-logo">
-          <div className="dmp-logo-seg seg-m">M</div>
-          <div className="dmp-logo-seg seg-2">2</div>
-          <div className="dmp-logo-seg seg-b">B</div>
-        </div>
+        <Link to="/M2B" style={{ textDecoration: 'none' }}>
+          <div className="dmp-logo">
+            <div className="dmp-logo-seg seg-m">M</div>
+            <div className="dmp-logo-seg seg-2">2</div>
+            <div className="dmp-logo-seg seg-b">B</div>
+          </div>
+        </Link>
 
         <div className="dmp-section-title">ACTIVE TRIP DETAILS</div>
 

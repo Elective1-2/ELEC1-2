@@ -33,6 +33,7 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
 };
 
 function AppRoutes() {
+  console.log('AppRoutes rendering');
   return (
     <Routes>
       {/* Logins */}
