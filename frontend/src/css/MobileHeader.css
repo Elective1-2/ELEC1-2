@@ -1,3 +1,6 @@
+/* Import Figtree Font */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;800&display=swap');
+
 /* ===================================================
    MOBILE HEADER
    Visible only on phones & tablet portrait (< 768px)
@@ -17,6 +20,7 @@
   position: sticky;
   top: 0;
   z-index: 55;
+  font-family: 'Figtree', sans-serif;
 }
 
 /* Logo — LEFT */
@@ -24,6 +28,14 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* Logo Image Styles - Smaller size */
+.mobile-logo-img {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 /* Hamburger — RIGHT */
@@ -46,31 +58,6 @@
   display: block;
 }
 
-/* ── Logo circles ── */
-.mobile-logo {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.mobile-logo-seg {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 14px;
-  line-height: 1;
-  flex-shrink: 0;
-  color: #fff;
-}
-
-.mobile-logo-seg.seg-m { background: #2d4a6b; }
-.mobile-logo-seg.seg-2 { background: #38bdf8; }
-.mobile-logo-seg.seg-b { background: #f5a623; }
-
 /* ===================================================
    SHOW on phones + tablet portrait (< 768px)
 =================================================== */
@@ -80,13 +67,41 @@
   }
 }
 
-/* tiny phones < 360px */
-@media (max-width: 359px) {
-  .mobile-logo-seg {
-    width: 26px;
+/* Tablet (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+  .mobile-logo-img {
+    height: 28px;
+  }
+  
+  .mobile-header {
+    padding: 12px 20px;
+  }
+}
+
+/* Small phones (< 480px) */
+@media (max-width: 479px) {
+  .mobile-logo-img {
     height: 26px;
-    font-size: 12px;
+  }
+  
+  .mobile-header {
+    padding: 10px 16px;
+  }
+}
+
+/* Tiny phones < 360px */
+@media (max-width: 359px) {
+  .mobile-logo-img {
+    height: 24px;
   }
 
-  .mobile-header { padding: 9px 12px; }
+  .mobile-header { 
+    padding: 8px 12px; 
+  }
+  
+  .mobile-ham-line {
+    width: 18px;
+    height: 2px;
+    gap: 4px;
+  }
 }

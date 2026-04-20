@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
 import MobileHeader from "../components/MobileHeader";
 import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 import "../css/management.css";
 
 // ── Placeholder data ──────────────────────────────────────────────────────
@@ -164,10 +165,8 @@ function Management() {
 
           </div>{/* /mgmt-content */}
 
-          {/* Footer */}
-          <div className="mgmt-footer">
-            2026, M2B. Developed by BSCpE Students, Bulacan State University.
-          </div>
+          {/* Footer - Using reusable Footer component */}
+          <Footer />
         </div>{/* /mgmt-main */}
       </div>{/* /mgmt-body */}
     </div>
