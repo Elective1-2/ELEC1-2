@@ -26,7 +26,7 @@ console.log(`  - NODE_ENV: ${process.env.NODE_ENV || 'NOT SET'}`);
 console.log(`  - DB_HOST: ${process.env.DB_HOST ? 'SET ✓' : 'NOT SET ✗'}`);
 console.log(`  - DB_USER: ${process.env.DB_USER ? 'SET ✓' : 'NOT SET ✗'}`);
 console.log(`  - DB_NAME: ${process.env.DB_NAME ? 'SET ✓' : 'NOT SET ✗'}`);
-console.log(`  - PORT: ${process.env.PORT || 'NOT SET (will use 5000)'}`);
+console.log(`  - PORT: ${process.env.PORT ? process.env.PORT : 'NOT SET BY HOSTINGER - THIS WILL CAUSE A CRASH'}`);
 
 const router = require('./routes/index.routes');
 console.log('✅ [app.js] Routes loaded');

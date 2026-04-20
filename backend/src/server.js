@@ -15,6 +15,9 @@ if (!PORT) {
     process.exit(1);
 }
 
+console.log(`🔍 PORT value from Hostinger: "${process.env.PORT}"`);
+console.log(`🔍 PORT type: ${typeof process.env.PORT}`);
+
 const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ [5] Server is running on port ${PORT}`);
     console.log(`🌐 Health check: http://localhost:${PORT}/health`);
