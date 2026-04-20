@@ -1,3 +1,16 @@
+// CATCH ALL UNHANDLED ERRORS
+process.on('uncaughtException', (err) => {
+    console.error('🔥 UNCAUGHT EXCEPTION - THIS IS WHY THE SERVER IS CRASHING:');
+    console.error(err.stack);
+    process.exit(1); // Exit so Hostinger can log it
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('🔥 UNHANDLED REJECTION - THIS IS WHY THE SERVER IS CRASHING:');
+    console.error(reason);
+    process.exit(1);
+});
+
 console.log('🚀 [1] Starting server.js...');
 console.log(`📅 Time: ${new Date().toISOString()}`);
 console.log(`📦 Node version: ${process.version}`);
