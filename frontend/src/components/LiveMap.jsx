@@ -99,26 +99,29 @@ function LiveMap({ busLocation, origin, destination }) {
   }, [busLocation, mapReady]);
 
   // Fetch directions
-  useEffect(() => {
+    useEffect(() => {
     if (!mapReady || !origin || !destination || !directionsRendererRef.current) return;
+
+    console.log('Fetching directions from:', origin, 'to:', destination);
 
     const directionsService = new window.google.maps.DirectionsService();
 
     directionsService.route(
-      {
+        {
         origin: origin,
         destination: destination,
         travelMode: window.google.maps.TravelMode.DRIVING,
-      },
-      (result, status) => {
+        },
+        (result, status) => {
         if (status === 'OK') {
-          directionsRendererRef.current.setDirections(result);
+            console.log('Directions received:', result);
+            directionsRendererRef.current.setDirections(result);
         } else {
-          console.error('Directions failed:', status);
+            console.error('Directions failed:', status);
         }
-      }
+        }
     );
-  }, [origin, destination, mapReady]);
+    }, [origin, destination, mapReady]);
 
   return (
     <div ref={mapRef} style={mapContainerStyle}>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import { useTripData } from "../hooks/useTripData";
 import LiveMap from "../components/LiveMap";
 import BusNumberModal from "../components/BusNumberModal";
@@ -135,12 +136,13 @@ function Passenger() {
         <div className="dmp-clock-wrap">
           <LiveClock />
         </div>
-        <div className="dmp-logo">
-          <div className="dmp-logo-seg seg-m">M</div>
-          <div className="dmp-logo-seg seg-2">2</div>
-          <div className="dmp-logo-seg seg-b">B</div>
-        </div>
-
+        <Link to={"/M2B"}>
+          <div className="dmp-logo">
+            <div className="dmp-logo-seg seg-m">M</div>
+            <div className="dmp-logo-seg seg-2">2</div>
+            <div className="dmp-logo-seg seg-b">B</div>
+          </div>
+        </Link>
         <div className="dmp-section-title">ACTIVE TRIP DETAILS</div>
 
         {/* Bus info */}
@@ -224,11 +226,13 @@ function Passenger() {
 
       {/* RIGHT PANEL — map */}
       <div className="dmp-right">
-        <div className="dmp-map-logo">
-          <div className="dmp-logo-seg seg-m">M</div>
-          <div className="dmp-logo-seg seg-2">2</div>
-          <div className="dmp-logo-seg seg-b">B</div>
-        </div>
+        <Link to={"/M2B"}>
+          <div className="dmp-map-logo">
+            <div className="dmp-logo-seg seg-m">M</div>
+            <div className="dmp-logo-seg seg-2">2</div>
+            <div className="dmp-logo-seg seg-b">B</div>
+          </div>
+        </Link>
         <div className="dmp-map-clock">
           <LiveClock />
         </div>
