@@ -99,7 +99,7 @@ if (process.env.NODE_ENV === 'production') {
         app.use(express.static(frontendBuildPath));
         
         // Handle React Router - FIXED: Named wildcard parameter
-        app.get('*', (req, res, next) => {
+        app.get('/*splat', (req, res, next) => {
             // Don't intercept API or health check routes
             if (req.path.startsWith('/api/') || req.path === '/health') {
                 return next();
