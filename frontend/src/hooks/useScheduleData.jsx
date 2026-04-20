@@ -1,9 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-// No API_URL variable needed - use relative paths everywhere
-// Development: Vite proxy handles /api -> http://localhost:5000
-// Production: Same-origin requests to /api work natively
-
+// Use relative paths - works in dev and prod
 export function useScheduleData(routeId, dayType = 'weekday') {
   const [schedule, setSchedule] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -19,7 +16,7 @@ export function useScheduleData(routeId, dayType = 'weekday') {
     setError(null);
 
     try {
-      // Relative path - works in dev (via Vite proxy) and prod (same origin)
+      // Relative path - Vite proxy handles in dev, same-origin in prod
       const response = await fetch(`/api/schedules/${routeId}?day_type=${dayType}`);
       const data = await response.json();
 
@@ -29,7 +26,6 @@ export function useScheduleData(routeId, dayType = 'weekday') {
 
       setSchedule(data);
     } catch (err) {
-      console.error('Schedule fetch error:', err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -51,7 +47,7 @@ export function useAllRoutes() {
   useEffect(() => {
     const fetchRoutes = async () => {
       try {
-        // Relative path - works in dev and prod
+        // Relative path
         const response = await fetch('/api/schedules/routes');
         const data = await response.json();
 
@@ -61,7 +57,6 @@ export function useAllRoutes() {
 
         setRoutes(data.routes || []);
       } catch (err) {
-        console.error('Routes fetch error:', err);
         setError(err.message);
       } finally {
         setLoading(false);
