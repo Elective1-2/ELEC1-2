@@ -1,14 +1,38 @@
+console.log('🚀 [app.js] Starting initialization...');
+
 const express = require('express');
+console.log('✅ [app.js] Express loaded');
+
 const cors = require('cors');
+console.log('✅ [app.js] CORS loaded');
+
 const cookieParser = require('cookie-parser');
+console.log('✅ [app.js] Cookie-parser loaded');
+
 const helmet = require('helmet');
+console.log('✅ [app.js] Helmet loaded');
+
 const rateLimit = require('express-rate-limit');
+console.log('✅ [app.js] Rate-limit loaded');
+
 const path = require('path');
+console.log('✅ [app.js] Path loaded');
+
 require('dotenv').config();
+console.log('✅ [app.js] Dotenv configured');
+
+console.log('📊 [app.js] Environment variables check:');
+console.log(`  - NODE_ENV: ${process.env.NODE_ENV || 'NOT SET'}`);
+console.log(`  - DB_HOST: ${process.env.DB_HOST ? 'SET ✓' : 'NOT SET ✗'}`);
+console.log(`  - DB_USER: ${process.env.DB_USER ? 'SET ✓' : 'NOT SET ✗'}`);
+console.log(`  - DB_NAME: ${process.env.DB_NAME ? 'SET ✓' : 'NOT SET ✗'}`);
+console.log(`  - PORT: ${process.env.PORT || 'NOT SET (will use 5000)'}`);
 
 const router = require('./routes/index.routes');
+console.log('✅ [app.js] Routes loaded');
 
 const app = express();
+console.log('✅ [app.js] Express app created');
 
 // Security middleware
 app.use(helmet());
