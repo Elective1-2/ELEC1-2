@@ -91,28 +91,29 @@ app.get('/debug/env', (req, res) => {
 
 // 9. Frontend serving (production only)
 if (process.env.NODE_ENV === 'production') {
-    const frontendBuildPath = path.join(__dirname, '../../public_html/dist');
+    const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
     
     const fs = require('fs');
     console.log(`📁 Frontend path: ${frontendBuildPath}`);
     console.log(`📁 Path exists: ${fs.existsSync(frontendBuildPath)}`);
     
     if (fs.existsSync(frontendBuildPath)) {
-        const files = fs.readdirSync(frontendBuildPath);
-        console.log(`📁 Files in dist: ${files.join(', ')}`);
-        
-        // Check specifically for index.html
+        // READ INDEX.HTML INTO MEMORY AT STARTUP
+        let indexHtmlContent = null;
         const indexPath = path.join(frontendBuildPath, 'index.html');
-        console.log(`📄 Index path: ${indexPath}`);
-        console.log(`📄 Index exists: ${fs.existsSync(indexPath)}`);
+        
+        try {
+            indexHtmlContent = fs.readFileSync(indexPath, 'utf8');
+            console.log(`✅ Index.html loaded into memory (${indexHtmlContent.length} bytes)`);
+        } catch (err) {
+            console.error(`❌ Failed to load index.html at startup: ${err.message}`);
+        }
         
         // Serve static files
         app.use(express.static(frontendBuildPath));
         
         // Handle client-side routing
         app.get('/*splat', (req, res, next) => {
-            console.log(`🔄 Catch-all: ${req.path}`);
-            
             // Skip API and health routes
             if (req.path.startsWith('/api/') || req.path === '/health') {
                 return next();
@@ -120,20 +121,16 @@ if (process.env.NODE_ENV === 'production') {
             
             // Skip asset requests
             if (/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot|json)$/i.test(req.path)) {
-                console.log(`⏭️ Asset skipped: ${req.path}`);
                 return res.status(404).send('Not found');
             }
             
-            // Serve index.html
-            console.log(`📤 Sending index.html for: ${req.path}`);
-            res.sendFile(indexPath, (err) => {
-                if (err) {
-                    console.error(`❌ SendFile error: ${err.message}`);
-                    console.error(`❌ Path attempted: ${indexPath}`);
-                    console.error(`❌ File exists at send time: ${fs.existsSync(indexPath)}`);
-                    res.status(500).json({ error: 'Something went wrong!' });
-                }
-            });
+            // Serve from memory
+            if (indexHtmlContent) {
+                res.setHeader('Content-Type', 'text/html');
+                res.send(indexHtmlContent);
+            } else {
+                res.status(500).json({ error: 'Something went wrong!' });
+            }
         });
         
         console.log('✅ Static serving configured');
