@@ -45,7 +45,6 @@ const limiter = rateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
   message: { error: 'Too many requests, please try again later.' },
   skipSuccessfulRequests: true, // Don't count successful requests against limit
-  trustProxy: true,
 });
 app.use('/api/', limiter);
 
