@@ -8,11 +8,15 @@
     "start": "node src/server.js"
   },
   "keywords": [],
-  "author": "CASTRO,",
+  "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+<<<<<<< Updated upstream
     "@googlemaps/google-maps-services-js": "^3.4.2",
+=======
+    "bcrypt": "^6.0.0",
+>>>>>>> Stashed changes
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",

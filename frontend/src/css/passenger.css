@@ -549,3 +549,131 @@
   .dmp-info-number { font-size: 88px; }
   .dmp-tag-value   { font-size: 16px; }
 }
+
+
+/* ============================================
+   MODAL STYLES
+   ============================================ */
+.dmp-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dmp-modal {
+  background: white;
+  border-radius: 24px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.dmp-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dmp-modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e2d3d;
+  margin: 0;
+}
+
+.dmp-modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: color 0.15s;
+  line-height: 1;
+}
+
+.dmp-modal-close:hover {
+  color: #ef4444;
+}
+
+.dmp-modal-body {
+  padding: 20px 24px 28px;
+}
+
+.dmp-modal-body p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.dmp-modal-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.15s;
+  box-sizing: border-box;
+}
+
+.dmp-modal-input:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+}
+
+.dmp-modal-error {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  margin-top: 12px;
+  border-left: 3px solid #dc2626;
+}
+
+.dmp-modal-submit {
+  width: 100%;
+  background: #1e2d3d;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+
+.dmp-modal-submit:hover {
+  background: #2c3e50;
+}
+
+.dmp-modal-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

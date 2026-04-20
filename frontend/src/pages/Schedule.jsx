@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAllRoutes, useScheduleData } from '../hooks/useScheduleData';
 import Navbar from '../components/Navbar'; 
+import heroImage from '../assets/herohome.png'; 
 import '../css/Schedule.css'; 
 
 function SchedulePage() {
