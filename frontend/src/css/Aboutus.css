@@ -1,242 +1,213 @@
-/* Import Figtree from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap');
 
-/* Setup Basement Grotesque */
 @font-face {
   font-family: 'Basement Grotesque';
-  src: url('../assets/fonts/BasementGrotesque-Black.woff2') format('woff2'); /* Adjust path as needed */
+  src: url('../assets/fonts/BasementGrotesque-Black.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 
-/* Reset and Global Font */
-* {
+.about-root {
+  font-family: 'Figtree', sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-body {
-  font-family: 'Figtree', sans-serif; /* Secondary font for the root [cite: 20] */
-  background-color: #f8f9fa;
-  color: #333;
-  line-height: 1.6;
-}
-
-.about-page {
-  width: 100%;
-  background-color: #ffffff;
-}
-
-.container {
-  width: 100%;
-  max-width: 1600px; 
-  margin: 0 auto;
-  padding: 0 5%; 
-}
-
-/* Color Variables */
-:root {
-  --navy-blue: #1A2B3C;
-  --yellow-gold: #F1C40F;
-  --text-dark: #1a1a1a;
-  --text-gray: #4a4a4a;
-  --card-bg: #1A2B3C;
-}
-
-/* === Banner Section === */
-.banner-section {
-  width: 100%;
-  background: linear-gradient(rgba(26, 43, 60, 0.80), rgba(26, 43, 60, 0.80));
-  background-size: cover;
-  background-position: center;
-  padding: 8rem 2rem; 
+/* HERO SECTION SPECIFICS */
+.about-hero {
+  background: linear-gradient(rgba(26, 43, 60, 0.80), rgba(26, 43, 60, 0.80)), 
+              url('../assets/herohome.png') center/cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  min-height: 250px;
+  padding: 5px 40px;
 }
 
-.banner-title {
+.about-hero-title {
+  color: #F1C40F;
   font-family: 'Basement Grotesque', sans-serif;
-  color: var(--yellow-gold);
-  font-size: 80px; /* Aligned with .landing-hero.desktop .landing-hero-title */
   font-weight: 900;
+  font-size: 80px;
+  margin: 0;
   letter-spacing: -1px;
   text-transform: uppercase;
   line-height: 1.0;
 }
 
-/* === Intro Section === */
-.intro-section {
+.about-feat-section {
+  background-color: #ebebeb;
   text-align: center;
-  padding-top: 5rem;
-  padding-bottom: 4rem;
+  padding: 60px 40px;
 }
 
-.intro-heading {
+.about-feat-h1 {
   font-family: 'Basement Grotesque', sans-serif;
-  font-size: 32px; /* Aligned with .landing-feat-h1 desktop */
+  font-size: 45px;
   font-weight: 900;
-  margin-bottom: 2rem;
+  color: #1A2B3C;
+  margin: 0;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.text-dark { color: var(--navy-blue); }
-.text-yellow { color: var(--yellow-gold); }
-
-.intro-text p {
-  color: var(--text-gray);
-  margin-bottom: 1.5rem;
-  font-size: 19px; /* Aligned with .landing-hero.desktop .landing-hero-sub */
-  max-width: 1100px; 
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.6;
-}
-
-/* === Mission & Vision === */
-.mission-vision-section {
-  display: flex;
-  gap: 3rem;
-  padding-bottom: 6rem;
-}
-
-.mv-card {
-  flex: 1;
-  background-color: var(--card-bg);
-  border-radius: 12px; /* Uniform with .landing-card */
-  padding: 3.5rem 3rem;
-  text-align: center;
-  color: white;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease;
-}
-
-.mv-card:hover { transform: translateY(-6px); }
-
-.mv-card h3 {
+.about-feat-h2 {
   font-family: 'Basement Grotesque', sans-serif;
-  color: var(--yellow-gold);
-  font-size: 24px; /* Aligned with .landing-feat-h1 */
-  margin-bottom: 1.5rem;
-  text-transform: uppercase;
-}
-
-.mv-card p {
-  font-family: 'Figtree', sans-serif;
-  font-size: 15px; /* Aligned with .landing-feat-desc */
-  line-height: 1.6;
-  color: #cbd5e0;
-}
-
-/* === What We Do Section === */
-.what-we-do-wrapper {
-  width: 100%; 
-  background-color: var(--yellow-gold);
-  padding: 6rem 0;
-  margin-bottom: 6rem;
-}
-
-.what-we-do-main-title {
-  text-align: center;
-  font-family: 'Basement Grotesque', sans-serif;
-  color: var(--navy-blue);
-  font-size: 32px;
+  font-size: 45px;
   font-weight: 900;
-  margin-bottom: 3.5rem;
+  color: #F1C40F;
+  margin: 0 0 12px;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.what-we-do-content {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  gap: 4rem;
-  max-width: 1200px;
-  margin: 0 auto;
+.about-feat-desc {
+  color: #555;
+  font-size: 18px;
+  max-width: 700px;
+  margin: 0 auto 36px;
+  line-height: 1.5;
 }
 
-.wwd-left p, .wwd-right ul, .support-heading {
-  font-family: 'Figtree', sans-serif;
-  color: var(--navy-blue);
-  font-weight: 600;
-  font-size: 19px;
-  line-height: 1.6;
+.about-grid-container {
+  padding: 80px 40px;
+  background-color: #fff;
 }
 
-.wwd-divider {
-  width: 3px;
-  background-color: var(--navy-blue);
-}
-
-/* === The Creators Section === */
-.creators-section {
-  text-align: center;
-  padding-bottom: 6rem;
-}
-
-.creators-title {
-  font-family: 'Basement Grotesque', sans-serif;
-  color: var(--navy-blue);
-  font-size: 32px;
-  font-weight: 900;
-  margin-bottom: 3.5rem;
-  text-transform: uppercase;
-}
-
-.creators-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
   max-width: 1000px;
   margin: 0 auto;
 }
 
-.creator-row-card {
+.about-card {
+  background-color: #1A2B3C;
+  border-radius: 12px;
+  padding: 15px 24px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.about-card:hover { transform: translateY(-6px); }
+
+.about-card-title {
+  font-family: 'Basement Grotesque', sans-serif;
+  color: #F1C40F;
+  font-weight: 900;
+  font-size: 40px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.about-card-desc {
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1.4;
+  margin: 0 auto 36px;
+}
+
+.about-wwd-wrapper {
+  background-color: #F1C40F;
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.about-wwd-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 40px auto 0;
+}
+
+.about-wwd-text, .about-wwd-list {
+  flex: 1;
+  font-weight: 500;
+  font-size: 25px;
+  color: #1A2B3C;
+}
+
+.about-wwd-divider {
+  width: 4px;
+  height: 100px;
+  background-color: #1A2B3C;
+}
+
+.about-wwd-list {
+  text-align: left;
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+/* CREATORS LIST SPECIFICS */
+.about-creators-wrapper {
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.about-creators-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+  margin: 40px auto 0;
+}
+
+.about-creator-row {
   display: flex;
   align-items: center;
-  background: linear-gradient(to right, #1A2B3C 45%, rgba(26, 43, 60, 0.1) 100%), url('../assets/herohome.png');
-  background-size: cover;
-  border-radius: 12px;
-  padding: 1.5rem 3rem;
-  text-align: left;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Modern "pop" transition [cite: 49] */
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  background: linear-gradient(to right, #1A2B3C 60%, rgba(26, 43, 60, 0.50) 100%), 
+              url('../assets/herohome.png') center/cover;
+  border-radius: 16px;
+  padding: 20px 40px;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.creator-row-card:hover { transform: scale(1.03); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+.about-creator-row:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+}
 
-.creator-avatar img {
-  width: 90px;
-  height: 90px;
+.about-creator-avatar img {
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
+  border: 3px solid #F1C40F;
   object-fit: cover;
-  border: 3px solid #ffffff;
 }
 
-.creator-info { margin-left: 2.5rem; }
+.about-creator-info {
+  margin-left: 30px;
+  text-align: left;
+}
 
-.creator-info h4 {
+.about-creator-name {
   font-family: 'Basement Grotesque', sans-serif;
-  color: var(--yellow-gold);
-  font-size: 18px; /* Aligned with .landing-card-title */
-  text-transform: uppercase;
-  margin-bottom: 4px;
+  color: #F1C40F;
+  font-weight: 900;
+  font-size: 25px;
+  margin-bottom: 0px;
 }
 
-.creator-info p {
-  font-family: 'Figtree', sans-serif;
+.about-creator-desc {
   color: #cbd5e0;
-  font-size: 14px;
+  font-size: 18px;
+  margin-top: 0px;
 }
 
-/* === Responsive Design === */
+/* RESPONSIVE FIXES */
 @media (max-width: 800px) {
-  .banner-title { font-size: 52px; }
-  .intro-heading, .what-we-do-main-title, .creators-title { font-size: 24px; }
-  .intro-text p { font-size: 16px; }
-  .mission-vision-section { flex-direction: column; }
-  .what-we-do-content { flex-direction: column; align-items: center; }
-  .wwd-divider { width: 80%; height: 3px; margin: 1rem auto; }
-  .creator-row-card { flex-direction: column; text-align: center; padding: 2rem; }
-  .creator-info { margin-left: 0; margin-top: 1.5rem; }
+  .about-hero-title { font-size: 52px; }
+  .about-feat-h1, .about-feat-h2 { font-size: 36px; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-wwd-flex { flex-direction: column; gap: 20px; }
+  .about-wwd-divider { width: 80%; height: 4px; }
+  .about-creator-row { flex-direction: column; text-align: center; background: linear-gradient(to top, #1A2B3C 45%, rgba(26, 43, 60, 0.50) 100%), url('../assets/herohome.png') center/cover;}
+  .about-creator-info { margin-left: 0; margin-top: 5px; text-align: center; }
 }

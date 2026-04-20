@@ -1,8 +1,8 @@
 import React from 'react';
-import LandingPage from './pages/LandingPage';
+import About from './pages/Aboutus';
 
 function App() {
-  return <LandingPage/>
+  return <About/>
 }
 
 export default App;
