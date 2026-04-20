@@ -34,6 +34,8 @@ console.log('✅ [app.js] Routes loaded');
 const app = express();
 console.log('✅ [app.js] Express app created');
 
+app.set('trust proxy', 1);  // Trust the first proxy
+
 // Security middleware
 app.use(helmet());
 
@@ -43,6 +45,7 @@ const limiter = rateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
   message: { error: 'Too many requests, please try again later.' },
   skipSuccessfulRequests: true, // Don't count successful requests against limit
+  trustProxy: true,
 });
 app.use('/api/', limiter);
 

@@ -5,9 +5,10 @@ const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
-const testRoutes = require('./routes/test.routes');
-
 const app = express();
+
+// ⭐ ADD THIS LINE
+app.set('trust proxy', 1);
 
 app.use(helmet());
 app.use(cors());
@@ -17,14 +18,12 @@ app.use(express.json());
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100,
+    trustProxy: true,  // ⭐ Also add this
 });
 app.use('/api/', limiter);
 
-// Use test routes
-app.use('/api', testRoutes);
-
 app.get('/', (req, res) => {
-    res.json({ message: 'Routes loaded!' });
+    res.json({ message: 'Rate limiting working!' });
 });
 
 app.get('/health', (req, res) => {
