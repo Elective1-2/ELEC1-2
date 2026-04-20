@@ -7,8 +7,13 @@ console.log('📦 [2] Loading app.js...');
 const app = require('./app');
 console.log('✅ [3] app.js loaded successfully');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 console.log(`🔌 [4] Attempting to listen on port ${PORT}`);
+
+if (!PORT) {
+    console.error("❌ FATAL ERROR: process.env.PORT is not defined. The server cannot start.");
+    process.exit(1);
+}
 
 const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ [5] Server is running on port ${PORT}`);
