@@ -28,6 +28,11 @@ console.log(`  - DB_USER: ${process.env.DB_USER ? 'SET ✓' : 'NOT SET ✗'}`);
 console.log(`  - DB_NAME: ${process.env.DB_NAME ? 'SET ✓' : 'NOT SET ✗'}`);
 console.log(`  - PORT: ${process.env.PORT ? process.env.PORT : 'NOT SET BY HOSTINGER - THIS WILL CAUSE A CRASH'}`);
 
+
+app.use((req, res, next) => {
+    console.log(`🔍 Request: ${req.method} ${req.url}`);
+    next();
+});
 const router = require('./routes/index.routes');
 console.log('✅ [app.js] Routes loaded');
 
