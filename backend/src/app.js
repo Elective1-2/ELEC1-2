@@ -92,7 +92,7 @@ app.get('/debug/env', (req, res) => {
 // 9. Frontend serving (production only)
 if (process.env.NODE_ENV === 'production') {
     // KEEP THIS EXACT PATH - it's the correct Hostinger build output location
-    const frontendBuildPath = path.join(__dirname, '/home/u100740599/domains/m2b-p2p.com/public_html/.builds/source/repository/frontend/dist');
+       const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
 
     
     const fs = require('fs');
