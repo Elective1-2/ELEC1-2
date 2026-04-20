@@ -1,12 +1,8 @@
 import React from 'react';
-import Passenger from './pages/Passenger';
-import Tracking from './pages/Tracking';
-import Analytics from './pages/analytics';
-import Management from './pages/management';
-
+import About from './pages/Aboutus';
 
 function App() {
-  return <Analytics />; 
+  return <About/>
 }
 
 export default App;
