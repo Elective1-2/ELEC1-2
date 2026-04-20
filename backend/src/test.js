@@ -5,10 +5,9 @@ const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
-const app = express();
+const testRoutes = require('./routes/test.routes');
 
-console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('DB_HOST:', process.env.DB_HOST ? 'SET' : 'NOT SET');
+const app = express();
 
 app.use(helmet());
 app.use(cors());
@@ -21,12 +20,15 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
+// Use test routes
+app.use('/api', testRoutes);
+
 app.get('/', (req, res) => {
-    res.json({ message: 'Environment variables loaded!' });
+    res.json({ message: 'Routes loaded!' });
 });
 
 app.get('/health', (req, res) => {
-    res.json({ status: 'ok', env: process.env.NODE_ENV });
+    res.json({ status: 'ok' });
 });
 
 const PORT = process.env.PORT || 3000;
