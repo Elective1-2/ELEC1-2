@@ -91,33 +91,35 @@ app.get('/debug/env', (req, res) => {
 
 // 9. Frontend serving (production only)
 if (process.env.NODE_ENV === 'production') {
-    // KEEP THIS EXACT PATH - it's the correct Hostinger build output location
-       const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
-
+    const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
     
     const fs = require('fs');
-    console.log(`📁 Checking frontend path: ${frontendBuildPath}`);
+    console.log(`📁 Frontend path: ${frontendBuildPath}`);
     console.log(`📁 Path exists: ${fs.existsSync(frontendBuildPath)}`);
     
     if (fs.existsSync(frontendBuildPath)) {
-        const files = fs.readdirSync(frontendBuildPath);
-        console.log(`📁 Files in dist: ${files.join(', ')}`);
-        
         // Serve static files
         app.use(express.static(frontendBuildPath));
         
-        // Handle React Router - FIXED: Named wildcard parameter
+        // Handle client-side routing
         app.get('/*splat', (req, res, next) => {
-            // Don't intercept API or health check routes
+            // Skip API and health routes
             if (req.path.startsWith('/api/') || req.path === '/health') {
                 return next();
             }
+            
+            // Skip asset requests - let them 404 properly
+            if (/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot|json)$/i.test(req.path)) {
+                return res.status(404).send('Not found');
+            }
+            
+            // Serve index.html for all other routes
             res.sendFile(path.join(frontendBuildPath, 'index.html'));
         });
         
-        console.log('✅ Static file serving configured');
+        console.log('✅ Static serving configured');
     } else {
-        console.error('❌ Frontend build directory not found at:', frontendBuildPath);
+        console.error('❌ Frontend directory not found:', frontendBuildPath);
     }
 }
 
