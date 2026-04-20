@@ -1,11 +1,7 @@
 console.log('🚀 [app.js] Starting initialization...');
 
 const express = require('express');
-// CATCH EVERY SINGLE REQUEST - TOP OF MIDDLEWARE STACK
-app.use((req, res, next) => {
-    console.log(`🔥 [EXPRESS ENTRY] ${req.method} ${req.url}`);
-    next();
-});
+
 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -22,6 +18,11 @@ console.log(`  - DB_NAME: ${process.env.DB_NAME ? 'SET ✓' : 'NOT SET ✗'}`);
 
 const app = express();
 console.log('✅ [app.js] Express app created');
+// CATCH EVERY SINGLE REQUEST - TOP OF MIDDLEWARE STACK
+app.use((req, res, next) => {
+    console.log(`🔥 [EXPRESS ENTRY] ${req.method} ${req.url}`);
+    next();
+});
 
 // 1. Trust proxy (MUST be first)
 app.set('trust proxy', 1);
