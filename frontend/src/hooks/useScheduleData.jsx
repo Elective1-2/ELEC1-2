@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL;
+// No API_URL variable needed - use relative paths everywhere
+// Development: Vite proxy handles /api -> http://localhost:5000
+// Production: Same-origin requests to /api work natively
 
 export function useScheduleData(routeId, dayType = 'weekday') {
   const [schedule, setSchedule] = useState(null);
@@ -17,7 +19,8 @@ export function useScheduleData(routeId, dayType = 'weekday') {
     setError(null);
 
     try {
-      const response = await fetch(`${API_URL}/schedules/${routeId}?day_type=${dayType}`);
+      // Relative path - works in dev (via Vite proxy) and prod (same origin)
+      const response = await fetch(`/api/schedules/${routeId}?day_type=${dayType}`);
       const data = await response.json();
 
       if (!response.ok) {
@@ -26,6 +29,7 @@ export function useScheduleData(routeId, dayType = 'weekday') {
 
       setSchedule(data);
     } catch (err) {
+      console.error('Schedule fetch error:', err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -47,15 +51,17 @@ export function useAllRoutes() {
   useEffect(() => {
     const fetchRoutes = async () => {
       try {
-        const response = await fetch(`${API_URL}/schedules/routes`);
+        // Relative path - works in dev and prod
+        const response = await fetch('/api/schedules/routes');
         const data = await response.json();
 
         if (!response.ok) {
           throw new Error(data.error || 'Failed to fetch routes');
         }
 
-        setRoutes(data.routes);
+        setRoutes(data.routes || []);
       } catch (err) {
+        console.error('Routes fetch error:', err);
         setError(err.message);
       } finally {
         setLoading(false);
