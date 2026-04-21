@@ -91,13 +91,25 @@ app.get('/debug/env', (req, res) => {
 
 // 9. Frontend serving (production only)
 if (process.env.NODE_ENV === 'production') {
-    const frontendBuildPath = path.join(__dirname, '../../frontend/dist');
-    
     const fs = require('fs');
+    const frontendPathCandidates = [
+        process.env.FRONTEND_BUILD_PATH,
+        path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist'),
+        path.join(__dirname, '../../frontend/dist'),
+        path.join(process.cwd(), 'frontend/dist')
+    ].filter(Boolean);
+
+    const frontendBuildPath = frontendPathCandidates.find((candidatePath) => fs.existsSync(candidatePath));
+
+    if (!frontendBuildPath) {
+        console.error('❌ Frontend directory not found. Checked paths:');
+        frontendPathCandidates.forEach((candidatePath) => console.error(`  - ${candidatePath}`));
+    }
+
     console.log(`📁 Frontend path: ${frontendBuildPath}`);
-    console.log(`📁 Path exists: ${fs.existsSync(frontendBuildPath)}`);
+    console.log(`📁 Path exists: ${!!frontendBuildPath}`);
     
-    if (fs.existsSync(frontendBuildPath)) {
+    if (frontendBuildPath) {
         // Serve static files
         app.use(express.static(frontendBuildPath, {
             setHeaders: (res, filePath) => {
@@ -124,8 +136,6 @@ if (process.env.NODE_ENV === 'production') {
         });
         
         console.log('✅ Static serving configured');
-    } else {
-        console.error('❌ Frontend directory not found:', frontendBuildPath);
     }
 }
 
