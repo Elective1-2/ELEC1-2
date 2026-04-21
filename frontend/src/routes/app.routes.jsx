@@ -1,9 +1,8 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';  // ← Removed AuthProvider
-
+import ProtectedSignupRoute from '../hooks/ProtectedSignupRoute';
 //? Hooks
-import SecretCodeSignup from '../hooks/SecretCodeSignup';
 
 //? Pages
 import Aboutus from '../pages/Aboutus';
@@ -45,7 +44,7 @@ function AppRoutes() {
     <Routes>
       {/* Logins */}
       <Route path="/login" element={<Login />} />
-      <Route path="/signup-secret" element={<SecretCodeSignup />} />
+      <Route path="/signup-secret" element={<ProtectedSignupRoute />} />
 
       {/* Infos */}
       <Route path='/about-us' element={<Aboutus />} />

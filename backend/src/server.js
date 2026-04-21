@@ -1,8 +1,4 @@
-const app = require('./app');
-
-const PORT = process.env.PORT || 5000;
-
-onsole.log('🚀 [1] Starting server.js...');
+console.log('🚀 [1] Starting server.js...');
 console.log(`📅 Time: ${new Date().toISOString()}`);
 console.log(`📦 Node version: ${process.version}`);
 console.log(`🔧 NODE_ENV: ${process.env.NODE_ENV || 'not set'}`);

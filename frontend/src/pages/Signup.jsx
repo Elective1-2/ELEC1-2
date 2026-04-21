@@ -5,6 +5,7 @@ import "../css/Signup.css";
 function SecretCodeSignup() {
   const navigate = useNavigate();
   const location = useLocation();
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showSecretCode, setShowSecretCode] = useState(false);
@@ -13,13 +14,15 @@ function SecretCodeSignup() {
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-  // Extract Google data from URL
+  // Extract Google data from URL params
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const email = params.get("email");
     const googleSub = params.get("google_sub");
     const name = params.get("name");
     const verified = params.get("verified") === "true";
+
+    console.log('URL Params:', { email, googleSub, name, verified });
 
     if (email && googleSub) {
       setGoogleData({
@@ -29,7 +32,7 @@ function SecretCodeSignup() {
         isEmailVerified: verified,
       });
     } else {
-      // No Google data, redirect to login
+      console.error('Missing required Google data, redirecting to login');
       navigate("/login");
     }
   }, [location, navigate]);
@@ -52,6 +55,8 @@ function SecretCodeSignup() {
     setError("");
 
     try {
+      console.log('Sending verification request...');
+      
       const res = await fetch(`${API_URL}/auth/verify-secret`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -62,11 +67,14 @@ function SecretCodeSignup() {
       });
 
       const data = await res.json();
+      console.log('Backend response:', { status: res.status, data });
 
       if (res.ok && data.success) {
-        // Account created successfully
+        // Account created successfully!
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
+        
+        console.log('Signup successful! Redirecting...');
         
         // Redirect based on role
         if (data.user.role === 'admin') {
@@ -87,7 +95,7 @@ function SecretCodeSignup() {
     }
   };
 
-  // Show loading while checking Google data
+  // Loading state
   if (!googleData) {
     return (
       <div className="signup-root">
@@ -112,6 +120,9 @@ function SecretCodeSignup() {
           <p className="signup-instruction">
             Please enter the administrator-provided secret code to complete your registration.
           </p>
+          <p className="signup-hint" style={{ fontSize: '12px', color: '#666', marginBottom: '20px' }}>
+            💡 Default secret code: <code style={{ background: '#f0f0f0', padding: '2px 6px', borderRadius: '4px' }}>M2B2024</code>
+          </p>
 
           {error && (
             <div className="signup-error">
@@ -134,6 +145,15 @@ function SecretCodeSignup() {
                 type="button"
                 className="signup-eye-btn" 
                 onClick={() => setShowSecretCode(!showSecretCode)}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
               >
                 {showSecretCode ? "🙈" : "👁"}
               </button>
