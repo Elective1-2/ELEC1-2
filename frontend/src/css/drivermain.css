@@ -1,0 +1,553 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.dm-root {
+  min-height: 100vh;
+  background: #f1f5f9;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── NAVBAR ── */
+.dm-nav {
+  background: #1e2d3d;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 64px;
+  flex-shrink: 0;
+  z-index: 100;
+  overflow: visible;
+}
+
+.dm-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dm-logo-seg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 16px;
+  color: #fff;
+}
+/* FIX: exact colors from screenshot */
+.dm-logo-seg.m   { background: #2c3e55; color: #fff; }
+.dm-logo-seg.two { background: #4aafd5; color: #fff; }
+.dm-logo-seg.b   { background: #e8a020; color: #fff; }
+
+/* nav right — white container with black text and icons */
+.dm-nav-right {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: visible;
+}
+
+.dm-nav-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+}
+
+.dm-nav-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.25;
+}
+
+/* FIX: black/dark text for username */
+.dm-nav-username {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.dm-nav-role {
+  font-size: 10px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.dm-nav-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dm-nav-avatar svg {
+  width: 26px;
+  height: 26px;
+  color: #111827;
+}
+
+/* FIX: vertical divider between user and bell */
+.dm-nav-divider {
+  width: 1px;
+  height: 36px;
+  background: #e5e7eb;
+  flex-shrink: 0;
+}
+
+.dm-nav-bell svg {
+  width: 22px;
+  height: 22px;
+  color: #111827;
+}
+
+.dm-bell-dot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+/* ── BODY ── */
+.dm-body {
+  flex: 1;
+  padding: 28px 28px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── WELCOME CARD ── */
+.dm-welcome-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.dm-welcome-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.15;
+}
+
+.dm-welcome-hub {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.dm-hub-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  flex-shrink: 0;
+}
+
+.dm-hub-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.dm-hub-text span {
+  font-weight: 700;
+  color: #374151;
+}
+
+/* Clock widget */
+.dm-clock-widget {
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 10px 16px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.dm-clock-time {
+  font-size: 20px;
+  font-weight: 900;
+  color: #111827;
+  line-height: 1.1;
+}
+
+.dm-clock-date {
+  font-size: 11px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-top: 1px;
+}
+
+/* ── ASSIGNED BUSES SECTION ── */
+.dm-section {
+  margin-top: 28px;
+}
+
+.dm-section-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.dm-bus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── BUS ROW ── */
+.dm-bus-row {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 18px 20px;
+  gap: 12px;
+}
+
+.dm-bus-number {
+  font-size: 20px;
+  font-weight: 900;
+  color: #111827;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 100px;
+}
+
+/* FIX: route section takes remaining space, items inline */
+.dm-bus-route {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+/* FIX: each route item is inline label+value side by side */
+.dm-route-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 24px;
+}
+
+.dm-route-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: #374151;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.dm-route-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* FIX: meta section aligned right */
+.dm-bus-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* FIX: departure and status both have label on top, value below */
+.dm-departure {
+  text-align: center;
+}
+
+.dm-departure-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #9ca3af;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.dm-departure-time {
+  font-size: 17px;
+  font-weight: 800;
+  color: #111827;
+}
+
+
+.dm-status-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.dm-status-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #9ca3af;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dm-status-pill {
+  background: #dcfce7;
+  color: #16a34a;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.dm-start-btn {
+  background: #1e2d3d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 11px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.dm-start-btn:hover { background: #2d4156; }
+
+/* ════════════════════════════
+   TABLET  (600–1023px)
+════════════════════════════ */
+@media (max-width: 1023px) {
+  .dm-nav         { padding: 0 18px; height: 58px; }
+  .dm-logo-seg    { width: 34px; height: 34px; font-size: 14px; }
+  .dm-body        { padding: 20px 18px 32px; }
+  .dm-welcome-card { padding: 18px 20px; }
+  .dm-welcome-name { font-size: 22px; }
+
+  .dm-bus-row {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .dm-bus-number  { font-size: 18px; min-width: 80px; }
+
+  .dm-bus-meta {
+    gap: 14px;
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-end;
+  }
+}
+
+/* ════════════════════════════
+   MOBILE  (< 600px)
+════════════════════════════ */
+@media (max-width: 599px) {
+  .dm-nav         { padding: 0 14px; height: 52px; }
+  .dm-logo-seg    { width: 28px; height: 28px; font-size: 11px; }
+
+  .dm-nav-user    { padding: 6px 10px; gap: 8px; }
+  .dm-nav-username { font-size: 11px; }
+  .dm-nav-role    { font-size: 9px; }
+  .dm-nav-avatar  { width: 26px; height: 26px; }
+  .dm-nav-bell    { width: 40px; min-height: 40px; }
+
+  .dm-body        { padding: 14px 14px 28px; }
+
+  .dm-welcome-card {
+    padding: 14px 16px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dm-welcome-name { font-size: 18px; }
+  .dm-hub-text     { font-size: 12px; }
+
+  .dm-clock-widget { align-self: flex-end; padding: 7px 12px; }
+  .dm-clock-time   { font-size: 16px; }
+  .dm-clock-date   { font-size: 10px; }
+
+  .dm-section      { margin-top: 20px; }
+  .dm-section-label { font-size: 11px; }
+
+  .dm-bus-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .dm-bus-number  { font-size: 17px; min-width: unset; }
+
+  .dm-bus-route {
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .dm-route-item  { margin-right: 12px; }
+
+  .dm-bus-meta {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .dm-start-btn {
+    width: 100%;
+    text-align: center;
+    padding: 11px;
+    font-size: 13px;
+  }
+}
+
+/* ── NOTIFICATION DROPDOWN ── */
+.dm-notif-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+.dm-nav-bell {
+  position: relative;
+  width: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0 14px;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.dm-notif-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 320px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  border: 1px solid #e5e7eb;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.dm-notif-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.dm-notif-header span {
+  font-size: 14px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.dm-notif-mark-all {
+  font-size: 11px;
+  font-weight: 600;
+  color: #3b82f6;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  padding: 0;
+}
+
+.dm-notif-mark-all:hover { text-decoration: underline; }
+
+.dm-notif-list {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.dm-notif-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.dm-notif-item:last-child { border-bottom: none; }
+
+.dm-notif-item:hover { background: #f9fafb; }
+
+.dm-notif-item.unread { background: #eff6ff; }
+
+.dm-notif-item.unread:hover { background: #dbeafe; }
+
+.dm-notif-content { flex: 1; }
+
+.dm-notif-message {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+  line-height: 1.4;
+}
+
+.dm-notif-time {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 3px;
+}
+
+.dm-notif-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3b82f6;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.dm-notif-empty {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #9ca3af;
+}

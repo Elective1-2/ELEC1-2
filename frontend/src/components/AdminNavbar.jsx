@@ -1,35 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import "../css/AdminNavbar.css";
 
-function AdminNavbar({ 
-  showNotifications, 
-  setShowNotifications, 
-  notifications, 
-  setNotifications,
-  unreadCount 
-}) {
+function AdminNavbar() {
   const [searchValue, setSearchValue] = useState("");
-  const notifRef = useRef(null);
-
-  const markAsRead = (id) => {
-    setNotifications(notifications.map(n => 
-      n.id === id ? { ...n, read: true } : n
-    ));
-  };
-
-  const markAllAsRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, read: true })));
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (notifRef.current && !notifRef.current.contains(event.target)) {
-        setShowNotifications(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [setShowNotifications]);
 
   const handleSearchClear = () => {
     setSearchValue("");
@@ -64,60 +37,6 @@ function AdminNavbar({
             <circle cx="8.5" cy="6" r="3.2" fill="#9ca3af"/>
             <path d="M1.5 16c0-3.5 3.1-5.5 7-5.5s7 2 7 5.5" stroke="#9ca3af" strokeWidth="1.4" fill="none" strokeLinecap="round"/>
           </svg>
-        </div>
-        
-        <div className="admin-divider" />
-        
-        <div ref={notifRef} className="admin-notif-container">
-          <button 
-            className="admin-notif-btn" 
-            onClick={(e) => { 
-              e.stopPropagation(); 
-              setShowNotifications(!showNotifications); 
-            }}
-          >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 2a6 6 0 00-6 6v3.5L2.5 14h15L16 11.5V8a6 6 0 00-6-6z" fill="#374151"/>
-              <path d="M8 15.5a2 2 0 004 0" fill="#374151"/>
-            </svg>
-            {unreadCount > 0 && (
-              <span className="admin-notif-badge">
-                {unreadCount > 9 ? "9+" : unreadCount}
-              </span>
-            )}
-          </button>
-
-          {showNotifications && (
-            <div className="admin-notif-dropdown">
-              <div className="admin-notif-header">
-                <span>Notifications</span>
-                {unreadCount > 0 && (
-                  <button className="admin-mark-all-btn" onClick={markAllAsRead}>
-                    Mark all as read
-                  </button>
-                )}
-              </div>
-              <div className="admin-notif-list">
-                {notifications.length === 0 ? (
-                  <div className="admin-empty-notif">No notifications</div>
-                ) : (
-                  notifications.map(notif => (
-                    <div 
-                      key={notif.id} 
-                      className={`admin-notif-item ${!notif.read ? "unread" : ""}`}
-                      onClick={() => markAsRead(notif.id)}
-                    >
-                      <div className="admin-notif-content">
-                        <div className="admin-notif-message">{notif.message}</div>
-                        <div className="admin-notif-time">{notif.time}</div>
-                      </div>
-                      {!notif.read && <div className="admin-notif-dot" />}
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>
