@@ -7,12 +7,32 @@ function Login() {
   const [backendStatus, setBackendStatus] = useState('checking');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [googleClientId, setGoogleClientId] = useState(import.meta.env.VITE_GOOGLE_CLIENT_ID || '');
   const navigate = useNavigate();
-  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   useEffect(() => {
     checkBackendHealth();
   }, []);
+
+  useEffect(() => {
+    const loadGoogleClientId = async () => {
+      if (googleClientId) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/public-config`);
+        if (!res.ok) return;
+
+        const data = await res.json();
+        if (data?.googleClientId) {
+          setGoogleClientId(data.googleClientId);
+        }
+      } catch (e) {
+        console.error('Failed to load Google client config:', e);
+      }
+    };
+
+    loadGoogleClientId();
+  }, [googleClientId]);
 
   const checkBackendHealth = async () => {
     try {
@@ -40,15 +60,17 @@ function Login() {
   }, []);
 
   useEffect(() => {
-    if (!GOOGLE_CLIENT_ID) {
+    if (!googleClientId) {
       setError('Google login is not configured. Missing VITE_GOOGLE_CLIENT_ID.');
       return;
     }
 
+    setError('');
+
     const initGoogle = () => {
       if (window.google) {
         window.google.accounts.id.initialize({
-          client_id: GOOGLE_CLIENT_ID,
+          client_id: googleClientId,
           callback: handleGoogleResponse,
         });
         window.google.accounts.id.renderButton(
@@ -62,7 +84,7 @@ function Login() {
     
     const timer = setTimeout(initGoogle, 500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [googleClientId]);
 
   const handleGoogleResponse = async (response) => {
     setLoading(true);
