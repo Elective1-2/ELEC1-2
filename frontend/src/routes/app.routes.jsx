@@ -56,9 +56,9 @@ function AppRoutes() {
       <Route 
         path='/tracking' 
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
+          // <ProtectedRoute allowedRoles={['admin']}>
             <Tracking />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         } 
       />
 
