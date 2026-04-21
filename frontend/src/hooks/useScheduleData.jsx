@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-// ✅ FIXED: Environment-aware base URL
-const API_BASE = "https://www.m2b-p2p.com/api";
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 export function useScheduleData(routeId, dayType = 'weekday') {
   const [schedule, setSchedule] = useState(null);
@@ -18,8 +17,7 @@ export function useScheduleData(routeId, dayType = 'weekday') {
     setError(null);
 
     try {
-      // ✅ UPDATED: Uses API_BASE
-      const response = await fetch(`${API_BASE}/api/schedules/${routeId}?day_type=${dayType}`);
+      const response = await fetch(`${API_BASE}/schedules/${routeId}?day_type=${dayType}`);
       const data = await response.json();
 
       if (!response.ok) {
@@ -49,8 +47,7 @@ export function useAllRoutes() {
   useEffect(() => {
     const fetchRoutes = async () => {
       try {
-        // ✅ UPDATED: Uses API_BASE
-        const response = await fetch(`${API_BASE}/api/schedules/routes`);
+        const response = await fetch(`${API_BASE}/schedules/routes`);
         const data = await response.json();
 
         if (!response.ok) {
