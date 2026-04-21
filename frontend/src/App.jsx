@@ -1,19 +1,21 @@
 import React from 'react';
-import Schedule from './pages/Schedule';
-import LandingPage from './pages/LandingPage';
-import Aboutus from './pages/Aboutus';
-import Login from './pages/login';
-import M2BDashboard from './pages/dashboard';
-import Tracking from './pages/Tracking';
-import BarChart from './pages/analytics';
-import Management from './pages/management';
-import tripData from './pages/passenger';
-import DriverMain from './pages/drivermain';
-import DriverMap from './pages/drivermap';
-
+import { BrowserRouter } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { AuthProvider } from './context/AuthContext';
+import AppRoutes from './routes/app.routes';
 
 function App() {
-  return <DriverMain />
+  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  return (
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <BrowserRouter>
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
+      </BrowserRouter>
+    </GoogleOAuthProvider>
+  );
 }
 
 export default App;

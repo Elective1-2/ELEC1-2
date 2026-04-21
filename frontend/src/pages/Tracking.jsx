@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
 import MobileHeader from "../components/MobileHeader";
 import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 import "../css/tracking.css";
 
 // ── Bus data ──────────────────────────────────────────────────────────────
@@ -144,10 +145,8 @@ function Tracking() {
 
           </div>{/* /track-content */}
 
-          {/* Footer */}
-          <div className="track-footer">
-            2026, M2B. Developed by BSCpE Students, Bulacan State University.
-          </div>
+          {/* Footer - Using reusable Footer component */}
+          <Footer />
         </div>{/* /track-main */}
       </div>{/* /track-body */}
     </div>

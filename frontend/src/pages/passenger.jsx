@@ -1,279 +1,387 @@
-import React, { useState } from 'react';
-import '../css/passenger.css';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+import { useTripData } from "../hooks/useTripData";
+import LiveMap from "../components/LiveMap";
+import BusNumberModal from "../components/BusNumberModal";
+import "../css/passenger.css";
 
-const App = () => {
-  const [activeTab, setActiveTab] = useState('details');
-  const [selectedStop, setSelectedStop] = useState(null);
+// ! TEST
+// import SimpleMap from '../components/SimpleMap';
 
-  const tripData = {
-    busNumber: "101",
-    plateNumber: "GBC-0021",
-    origin: "Malolos",
-    destination: "Trinoma",
-    status: "On Time",
-    congestion: "Moderate",
-    departureTime: "10:15 AM",
-    arrivalTime: "11:15 AM",
-    driver: "Mario Santos",
-    stops: [
-      { name: "Shell of Asia", type: "stop", time: "10:15 AM" },
-      { name: "WalterMart Guiguinto", type: "stop", time: "10:25 AM" },
-      { name: "TABANG", type: "stop", time: "10:32 AM" },
-      { name: "ILANG ILANG", type: "stop", time: "10:38 AM" },
-      { name: "Guigu", type: "stop", time: "10:45 AM" },
-      { name: "KUSU SIRI", type: "stop", time: "10:52 AM" },
-      { name: "POBLACION", type: "stop", time: "11:00 AM" },
-      { name: "Trinoma", type: "destination", time: "11:15 AM" }
-    ]
-  };
+function LiveClock() {
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(t);
+  }, []);
 
-  const handleEmergencyCall = () => {
-    alert("Emergency call initiated to: 911");
-  };
-
-  const handleStopClick = (stop) => {
-    setSelectedStop(stop);
-  };
+  const timeStr = now.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const dateStr = now.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
-    <div className="app">
-      {/* Header Section */}
-      <header className="header">
-        <button className="menu-button">☰</button>
-        <h1 className="app-title">M2 B</h1>
-        <button className="profile-button">👤</button>
-      </header>
-
-      {/* Main Content */}
-      <main className="main-content">
-        {/* Active Trip Details Section */}
-        <details className="trip-details" open>
-          <summary className="details-summary">
-            <span className="summary-title">ACTIVE TRIP DETAILS</span>
-            <span className="summary-icon">▼</span>
-          </summary>
-          
-          <div className="details-content">
-            {/* Bus Info */}
-            <div className="bus-info">
-              <div className="bus-number-section">
-                <span className="bus-icon">🚌</span>
-                <span className="bus-number">{tripData.busNumber}</span>
-              </div>
-              <div className="plate-number">{tripData.plateNumber}</div>
-            </div>
-
-            {/* Route Info */}
-            <div className="route-info">
-              <div className="info-card">
-                <label>ORIGIN</label>
-                <span className="value">{tripData.origin}</span>
-              </div>
-              <div className="route-arrow">→</div>
-              <div className="info-card">
-                <label>DESTINATION</label>
-                <span className="value">{tripData.destination}</span>
-              </div>
-            </div>
-
-            {/* Status & Congestion */}
-            <div className="status-info">
-              <div className="info-card">
-                <label>STATUS</label>
-                <span className={`status-badge ${tripData.status.toLowerCase().replace(' ', '-')}`}>
-                  {tripData.status}
-                </span>
-              </div>
-              <div className="info-card">
-                <label>CONGESTION LEVEL</label>
-                <span className={`congestion-badge ${tripData.congestion.toLowerCase()}`}>
-                  {tripData.congestion}
-                </span>
-              </div>
-            </div>
-
-            {/* Time Info */}
-            <div className="time-info">
-              <div className="info-card">
-                <span className="time-icon">🕐</span>
-                <div>
-                  <label>DEPARTURE TIME</label>
-                  <span className="value">{tripData.departureTime}</span>
-                </div>
-              </div>
-              <div className="info-card">
-                <span className="time-icon">🏁</span>
-                <div>
-                  <label>EXPECTED ARRIVAL</label>
-                  <span className="value">{tripData.arrivalTime}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Driver Info */}
-            <div className="driver-info">
-              <span className="driver-icon">👨‍✈️</span>
-              <div>
-                <label>DRIVER</label>
-                <span className="driver-name">{tripData.driver}</span>
-              </div>
-            </div>
-
-            {/* Emergency Button */}
-            <button className="emergency-button" onClick={handleEmergencyCall}>
-              <span className="emergency-icon">📞</span>
-              Emergency Call
-            </button>
-          </div>
-        </details>
-
-        {/* Map Section */}
-        <div className="map-section">
-          <div className="map-header">
-            <h3>Route Map</h3>
-            <div className="map-controls">
-              <button className="map-control">📍</button>
-              <button className="map-control">🔍+</button>
-              <button className="map-control">🔍-</button>
-            </div>
-          </div>
-          
-          <div className="map-container">
-            {/* Route visualization */}
-            <div className="route-visualization">
-              <div className="route-line">
-                {tripData.stops.map((stop, index) => (
-                  <div 
-                    key={index} 
-                    className={`route-point ${stop.type === 'destination' ? 'destination' : ''}`}
-                    style={{ left: `${(index / (tripData.stops.length - 1)) * 100}%` }}
-                  >
-                    <div className="point-marker"></div>
-                    <div className="point-label">{stop.name}</div>
-                  </div>
-                ))}
-                <div className="bus-animation" style={{ left: '35%' }}>
-                  <span className="bus-marker">🚌</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Map placeholder with route path */}
-            <div className="map-placeholder">
-              <svg className="route-svg" viewBox="0 0 800 400">
-                {/* Background grid */}
-                <defs>
-                  <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e2e8f0" strokeWidth="0.5"/>
-                  </pattern>
-                </defs>
-                <rect width="800" height="400" fill="url(#grid)" />
-                
-                {/* Route path */}
-                <path 
-                  d="M 50 200 Q 150 150, 250 180 T 450 160 T 650 200 T 750 180" 
-                  fill="none" 
-                  stroke="#3b82f6" 
-                  strokeWidth="4"
-                  strokeDasharray="10 5"
-                />
-                
-                {/* Origin marker */}
-                <circle cx="50" cy="200" r="8" fill="#22c55e" stroke="white" strokeWidth="2"/>
-                <text x="40" y="180" fontSize="12" fill="#166534">🚌 Malolos</text>
-                
-                {/* Destination marker */}
-                <circle cx="750" cy="180" r="8" fill="#ef4444" stroke="white" strokeWidth="2"/>
-                <text x="710" y="165" fontSize="12" fill="#991b1b">🏁 Trinoma</text>
-                
-                {/* Stop markers */}
-                {[150, 250, 350, 450, 550, 650].map((x, i) => (
-                  <g key={i}>
-                    <circle cx={x} cy={i % 2 === 0 ? 180 : 200} r="4" fill="#64748b" stroke="white" strokeWidth="1.5"/>
-                    <text x={x - 20} y={i % 2 === 0 ? 170 : 215} fontSize="10" fill="#475569">
-                      {tripData.stops[i + 1]?.name.substring(0, 12)}
-                    </text>
-                  </g>
-                ))}
-                
-                {/* Bus icon */}
-                <g transform="translate(350, 190)">
-                  <rect x="-12" y="-10" width="24" height="20" rx="3" fill="#3b82f6" stroke="#1e40af" strokeWidth="1.5"/>
-                  <circle cx="-6" cy="12" r="4" fill="#1e293b"/>
-                  <circle cx="6" cy="12" r="4" fill="#1e293b"/>
-                  <text x="-3" y="4" fontSize="14" fill="white">🚌</text>
-                </g>
-              </svg>
-              
-              <div className="map-overlay">
-                <div className="map-message">
-                  <span className="map-icon">🗺️</span>
-                  <p>Interactive Map Integration</p>
-                  <small>Google Maps / Leaflet API ready</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Stops List Section */}
-        <div className="stops-section">
-          <div className="stops-header">
-            <h3>Stops & Waypoints</h3>
-            <span className="stop-count">{tripData.stops.length} stops</span>
-          </div>
-          
-          <div className="stops-list">
-            {tripData.stops.map((stop, index) => (
-              <div 
-                key={index} 
-                className={`stop-item ${stop.type === 'destination' ? 'destination-stop' : ''} ${selectedStop === stop ? 'selected' : ''}`}
-                onClick={() => handleStopClick(stop)}
-              >
-                <div className="stop-timeline">
-                  <div className={`stop-dot ${index === 0 ? 'origin' : stop.type === 'destination' ? 'destination' : ''}`}>
-                    {index === 0 && <span className="dot-icon">🚌</span>}
-                    {stop.type === 'destination' && <span className="dot-icon">🏁</span>}
-                  </div>
-                  {index < tripData.stops.length - 1 && <div className="stop-line"></div>}
-                </div>
-                
-                <div className="stop-content">
-                  <div className="stop-info">
-                    <span className="stop-name">{stop.name}</span>
-                    <span className="stop-time">{stop.time}</span>
-                  </div>
-                  {stop.type === 'destination' && (
-                    <span className="destination-badge">Destination</span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </main>
-
-      {/* Bottom Navigation */}
-      <nav className="bottom-nav">
-        <button className={`nav-item ${activeTab === 'details' ? 'active' : ''}`} onClick={() => setActiveTab('details')}>
-          <span className="nav-icon">📋</span>
-          <span>Details</span>
-        </button>
-        <button className={`nav-item ${activeTab === 'map' ? 'active' : ''}`} onClick={() => setActiveTab('map')}>
-          <span className="nav-icon">🗺️</span>
-          <span>Map</span>
-        </button>
-        <button className={`nav-item ${activeTab === 'stops' ? 'active' : ''}`} onClick={() => setActiveTab('stops')}>
-          <span className="nav-icon">📍</span>
-          <span>Stops</span>
-        </button>
-        <button className={`nav-item ${activeTab === 'emergency' ? 'active' : ''}`} onClick={() => setActiveTab('emergency')}>
-          <span className="nav-icon">🆘</span>
-          <span>Emergency</span>
-        </button>
-      </nav>
+    <div className="dmp-clock">
+      <div className="dmp-clock-time">{timeStr}</div>
+      <div className="dmp-clock-date">{dateStr}</div>
     </div>
   );
-};
+}
 
-export default App;
+function Passenger() {
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [trackingBus, setTrackingBus] = useState(null);
+  const [modalError, setModalError] = useState(null);
+  
+  const { tripData, loading, error, stopTracking } = useTripData(trackingBus, !!trackingBus);
+
+  // Handle bus submission from modal
+  const handleTrackBus = async (busNumber) => {
+    setModalError(null);
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/buses/${busNumber}/active-trip`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Bus not found or no active trip');
+      }
+
+      setTrackingBus(busNumber);
+      return true;
+    } catch (err) {
+      setModalError(err.message);
+      return false;
+    }
+  };
+
+  // Handle modal close (stop tracking)
+  const handleModalClose = () => {
+    if (!trackingBus) {
+      setIsModalOpen(false);
+    }
+  };
+
+  // Format time helper
+  const formatTime = (datetimeString) => {
+    if (!datetimeString) return '—';
+    const date = new Date(datetimeString);
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+  };
+
+  // Format date for display
+  const formatDate = (datetimeString) => {
+    if (!datetimeString) return '—';
+    const date = new Date(datetimeString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
+  // Get congestion level text
+  const getCongestionLevel = (passengerCount, capacity) => {
+    if (!passengerCount || !capacity) return 'Unknown';
+    const percentage = (passengerCount / capacity) * 100;
+    if (percentage >= 90) return 'Full';
+    if (percentage >= 70) return 'High';
+    if (percentage >= 40) return 'Moderate';
+    return 'Low';
+  };
+
+  // Get status text and class
+  const getStatusInfo = (status) => {
+    switch (status) {
+      case 'en_route': return { text: 'En Route', class: 'status-on' };
+      case 'scheduled': return { text: 'Scheduled', class: 'status-scheduled' };
+      case 'delayed': return { text: 'Delayed', class: 'status-delayed' };
+      case 'completed': return { text: 'Completed', class: 'status-completed' };
+      default: return { text: status || 'Unknown', class: 'status-on' };
+    }
+  };
+
+  const busLocation = tripData?.liveLocation ? {
+    lat: parseFloat(tripData.liveLocation.latitude),
+    lng: parseFloat(tripData.liveLocation.longitude),
+  } : null;
+
+  const statusInfo = getStatusInfo(tripData?.trip?.status);
+  const congestionLevel = getCongestionLevel(
+    tripData?.passengerCount?.count,
+    tripData?.bus?.capacity
+  );
+
+  return (
+    <div className="dmp-root">
+      {/* Bus Number Modal */}
+      <BusNumberModal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        onSubmit={handleTrackBus}
+        error={modalError}
+      />
+
+      {/* LEFT PANEL — desktop only */}
+      <div className="dmp-left">
+        <div className="dmp-clock-wrap">
+          <LiveClock />
+        </div>
+        <Link to={"/M2B"}>
+          <div className="dmp-logo">
+            <div className="dmp-logo-seg seg-m">M</div>
+            <div className="dmp-logo-seg seg-2">2</div>
+            <div className="dmp-logo-seg seg-b">B</div>
+          </div>
+        </Link>
+        <div className="dmp-section-title">ACTIVE TRIP DETAILS</div>
+
+        {/* Bus info */}
+        {tripData && !loading ? (
+          <>
+            <div className="dmp-info-block dark full-width">
+              <div className="dmp-info-top">BUS NO.</div>
+              <div className="dmp-info-number">{tripData.bus?.busNumber || '—'}</div>
+              <div className="dmp-info-sub">Capacity: {tripData.bus?.capacity || '—'} passengers</div>
+            </div>
+
+            {/* Origin / Destination */}
+            <div className="dmp-tag-row">
+              <div className="dmp-tag-block origin">
+                <div className="dmp-tag-label">ORIGIN</div>
+                <div className="dmp-tag-value">
+                  {tripData.trip?.startLocation?.split(',')[0] || '—'}
+                </div>
+              </div>
+              <div className="dmp-tag-block destination">
+                <div className="dmp-tag-label">DESTINATION</div>
+                <div className="dmp-tag-value">
+                  {tripData.trip?.endLocation?.split(',')[0] || '—'}
+                </div>
+              </div>
+            </div>
+
+            {/* Status / Congestion */}
+            <div className="dmp-tag-row">
+              <div className={`dmp-tag-block ${statusInfo.class}`}>
+                <div className="dmp-tag-label">STATUS</div>
+                <div className="dmp-tag-value">{statusInfo.text}</div>
+              </div>
+              <div className="dmp-tag-block congestion">
+                <div className="dmp-tag-label">CONGESTION LEVEL</div>
+                <div className="dmp-tag-value">{congestionLevel}</div>
+              </div>
+            </div>
+
+            {/* Times */}
+            <div className="dmp-times-container">
+              <div className="dmp-times-row">
+                <div className="dmp-time-block">
+                  <div className="dmp-detail-label">DEPARTURE TIME</div>
+                  <div className="dmp-time-value">
+                    {formatTime(tripData.trip?.scheduledDeparture)}
+                  </div>
+                  <div className="dmp-time-underline green" />
+                </div>
+                <div className="dmp-time-block">
+                  <div className="dmp-detail-label">EXPECTED ARRIVAL TIME</div>
+                  <div className="dmp-time-value">
+                    {tripData.eta?.text || '—'}
+                  </div>
+                  <div className="dmp-time-underline gray" />
+                </div>
+              </div>
+            </div>
+
+            {/* Driver */}
+            <div className="dmp-detail-card">
+              <div className="dmp-detail-label">DRIVER</div>
+              <div className="dmp-driver-name">
+                {tripData.driver?.name || '—'}
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="dmp-info-block dark full-width">
+            <div className="dmp-info-top">NO BUS TRACKED</div>
+            <div className="dmp-info-number">—</div>
+            <div className="dmp-info-sub">Enter a bus number to track</div>
+          </div>
+        )}
+
+        <button className="dmp-emergency-btn">
+          <span className="dmp-emergency-icon">📞</span>
+          <strong>Emergency</strong> Call
+        </button>
+      </div>
+
+      {/* RIGHT PANEL — map */}
+      <div className="dmp-right">
+        <Link to={"/M2B"}>
+          <div className="dmp-map-logo">
+            <div className="dmp-logo-seg seg-m">M</div>
+            <div className="dmp-logo-seg seg-2">2</div>
+            <div className="dmp-logo-seg seg-b">B</div>
+          </div>
+        </Link>
+        <div className="dmp-map-clock">
+          <LiveClock />
+        </div>
+
+        {/* <SimpleMap /> */}
+        <LiveMap
+          busLocation={busLocation}
+          origin={tripData?.trip?.startLocation}
+          destination={tripData?.trip?.endLocation}
+        />
+
+      </div>
+
+      {/* BOTTOM PANEL — tablet/mobile only */}
+      <div className="dmp-bottom">
+        <div className="dmp-section-title">ACTIVE TRIP DETAILS</div>
+
+        {tripData && !loading ? (
+          <>
+            <div className="dmp-tablet-grid">
+              <div className="dmp-tablet-left-col">
+                <div className="dmp-info-block dark full-width">
+                  <div className="dmp-info-top">BUS NO.</div>
+                  <div className="dmp-info-number">{tripData.bus?.busNumber || '—'}</div>
+                  <div className="dmp-info-sub">Capacity: {tripData.bus?.capacity || '—'}</div>
+                </div>
+              </div>
+              <div className="dmp-tablet-right-col">
+                <div className="dmp-times-container">
+                  <div className="dmp-times-row">
+                    <div className="dmp-time-block">
+                      <div className="dmp-detail-label">DEPARTURE TIME</div>
+                      <div className="dmp-time-value">
+                        {formatTime(tripData.trip?.scheduledDeparture)}
+                      </div>
+                      <div className="dmp-time-underline green" />
+                    </div>
+                    <div className="dmp-time-block">
+                      <div className="dmp-detail-label">EXPECTED ARRIVAL TIME</div>
+                      <div className="dmp-time-value">
+                        {tripData.eta?.text || '—'}
+                      </div>
+                      <div className="dmp-time-underline gray" />
+                    </div>
+                  </div>
+                </div>
+                <div className="dmp-detail-card">
+                  <div className="dmp-detail-label">DRIVER</div>
+                  <div className="dmp-driver-name">
+                    {tripData.driver?.name || '—'}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="dmp-tag-row">
+              <div className="dmp-tag-block origin">
+                <div className="dmp-tag-label">ORIGIN</div>
+                <div className="dmp-tag-value">
+                  {tripData.trip?.startLocation?.split(',')[0] || '—'}
+                </div>
+              </div>
+              <div className="dmp-tag-block destination">
+                <div className="dmp-tag-label">DESTINATION</div>
+                <div className="dmp-tag-value">
+                  {tripData.trip?.endLocation?.split(',')[0] || '—'}
+                </div>
+              </div>
+              <div className={`dmp-tag-block ${statusInfo.class}`}>
+                <div className="dmp-tag-label">STATUS</div>
+                <div className="dmp-tag-value">{statusInfo.text}</div>
+              </div>
+              <div className="dmp-tag-block congestion">
+                <div className="dmp-tag-label">CONGESTION LEVEL</div>
+                <div className="dmp-tag-value">{congestionLevel}</div>
+              </div>
+            </div>
+
+            <div className="dmp-mobile-stack">
+              <div className="dmp-info-block dark full-width">
+                <div className="dmp-info-top">BUS NO.</div>
+                <div className="dmp-info-number">{tripData.bus?.busNumber || '—'}</div>
+                <div className="dmp-info-sub">Capacity: {tripData.bus?.capacity || '—'}</div>
+              </div>
+              <div className="dmp-tag-row">
+                <div className="dmp-tag-block origin">
+                  <div className="dmp-tag-label">ORIGIN</div>
+                  <div className="dmp-tag-value">
+                    {tripData.trip?.startLocation?.split(',')[0] || '—'}
+                  </div>
+                </div>
+                <div className="dmp-tag-block destination">
+                  <div className="dmp-tag-label">DESTINATION</div>
+                  <div className="dmp-tag-value">
+                    {tripData.trip?.endLocation?.split(',')[0] || '—'}
+                  </div>
+                </div>
+              </div>
+              <div className="dmp-tag-row">
+                <div className={`dmp-tag-block ${statusInfo.class}`}>
+                  <div className="dmp-tag-label">STATUS</div>
+                  <div className="dmp-tag-value">{statusInfo.text}</div>
+                </div>
+                <div className="dmp-tag-block congestion">
+                  <div className="dmp-tag-label">CONGESTION LEVEL</div>
+                  <div className="dmp-tag-value">{congestionLevel}</div>
+                </div>
+              </div>
+              <div className="dmp-times-container">
+                <div className="dmp-times-row">
+                  <div className="dmp-time-block">
+                    <div className="dmp-detail-label">DEPARTURE TIME</div>
+                    <div className="dmp-time-value">
+                      {formatTime(tripData.trip?.scheduledDeparture)}
+                    </div>
+                    <div className="dmp-time-underline green" />
+                  </div>
+                  <div className="dmp-time-block">
+                    <div className="dmp-detail-label">EXPECTED ARRIVAL TIME</div>
+                    <div className="dmp-time-value">
+                      {tripData.eta?.text || '—'}
+                    </div>
+                    <div className="dmp-time-underline gray" />
+                  </div>
+                </div>
+              </div>
+              <div className="dmp-detail-card">
+                <div className="dmp-detail-label">DRIVER</div>
+                <div className="dmp-driver-name">
+                  {tripData.driver?.name || '—'}
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="dmp-info-block dark full-width">
+            <div className="dmp-info-top">NO BUS TRACKED</div>
+            <div className="dmp-info-number">—</div>
+            <div className="dmp-info-sub">Enter a bus number to track</div>
+          </div>
+        )}
+
+        <button className="dmp-emergency-btn">
+          <span className="dmp-emergency-icon">📞</span>
+          <strong>Emergency</strong> Call
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default Passenger;

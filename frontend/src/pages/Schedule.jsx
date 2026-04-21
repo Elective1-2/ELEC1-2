@@ -1,43 +1,66 @@
-import React from 'react';
-import '../css/Schedule.css';
-
-// Import the map background image
+import React, { useState } from 'react';
+import { useAllRoutes, useScheduleData } from '../hooks/useScheduleData';
+import Navbar from '../components/Navbar'; 
 import heroImage from '../assets/herohome.png'; 
+import '../css/Schedule.css'; 
 
-function Schedule() {
-  // Dummy data for the schedule table
-  const scheduleData = [
-    { id: 1, destination: "Malolos", time: "04:00 AM", remarks: "Departed" },
-    { id: 2, destination: "Guiguinto", time: "04:30 AM", remarks: "Departed" },
-    { id: 3, destination: "Pandi", time: "05:00 AM", remarks: "Departed" },
-    { id: 4, destination: "Santa Maria", time: "05:30 AM", remarks: "Departed" },
-    { id: 5, destination: "Bocaue", time: "06:00 AM", remarks: "Departed" },
-    { id: 6, destination: "Balagtas", time: "06:30 AM", remarks: "Departed" },
-    { id: 7, destination: "Malolos", time: "07:00 AM", remarks: "Departed" },
-    { id: 8, destination: "Guiguinto", time: "07:30 AM", remarks: "Departed" },
-    { id: 9, destination: "Pandi", time: "08:00 AM", remarks: "Departed" },
-    { id: 10, destination: "Santa Maria", time: "08:30 AM", remarks: "Departed" },
-    { id: 11, destination: "Bocaue", time: "09:00 AM", remarks: "Departed" },
-    { id: 12, destination: "Balagtas", time: "09:30 AM", remarks: "Departed" },
-  ];
+function SchedulePage() {
+  const [selectedRouteId, setSelectedRouteId] = useState('');
+  const [selectedRouteName, setSelectedRouteName] = useState('');
+  const [selectedStartLocation, setSelectedStartLocation] = useState('');
+  const [selectedEndLocation, setSelectedEndLocation] = useState('');
+
+  const { routes, loading: routesLoading } = useAllRoutes();
+  const { schedule, loading: scheduleLoading } = useScheduleData(selectedRouteId, 'weekday');
+
+  const handleRouteChange = (e) => {
+    const routeId = e.target.value;
+    const selectedRoute = routes.find(r => r.route_id.toString() === routeId);
+    
+    setSelectedRouteId(routeId);
+    if (selectedRoute) {
+      setSelectedRouteName(selectedRoute.name);
+      setSelectedStartLocation(selectedRoute.start_location);
+      setSelectedEndLocation(selectedRoute.end_location);
+    }
+  };
+
+  // Format time from HH:MM:SS to 12-hour format
+  const formatTime = (timeString) => {
+    if (!timeString) return '—';
+    const [hours, minutes] = timeString.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minutes} ${ampm}`;
+  };
+
+  // Get the table data (first 20 schedules to avoid overflow)
+  const getTableData = () => {
+    if (!schedule?.schedules) return { toEnd: [], toStart: [] };
+    
+    const toEndTimes = schedule.schedules.toEnd || [];
+    const toStartTimes = schedule.schedules.toStart || [];
+    
+    const maxRows = Math.max(toEndTimes.length, toStartTimes.length);
+    const rows = [];
+    
+    for (let i = 0; i < maxRows; i++) {
+      rows.push({
+        toEnd: toEndTimes[i] || null,
+        toStart: toStartTimes[i] || null,
+      });
+    }
+    
+    return { rows, toEndCount: toEndTimes.length, toStartCount: toStartTimes.length };
+  };
+
+  const tableData = getTableData();
 
   return (
     <div className="schedule-page">
-      {/* Navigation Bar */}
-      <nav className="navbar">
-        <div className="nav-logo">
-          <span className="logo-m">M</span>
-          <span className="logo-2">2</span>
-          <span className="logo-b">B</span>
-        </div>
-        <div className="nav-links">
-          <a href="#about">ABOUT</a>
-          <a href="#schedule">SCHEDULE</a>
-          <button className="btn-passenger">PASSENGER</button>
-          <button className="btn-login">LOGIN</button>
-        </div>
-      </nav>
-
+      <Navbar />
+      
       {/* Banner Section */}
       <div 
         className="banner-section"
@@ -46,52 +69,82 @@ function Schedule() {
         <h1 className="banner-title">SCHEDULE</h1>
       </div>
 
-      {/* Main Content Section */}
+      {/* Schedule Content */}
       <div className="schedule-content">
-        
-        {/* Dropdown Selector */}
+        {/* Dropdown Container */}
         <div className="dropdown-container">
-          <select className="station-select" defaultValue="default">
-            <option value="default" disabled>Select Station</option>
-            <option value="trinoma">Trinoma</option>
-            <option value="malolos">Malolos</option>
-            <option value="bocaue">Bocaue</option>
+          <select 
+            className="station-select" 
+            value={selectedRouteId} 
+            onChange={handleRouteChange}
+            disabled={routesLoading}
+          >
+            <option value="">Select Station / Destination</option>
+            {routes.map(route => (
+              <option key={route.route_id} value={route.route_id}>
+                {route.name}
+              </option>
+            ))}
           </select>
         </div>
 
-        {/* Schedule Table Card */}
-        <div className="table-card">
-          <h2 className="table-title">TRINOMA</h2>
-          
-          <div className="table-responsive">
-            <table className="schedule-table">
-              <thead>
-                <tr>
-                  <th>Destination</th>
-                  <th>Departure Time</th>
-                  <th>Remarks</th>
-                </tr>
-              </thead>
-              <tbody>
-                {scheduleData.map((row) => (
-                  <tr key={row.id}>
-                    <td>{row.destination}</td>
-                    <td>{row.time}</td>
-                    <td className="remarks-text">{row.remarks}</td>
+        {/* Table Card - Only show when a route is selected */}
+        {selectedRouteId && !scheduleLoading && schedule && (
+          <div className="table-card">
+            <div className="table-title">
+              {selectedRouteName}
+            </div>
+            
+            <div className="table-responsive">
+              <table className="schedule-table">
+                <thead>
+                  <tr>
+                    <th>{selectedStartLocation || 'Origin'} → {selectedEndLocation || 'Destination'}</th>
+                    <th>{selectedEndLocation || 'Destination'} → {selectedStartLocation || 'Origin'}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {tableData.rows.length > 0 ? (
+                    tableData.rows.map((row, idx) => (
+                      <tr key={idx}>
+                        <td>{row.toEnd ? formatTime(row.toEnd) : '—'}</td>
+                        <td>{row.toStart ? formatTime(row.toStart) : '—'}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="2" style={{ textAlign: 'center', padding: '2rem' }}>
+                        No schedules available for this route
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Loading State */}
+        {selectedRouteId && scheduleLoading && (
+          <div className="table-card">
+            <div className="table-title">Loading schedule...</div>
+          </div>
+        )}
+
+        {/* No Selection State */}
+        {!selectedRouteId && !routesLoading && (
+          <div className="table-card">
+            <div className="table-title">Please select a route to view schedule</div>
+          </div>
+        )}
       </div>
 
-      {/* Custom Footer */}
-      <footer className="simple-footer">
-        <p>© 2026, M2B. Developed by BSCpE Students, Bulacan State University.</p>
-      </footer>
+      {/* Footer */}
+      <div className="simple-footer">
+        2026, M2B. Developed by BSCpE Students, Bulacan State University.
+      </div>
     </div>
   );
 }
 
-export default Schedule;
+export default SchedulePage;
