@@ -17,7 +17,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: '../public_html/.builds/source/repository/frontend/dist',
+    outDir: 'dist',
     emptyOutDir: true,
     sourcemap: false, // Set to true if you need debugging in production
   }

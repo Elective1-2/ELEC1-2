@@ -91,26 +91,21 @@ app.get('/debug/env', (req, res) => {
 
 // 9. Frontend serving (production only)
 if (process.env.NODE_ENV === 'production') {
-    const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
+    const frontendBuildPath = path.join(__dirname, '../../frontend/dist');
     
     const fs = require('fs');
     console.log(`📁 Frontend path: ${frontendBuildPath}`);
     console.log(`📁 Path exists: ${fs.existsSync(frontendBuildPath)}`);
     
     if (fs.existsSync(frontendBuildPath)) {
-        // READ INDEX.HTML INTO MEMORY AT STARTUP
-        let indexHtmlContent = null;
-        const indexPath = path.join(frontendBuildPath, 'index.html');
-        
-        try {
-            indexHtmlContent = fs.readFileSync(indexPath, 'utf8');
-            console.log(`✅ Index.html loaded into memory (${indexHtmlContent.length} bytes)`);
-        } catch (err) {
-            console.error(`❌ Failed to load index.html at startup: ${err.message}`);
-        }
-        
         // Serve static files
-        app.use(express.static(frontendBuildPath));
+        app.use(express.static(frontendBuildPath, {
+            setHeaders: (res, filePath) => {
+                if (filePath.endsWith('index.html')) {
+                    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+                }
+            }
+        }));
         
         // Handle client-side routing
         app.get('/*splat', (req, res, next) => {
@@ -124,13 +119,8 @@ if (process.env.NODE_ENV === 'production') {
                 return res.status(404).send('Not found');
             }
             
-            // Serve from memory
-            if (indexHtmlContent) {
-                res.setHeader('Content-Type', 'text/html');
-                res.send(indexHtmlContent);
-            } else {
-                res.status(500).json({ error: 'Something went wrong!' });
-            }
+            // Always read latest index.html to avoid stale bundle references
+            res.sendFile(path.join(frontendBuildPath, 'index.html'));
         });
         
         console.log('✅ Static serving configured');
