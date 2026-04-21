@@ -8,6 +8,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   useEffect(() => {
     checkBackendHealth();
@@ -39,10 +40,15 @@ function Login() {
   }, []);
 
   useEffect(() => {
+    if (!GOOGLE_CLIENT_ID) {
+      setError('Google login is not configured. Missing VITE_GOOGLE_CLIENT_ID.');
+      return;
+    }
+
     const initGoogle = () => {
       if (window.google) {
         window.google.accounts.id.initialize({
-          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+          client_id: GOOGLE_CLIENT_ID,
           callback: handleGoogleResponse,
         });
         window.google.accounts.id.renderButton(
