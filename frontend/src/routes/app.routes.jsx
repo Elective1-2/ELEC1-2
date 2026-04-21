@@ -18,8 +18,6 @@ import Analytics from '../pages/analytics';
 import M2BDashboard from '../pages/dashboard';
 import Management from '../pages/management';
 
-//? Test
-import GoogleAuthTest from '../pages/test/GoogleAuthTest';
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const { isAuthenticated, user, loading } = useAuth();
@@ -81,9 +79,6 @@ function AppRoutes() {
         }
       />
 
-      {/* Test route - accessible without auth */}
-      <Route path="/test-auth" element={<GoogleAuthTest />} />
-      
       <Route path="/" element={<Navigate to="/M2B" replace />} />
     </Routes>
   );
