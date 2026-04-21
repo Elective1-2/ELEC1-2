@@ -11,7 +11,7 @@ function SecretCodeSignup() {
   const [secretCode, setSecretCode] = useState("");
   const [googleData, setGoogleData] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const API_URL = import.meta.env.VITE_API_URL || '/api';
 
   // Extract Google data from URL
   useEffect(() => {
