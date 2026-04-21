@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { AuthProvider } from './context/AuthContext';
+// import { AuthProvider } from './context/AuthContext';
 import AppRoutes from './routes/app.routes';
 
 function App() {
@@ -10,9 +10,9 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <BrowserRouter>
-        <AuthProvider>
+        {/* <AuthProvider> */}
           <AppRoutes />
-        </AuthProvider>
+        {/* </AuthProvider> */}
       </BrowserRouter>
     </GoogleOAuthProvider>
   );
