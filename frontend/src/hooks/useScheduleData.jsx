@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 // ✅ FIXED: Environment-aware base URL
-const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:5000';
+const API_BASE = "https://www.m2b-p2p.com/api";
 
 export function useScheduleData(routeId, dayType = 'weekday') {
   const [schedule, setSchedule] = useState(null);
