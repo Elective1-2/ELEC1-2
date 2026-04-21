@@ -3,6 +3,7 @@ import { useAllRoutes, useScheduleData } from '../hooks/useScheduleData';
 import Navbar from '../components/Navbar'; 
 import heroImage from '../assets/herohome.png'; 
 import '../css/Schedule.css'; 
+import Footer from '../components/Footer'; // Import Footer component
 
 function SchedulePage() {
   const [selectedRouteId, setSelectedRouteId] = useState('');
@@ -140,9 +141,7 @@ function SchedulePage() {
       </div>
 
       {/* Footer */}
-      <div className="simple-footer">
-        2026, M2B. Developed by BSCpE Students, Bulacan State University.
-      </div>
+      <Footer />
     </div>
   );
 }
