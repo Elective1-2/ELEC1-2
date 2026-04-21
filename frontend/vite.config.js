@@ -17,7 +17,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: '/home/u100740599/domains/m2b-p2p.com/public_html/dist',
+    outDir: '../public_html/.builds/source/repository/frontend/dist',
     emptyOutDir: true,
     sourcemap: false, // Set to true if you need debugging in production
   }
