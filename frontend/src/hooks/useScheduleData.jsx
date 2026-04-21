@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
+import { API_BASE } from '../config/api';
 
 export function useScheduleData(routeId, dayType = 'weekday') {
   const [schedule, setSchedule] = useState(null);

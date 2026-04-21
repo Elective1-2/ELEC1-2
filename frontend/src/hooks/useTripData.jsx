@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+import { API_BASE } from '../config/api';
 
 export function useTripData(busNumber, isTracking = true) {
   const [tripData, setTripData] = useState(null);
@@ -13,7 +12,7 @@ export function useTripData(busNumber, isTracking = true) {
 
     setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/buses/${busNumber}/active-trip`);
+      const response = await fetch(`${API_BASE}/buses/${busNumber}/active-trip`);
       const data = await response.json();
 
       if (!response.ok) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../css/Login.css";
+import { API_BASE, API_ROOT } from '../config/api';
 
 function Login() {
   const [backendStatus, setBackendStatus] = useState('checking');
@@ -8,15 +9,13 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const API_URL = import.meta.env.VITE_API_URL || '/api';
-
   useEffect(() => {
     checkBackendHealth();
   }, []);
 
   const checkBackendHealth = async () => {
     try {
-      const res = await fetch(`${API_URL.replace('/api', '')}/health`);
+      const res = await fetch(`${API_ROOT}/health`);
       if (res.ok) {
         setBackendStatus('online');
       } else {
@@ -66,7 +65,7 @@ function Login() {
     try {
       console.log('1. Sending token to backend...');
       
-      const res = await fetch(`${API_URL}/auth/google`, {
+      const res = await fetch(`${API_BASE}/auth/google`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: response.credential }),

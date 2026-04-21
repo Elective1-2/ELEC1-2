@@ -4,6 +4,7 @@ import { useTripData } from "../hooks/useTripData";
 import LiveMap from "../components/LiveMap";
 import BusNumberModal from "../components/BusNumberModal";
 import "../css/passenger.css";
+import { API_BASE } from '../config/api';
 
 // ! TEST
 // import SimpleMap from '../components/SimpleMap';
@@ -46,7 +47,7 @@ function Passenger() {
     setModalError(null);
     
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/buses/${busNumber}/active-trip`);
+      const response = await fetch(`${API_BASE}/buses/${busNumber}/active-trip`);
       const data = await response.json();
 
       if (!response.ok) {

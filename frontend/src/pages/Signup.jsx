@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import "../css/Signup.css";
+import { API_BASE } from '../config/api';
 
 function SecretCodeSignup() {
   const navigate = useNavigate();
@@ -10,8 +11,6 @@ function SecretCodeSignup() {
   const [showSecretCode, setShowSecretCode] = useState(false);
   const [secretCode, setSecretCode] = useState("");
   const [googleData, setGoogleData] = useState(null);
-
-  const API_URL = import.meta.env.VITE_API_URL || '/api';
 
   // Extract Google data from URL
   useEffect(() => {
@@ -52,7 +51,7 @@ function SecretCodeSignup() {
     setError("");
 
     try {
-      const res = await fetch(`${API_URL}/auth/verify-secret`, {
+      const res = await fetch(`${API_BASE}/auth/verify-secret`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

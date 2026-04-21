@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { API_BASE } from '../config/api';
 
 const AuthContext = createContext();
 
@@ -11,9 +12,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [needsSignup, setNeedsSignup] = useState(false);
   const [pendingGoogleData, setPendingGoogleData] = useState(null);
-
-  // ✅ FIXED: Environment-aware base URL
-  const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:5000';
 
   // Check for existing session on load
   useEffect(() => {
