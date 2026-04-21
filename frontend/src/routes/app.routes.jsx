@@ -55,11 +55,13 @@ function AppRoutes() {
       <Route 
         path='/tracking' 
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
+          <ProtectedRoute allowedRoles={['admin', 'driver']}>
             <Tracking />
           </ProtectedRoute>
         } 
       />
+
+      <Route path="/unauthorized" element={<Navigate to="/M2B" replace />} />
 
       <Route
         path="/analytics"
