@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 
-// Use relative paths - works in dev and prod
+// ✅ FIXED: Environment-aware base URL
+const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:5000';
+
 export function useScheduleData(routeId, dayType = 'weekday') {
   const [schedule, setSchedule] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,8 +18,8 @@ export function useScheduleData(routeId, dayType = 'weekday') {
     setError(null);
 
     try {
-      // Relative path - Vite proxy handles in dev, same-origin in prod
-      const response = await fetch(`/api/schedules/${routeId}?day_type=${dayType}`);
+      // ✅ UPDATED: Uses API_BASE
+      const response = await fetch(`${API_BASE}/api/schedules/${routeId}?day_type=${dayType}`);
       const data = await response.json();
 
       if (!response.ok) {
@@ -47,8 +49,8 @@ export function useAllRoutes() {
   useEffect(() => {
     const fetchRoutes = async () => {
       try {
-        // Relative path
-        const response = await fetch('/api/schedules/routes');
+        // ✅ UPDATED: Uses API_BASE
+        const response = await fetch(`${API_BASE}/api/schedules/routes`);
         const data = await response.json();
 
         if (!response.ok) {

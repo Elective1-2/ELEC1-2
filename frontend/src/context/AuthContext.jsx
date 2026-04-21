@@ -12,7 +12,8 @@ export const AuthProvider = ({ children }) => {
   const [needsSignup, setNeedsSignup] = useState(false);
   const [pendingGoogleData, setPendingGoogleData] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  // ✅ FIXED: Environment-aware base URL
+  const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:5000';
 
   // Check for existing session on load
   useEffect(() => {
@@ -26,7 +27,8 @@ export const AuthProvider = ({ children }) => {
 
   const verifyToken = async (storedToken) => {
     try {
-      const response = await fetch(`${API_URL}/auth/me`, {
+      // ✅ UPDATED: Uses API_BASE
+      const response = await fetch(`${API_BASE}/api/auth/me`, {
         headers: { 'Authorization': `Bearer ${storedToken}` }
       });
       if (response.ok) {
@@ -48,7 +50,8 @@ export const AuthProvider = ({ children }) => {
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        const response = await fetch(`${API_URL}/auth/google`, {
+        // ✅ UPDATED: Uses API_BASE
+        const response = await fetch(`${API_BASE}/api/auth/google`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token: tokenResponse.access_token })
@@ -57,7 +60,6 @@ export const AuthProvider = ({ children }) => {
         const data = await response.json();
 
         if (response.ok && data.success) {
-          // Login successful
           localStorage.setItem('auth_token', data.token);
           setUser(data.user);
           setToken(data.token);
@@ -65,7 +67,6 @@ export const AuthProvider = ({ children }) => {
           setPendingGoogleData(null);
           window.location.href = '/dashboard';
         } else if (response.status === 404 && data.needsSignup) {
-          // Need to complete signup with secret code
           setPendingGoogleData(data.googleData);
           setNeedsSignup(true);
         } else {
@@ -91,7 +92,8 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      const response = await fetch(`${API_URL}/auth/verify-secret`, {
+      // ✅ UPDATED: Uses API_BASE
+      const response = await fetch(`${API_BASE}/api/auth/verify-secret`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
