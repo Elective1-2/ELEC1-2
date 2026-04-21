@@ -89,6 +89,12 @@ app.get('/debug/env', (req, res) => {
     });
 });
 
+app.get('/api/public-config', (req, res) => {
+    res.json({
+        googleClientId: process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID || null,
+    });
+});
+
 // 9. Frontend serving (production only)
 if (process.env.NODE_ENV === 'production') {
     const fs = require('fs');
@@ -119,20 +125,30 @@ if (process.env.NODE_ENV === 'production') {
             }
         }));
         
-        // Handle client-side routing
-        app.get('/*splat', (req, res, next) => {
-            // Skip API and health routes
-            if (req.path.startsWith('/api/') || req.path === '/health') {
+        const indexFilePath = path.join(frontendBuildPath, 'index.html');
+
+        // Handle client-side routing (SPA deep links)
+        app.use((req, res, next) => {
+            if (req.method !== 'GET') {
                 return next();
             }
-            
-            // Skip asset requests
-            if (/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot|json)$/i.test(req.path)) {
-                return res.status(404).send('Not found');
+
+            // Skip API and health routes
+            if (req.path.startsWith('/api/') || req.path === '/health' || req.path === '/debug/env') {
+                return next();
             }
-            
-            // Always read latest index.html to avoid stale bundle references
-            res.sendFile(path.join(frontendBuildPath, 'index.html'));
+
+            // Skip direct asset/file requests
+            if (/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot|json|map)$/i.test(req.path)) {
+                return next();
+            }
+
+            return res.sendFile(indexFilePath, (err) => {
+                if (err) {
+                    console.error(`❌ Failed to serve SPA index: ${err.message}`);
+                    next(err);
+                }
+            });
         });
         
         console.log('✅ Static serving configured');
