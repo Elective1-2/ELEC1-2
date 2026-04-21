@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import "../css/Login.css";
 
 function Login() {
@@ -7,8 +8,12 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  
+  const { login } = useAuth();
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  
+  const googleInitialized = useRef(false);
+  const scriptLoaded = useRef(false);
 
   useEffect(() => {
     checkBackendHealth();
@@ -16,7 +21,7 @@ function Login() {
 
   const checkBackendHealth = async () => {
     try {
-      const res = await fetch(`${API_URL.replace('/api', '')}/health`);
+      const res = await fetch('http://localhost:5000/health');
       if (res.ok) {
         setBackendStatus('online');
       } else {
@@ -27,99 +32,102 @@ function Login() {
     }
   };
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    script.defer = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  useEffect(() => {
-    const initGoogle = () => {
-      if (window.google) {
-        window.google.accounts.id.initialize({
-          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-          callback: handleGoogleResponse,
-        });
-        window.google.accounts.id.renderButton(
-          document.getElementById('googleSignInButton'),
-          { theme: 'outline', size: 'large' }
-        );
-      } else {
-        setTimeout(initGoogle, 100);
-      }
-    };
-    
-    const timer = setTimeout(initGoogle, 500);
-    return () => clearTimeout(timer);
-  }, []);
-
   const handleGoogleResponse = async (response) => {
+    console.log('🔵 [1] Google response received');
     setLoading(true);
     setError("");
 
     try {
-      console.log('1. Sending token to backend...');
-      
-      const res = await fetch(`${API_URL}/auth/google`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: response.credential }),
-      });
+      console.log('🔵 [2] Sending token to backend...');
+      const result = await login(response.credential);
+      console.log('🔵 [3] Login result:', result);
 
-      const data = await res.json();
-      console.log('2. Backend response:', data);
-
-      if (data.token) {
-        console.log('3. Token received, saving to localStorage');
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+      if (result.success) {
+        console.log('🔵 [4] Login successful, user role:', result.user.role);
         
-        console.log('4. User role:', data.user.role);
-        
-        // Redirect based on role
-        if (data.user.role === 'admin') {
-          if (data.user.role === 'admin') {
-            console.log('5. Redirecting to /management');
-            try {
-              navigate('/management');
-              console.log('6. Navigate called successfully');
-            } catch (err) {
-              console.error('Navigate error:', err);
-            }
-          }
-        } else if (data.user.role === 'driver') {
-          console.log('5. Redirecting to /tracking');
+        if (result.user.role === 'admin') {
+          navigate('/management');
+        } else if (result.user.role === 'driver') {
           navigate('/tracking');
-        } else {//! won't happen since there is no role passenger 
-          console.log('5. Redirecting to /passenger');
+        } else {
           navigate('/passenger');
         }
-      } else if (data.needsSignup) {
-        console.log('User not found, redirecting to signup');
+      } else if (result.needsSignup) {
+        console.log('🔵 [5] New user detected, redirecting to signup');
+        
+        // ✅ Build URL with Google data
         const params = new URLSearchParams({
-          email: data.googleData.email,
-          google_sub: data.googleData.googleSub,
-          name: data.googleData.fullName,
-          verified: data.googleData.isEmailVerified
+          email: result.googleData.email,
+          google_sub: result.googleData.googleSub,
+          name: result.googleData.fullName || '',
+          verified: result.googleData.isEmailVerified ? 'true' : 'false'
         });
-        navigate(`/signup-secret?${params.toString()}`);
+        
+        const redirectUrl = `/signup-secret?${params.toString()}`;
+        console.log('🔵 [6] Redirecting to:', redirectUrl);
+        
+        navigate(redirectUrl);
       } else {
-        console.log('Login failed:', data.error);
-        setError(data.error || 'Login failed. Please try again.');
+        console.log('🔴 Login failed:', result.error);
+        setError(result.error || 'Login failed. Please try again.');
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('🔴 Login error:', error);
       setError('Network error. Please try again.');
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (scriptLoaded.current) return;
+    scriptLoaded.current = true;
+
+    const initGoogle = () => {
+      if (googleInitialized.current) return;
+      
+      if (window.google?.accounts?.id) {
+        googleInitialized.current = true;
+        console.log('✅ Initializing Google Sign-In');
+        
+        window.google.accounts.id.initialize({
+          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+          callback: handleGoogleResponse,
+          auto_select: false,
+        });
+        
+        const buttonDiv = document.getElementById('googleSignInButton');
+        if (buttonDiv) {
+          buttonDiv.innerHTML = '';
+          window.google.accounts.id.renderButton(buttonDiv, {
+            theme: 'outline',
+            size: 'large',
+            type: 'standard',
+            text: 'signin_with',
+          });
+        }
+      } else {
+        setTimeout(initGoogle, 100);
+      }
+    };
+
+    if (!document.querySelector('script[src="https://accounts.google.com/gsi/client"]')) {
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      script.onload = initGoogle;
+      document.body.appendChild(script);
+    } else {
+      initGoogle();
+    }
+
+    return () => {
+      const buttonDiv = document.getElementById('googleSignInButton');
+      if (buttonDiv) buttonDiv.innerHTML = '';
+      googleInitialized.current = false;
+    };
+  }, []);
 
   return (
     <div className="login-root">
@@ -128,16 +136,12 @@ function Login() {
           <h1 className="login-card-title">LOGIN</h1>
 
           <div style={{ marginBottom: '20px', fontSize: '12px', textAlign: 'center' }}>
-            Backend: {backendStatus === 'online' ? '✅ Online' : '❌ Offline'}
+            Backend: {backendStatus === 'online' ? '✅ Online' : backendStatus === 'checking' ? '⏳ Checking...' : '❌ Offline'}
           </div>
 
-          {error && (
-            <div className="login-error">
-              {error}
-            </div>
-          )}
+          {error && <div className="login-error">{error}</div>}
 
-          <div id="googleSignInButton"></div>
+          <div id="googleSignInButton" style={{ display: 'flex', justifyContent: 'center' }}></div>
           
           {loading && <p style={{ textAlign: 'center', marginTop: '20px' }}>Loading...</p>}
         </div>

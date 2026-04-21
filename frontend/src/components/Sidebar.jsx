@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "../css/Sidebar.css";
 import logoImage from "../assets/M2B logo for DB BG.png";
+import "../css/Sidebar.css";
 
 function Sidebar({ menuOpen, setMenuOpen }) {
   const navigate = useNavigate();

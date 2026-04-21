@@ -309,4 +309,26 @@
     padding: 10px;
     font-size: 13px;
   }
+
+  .signup-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border: 1px solid #c3e6cb;
+  }
+
+  .signup-admin-hint {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .signup-separator {
+    margin: 0 10px;
+    color: #ccc;
+  }
 }

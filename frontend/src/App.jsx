@@ -10,9 +10,9 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <BrowserRouter>
-        {/* <AuthProvider> */}
+        <AuthProvider>
           <AppRoutes />
-        {/* </AuthProvider> */}
+        </AuthProvider>
       </BrowserRouter>
     </GoogleOAuthProvider>
   );
