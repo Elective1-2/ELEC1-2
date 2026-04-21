@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { googleLogout } from '@react-oauth/google';
 import { API_BASE } from '../config/api';
 
 const AuthContext = createContext();
@@ -44,43 +44,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Google Login handler
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        // ✅ UPDATED: Uses API_BASE
-        const response = await fetch(`${API_BASE}/api/auth/google`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: tokenResponse.access_token })
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.success) {
-          localStorage.setItem('auth_token', data.token);
-          setUser(data.user);
-          setToken(data.token);
-          setNeedsSignup(false);
-          setPendingGoogleData(null);
-          window.location.href = '/dashboard';
-        } else if (response.status === 404 && data.needsSignup) {
-          setPendingGoogleData(data.googleData);
-          setNeedsSignup(true);
-        } else {
-          console.error('Login failed:', data.error);
-          alert(data.error || 'Login failed');
-        }
-      } catch (error) {
-        console.error('Google auth error:', error);
-        alert('Authentication failed. Please try again.');
-      }
-    },
-    onError: () => {
-      console.error('Google Login Failed');
-      alert('Google login failed. Please try again.');
-    }
-  });
+  const googleLogin = () => {
+    console.warn('Google login is handled in Login page.');
+  };
 
   // Complete signup with secret code
   const completeSignup = async (secretCode, role = 'driver') => {
