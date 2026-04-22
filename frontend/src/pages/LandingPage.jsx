@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import herohome from '../assets/herohome.png';
-import { Link, useNavigate } from 'react-router-dom';
-
-import Navbar from "../components/NavBar"; 
-import Footer from "../components/Footer"; // Imported the new Footer component
+import { useNavigate } from 'react-router-dom';
+import Navbar from "../components/NavBar";
+import Footer from "../components/Footer";
 import "../css/Landingpage.css";
 
 function LandingPage() {
-  const [activeIndex, setActiveIndex] = useState(0);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const check = () => setScreenWidth(window.innerWidth);
@@ -18,10 +16,8 @@ function LandingPage() {
   }, []);
 
   const isMobile = screenWidth < 768;
-  const isTablet = screenWidth >= 768 && screenWidth < 1280;
-  const isDesktop = screenWidth >= 1280;
-
-  const useCarousel = isMobile;
+  const isTablet = screenWidth >= 768 && screenWidth < 1024;
+  const isDesktop = screenWidth >= 1024;
 
   const features = [
     { title: "Real-time Visualization", desc: "Monitor bus locations and route statuses on an interactive live map with millisecond precision." },
@@ -32,14 +28,6 @@ function LandingPage() {
     { title: "Congestion Prediction", desc: "Leverage historical data and machine learning to forecast traffic conditions up to 24 hours ahead." },
   ];
 
-  const prev = () => setActiveIndex((i) => (i === 0 ? features.length - 1 : i - 1));
-  const next = () => setActiveIndex((i) => (i === features.length - 1 ? 0 : i + 1));
-
-  const prevCard = features[(activeIndex - 1 + features.length) % features.length];
-  const nextCard = features[(activeIndex + 1) % features.length];
-
-  const navigate = useNavigate();
-    
   return (
     <div className="landing-root">
       <Navbar />
@@ -51,14 +39,9 @@ function LandingPage() {
           Revolutionizing how cities move. Monitor transit performance, predict traffic
           congestion, and optimize passenger flow using real-time data.
         </p>
-        <button 
-          className="landing-monitor-btn"
-          onClick={() => navigate('/passenger')}
-          >
+        <button className="landing-monitor-btn" onClick={() => navigate('/passenger')}>
           Monitor Your Trip
         </button>
-
-
       </section>
 
       {/* FEATURES */}
@@ -69,33 +52,8 @@ function LandingPage() {
           Everything you need to analyze modern public transportation in one single dashboard.
         </p>
 
-        {useCarousel ? (
-          <div className="landing-carousel-wrap">
-            <div className="landing-carousel-track">
-              <div className="landing-carousel-side">
-                <p className="landing-carousel-side-title">{prevCard.title}</p>
-              </div>
-              <div className="landing-carousel-main">
-                <p className="landing-card-title">{features[activeIndex].title}</p>
-                <p className="landing-card-desc">{features[activeIndex].desc}</p>
-              </div>
-              <div className="landing-carousel-side">
-                <p className="landing-carousel-side-title">{nextCard.title}</p>
-              </div>
-            </div>
-            <button className="landing-arrow-btn landing-arrow-left" onClick={prev}>‹</button>
-            <button className="landing-arrow-btn landing-arrow-right" onClick={next}>›</button>
-            <div className="landing-dots">
-              {features.map((_, i) => (
-                <button 
-                  key={i} 
-                  className={`landing-dot ${i === activeIndex ? 'active' : ''}`}
-                  onClick={() => setActiveIndex(i)} 
-                />
-              ))}
-            </div>
-          </div>
-        ) : (
+        {/* DESKTOP GRID */}
+        {isDesktop && (
           <div className="landing-grid">
             {features.map((f, i) => (
               <div key={i} className="landing-card">
@@ -105,9 +63,27 @@ function LandingPage() {
             ))}
           </div>
         )}
+
+        {/* MOBILE + TABLET CAROUSEL */}
+        {!isDesktop && (
+          <div className="lc-wrapper">
+            <ul className="lc-carousel">
+              {features.map((f, i) => (
+                <div
+                  key={i}
+                  className={i === 2 ? 'scroll-start' : ''}
+                >
+                  <div className="lc-card-inner">
+                    <p className="lc-card-title">{f.title}</p>
+                    <p className="lc-card-desc">{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
 
-      {/* FOOTER CALL */}
       <Footer />
     </div>
   );
