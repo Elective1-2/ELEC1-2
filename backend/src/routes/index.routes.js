@@ -56,6 +56,15 @@ const {
   reportCongestion,
 } = require('../controllers/admin.controller');
 
+const {
+  getAnalyticsSummary,
+  getWeeklyRidership,
+  getDelayHistory,
+  getRoutePerformance,
+  getTripHistory,
+  getRoutesWithTrips
+} = require('../controllers/analytics.controller');
+
 const scheduleController = require('../controllers/schedule.controller');
 const mapsController = require('../controllers/maps.controller');
 const getMapsETA = mapsController.getETA;
@@ -131,6 +140,14 @@ router.get('/admin/dashboard/stats', authenticateToken, requireRole(['admin']), 
 router.get('/admin/analytics/passengers', authenticateToken, requireRole(['admin']), getPassengerAnalytics);
 router.post('/admin/congestion/report', authenticateToken, requireRole(['admin']), reportCongestion);
 router.get('/admin/trips/active', authenticateToken, requireRole(['admin']), getActiveTrips);
+
+// Analytics & Reporting
+router.get('/admin/analytics/summary', authenticateToken, requireRole(['admin']), getAnalyticsSummary);
+router.get('/admin/analytics/weekly-ridership', authenticateToken, requireRole(['admin']), getWeeklyRidership);
+router.get('/admin/analytics/delay-history', authenticateToken, requireRole(['admin']), getDelayHistory);
+router.get('/admin/analytics/route-performance', authenticateToken, requireRole(['admin']), getRoutePerformance);
+router.get('/admin/analytics/trip-history', authenticateToken, requireRole(['admin']), getTripHistory);
+router.get('/admin/analytics/routes-with-trips', authenticateToken, requireRole(['admin']), getRoutesWithTrips);
 
 // ========== MAPS ROUTES (public, but rate-limited) ==========
 router.get('/maps/eta', getMapsETA);
