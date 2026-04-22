@@ -367,3 +367,73 @@
   .track-bus-number { font-size: 17px; }
   .track-view-btn   { font-size: 14px; padding: 10px 26px; }
 }
+
+/* Search Info */
+.track-search-info {
+  padding: 10px 16px;
+  background-color: #e0f2fe;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  color: #0369a1;
+  font-size: 14px;
+}
+
+/* Bus Plate Number */
+.track-bus-plate {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: normal;
+  margin-left: 4px;
+}
+
+/* Driver Info */
+.track-bus-driver {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Occupancy */
+.track-bus-occupancy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.track-occupancy-label {
+  color: #64748b;
+}
+
+.track-occupancy-value {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Gray dot for no location */
+.dot-gray {
+  background: #9ca3af !important;
+  box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.2) !important;
+}
+
+/* Refresh Info */
+.track-refresh-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.refresh-icon {
+  font-size: 14px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

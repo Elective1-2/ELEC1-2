@@ -10,12 +10,13 @@ import LandingPage from '../pages/LandingPage';
 import Login from '../pages/Login';
 import Passenger from '../pages/passenger';
 import Schedule from '../pages/Schedule';
-import Tracking from '../pages/Tracking';
 import Analytics from '../pages/analytics';
 import M2BDashboard from '../pages/dashboard';
 import Management from '../pages/management';
 import DriverMap from '../pages/drivermap';
 import DriverMain from '../pages/drivermain';
+import UserTracking from '../pages/Tracking';
+import Tracking from '../pages/Tracking';
 
 function AppRoutes() {
   console.log('AppRoutes rendering');
@@ -33,18 +34,12 @@ function AppRoutes() {
       <Route path="/passenger" element={<Passenger />} />
       <Route path="/schedule" element={<Schedule />} />
       <Route path="/dashboard" element={<M2BDashboard />} />
-      <Route path="/tracking" element={<Tracking />} />
+      <Route path="/tracking" element={<UserTracking />} />
       <Route path="/analytics" element={<Analytics />} />
       <Route path="/management" element={<Management />} />
       <Route path="/drivermap" element={<DriverMap/>} />
       <Route path="/drivermain" element={<DriverMain/>} />
-
-      <Route 
-        path='/tracking' 
-        element={
-            <Tracking />
-        } 
-      />
+      <Route path="/tracking" element={<Tracking />} />
 
       <Route
         path="/analytics"

@@ -1,40 +1,120 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import AdminNavbar from "../components/AdminNavbar";
 import MobileHeader from "../components/MobileHeader";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import "../css/tracking.css";
 
-// ── Bus data ──────────────────────────────────────────────────────────────
-
-const allBuses = [
-  { id: 101, route: "Malolos – Trinoma Route",     status: "On Track", eta: "10:45 AM", delay: false },
-  { id: 102, route: "Guiguinto – Trinoma Route",   status: "Delayed",  eta: "11:00 AM", delay: true  },
-  { id: 103, route: "Trinoma – Santa Maria Route", status: "On Track", eta: "12:00 PM", delay: false },
-  { id: 88,  route: "Malolos – Trinoma Route",     status: "On Track", eta: "10:45 AM", delay: false },
-  { id: 67,  route: "Malolos – Trinoma Route",     status: "On Track", eta: "10:45 AM", delay: false },
-  { id: 104, route: "Malolos – Trinoma Route",     status: "On Track", eta: "10:45 AM", delay: false },
-  { id: 105, route: "Malolos – Trinoma Route",     status: "On Track", eta: "10:45 AM", delay: false },
-  { id: 106, route: "Malolos – Trinoma Route",     status: "On Track", eta: "10:45 AM", delay: false },
-];
-
-// ── Page component ────────────────────────────────────────────────────────
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 function Tracking() {
-  const [menuOpen, setMenuOpen]                   = useState(false);
-  const [activePage, setActivePage]               = useState("Live Tracking");
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activePage, setActivePage] = useState("Live Tracking");
   const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications]         = useState([
-    { id: 1, message: "Bus #67 is running 20 min late on Trinoma route.", time: "3 min ago",  read: false },
-    { id: 2, message: "Heavy congestion detected near EDSA-Trinoma.",     time: "10 min ago", read: false },
-    { id: 3, message: "Bus #101 departed Malolos terminal on time.",      time: "30 min ago", read: true  },
+  const [notifications, setNotifications] = useState([
+    { id: 1, message: "Bus #67 is running 20 min late on Trinoma route.", time: "3 min ago", read: false },
+    { id: 2, message: "Heavy congestion detected near EDSA-Trinoma.", time: "10 min ago", read: false },
+    { id: 3, message: "Bus #101 departed Malolos terminal on time.", time: "30 min ago", read: true },
   ]);
   const [searchTerm, setSearchTerm] = useState("");
+  
+  // Active trips state
+  const [activeTrips, setActiveTrips] = useState([]);
+  const [filteredTrips, setFilteredTrips] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const unreadCount    = notifications.filter((n) => !n.read).length;
-  const filteredBuses  = allBuses.filter(
-    (b) => searchTerm === "" || b.id.toString().includes(searchTerm.trim())
-  );
+  const unreadCount = notifications.filter((n) => !n.read).length;
+
+  // Fetch active trips from backend
+  const fetchActiveTrips = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/admin/trips/active`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch active trips');
+      }
+      
+      const data = await response.json();
+      setActiveTrips(data.trips || []);
+      setFilteredTrips(data.trips || []);
+      setError(null);
+    } catch (err) {
+      console.error('Fetch active trips error:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Initial fetch and auto-refresh every 30 seconds
+  useEffect(() => {
+    fetchActiveTrips();
+    
+    const interval = setInterval(fetchActiveTrips, 30000);
+    return () => clearInterval(interval);
+  }, [fetchActiveTrips]);
+
+  // Filter trips based on search term
+  useEffect(() => {
+    if (!searchTerm || !searchTerm.trim()) {
+      setFilteredTrips(activeTrips);
+      return;
+    }
+
+    const lowerSearch = searchTerm.toLowerCase().trim();
+    const filtered = activeTrips.filter(trip => {
+      return (
+        String(trip.bus_number).toLowerCase().includes(lowerSearch) ||
+        (trip.plate_number && String(trip.plate_number).toLowerCase().includes(lowerSearch)) ||
+        String(trip.driver_name || '').toLowerCase().includes(lowerSearch) ||
+        String(trip.route_name || '').toLowerCase().includes(lowerSearch)
+      );
+    });
+    
+    setFilteredTrips(filtered);
+  }, [activeTrips, searchTerm]);
+
+  // Handle search from AdminNavbar
+  const handleSearchChange = (value) => {
+    setSearchTerm(value);
+  };
+
+  // Format time helper
+  const formatTime = (datetimeString) => {
+    if (!datetimeString) return '—';
+    const date = new Date(datetimeString);
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+  };
+
+  // Open passenger view in new tab
+  const handleViewTrip = (trip) => {
+    // Store the bus number in sessionStorage for the passenger page
+    sessionStorage.setItem('trackingBusNumber', trip.bus_number);
+    
+    // Open passenger page in new tab
+    const passengerUrl = '/passenger';
+    window.open(passengerUrl, '_blank');
+  };
+
+  // Get status display info
+  const getStatusInfo = (trip) => {
+    // Check if delayed (you can add delay logic here based on schedule vs actual)
+    const isDelayed = trip.status === 'delayed';
+    return {
+      text: isDelayed ? 'Delayed' : 'On Track',
+      class: isDelayed ? 'delayed' : 'ontrack'
+    };
+  };
 
   return (
     <div className="track-root">
@@ -54,6 +134,8 @@ function Tracking() {
         <div className="track-main">
           {/* Top navbar */}
           <AdminNavbar
+            onSearchChange={handleSearchChange}
+            initialSearchValue={searchTerm}
             showNotifications={showNotifications}
             setShowNotifications={setShowNotifications}
             notifications={notifications}
@@ -68,84 +150,65 @@ function Tracking() {
             <div className="track-card">
               <div className="track-card-header">
                 <span className="track-card-title">Active Trips</span>
-                <span className="track-badge">24</span>
+                <span className="track-badge">{activeTrips.length}</span>
               </div>
 
-              {filteredBuses.length === 0 ? (
-                <div className="track-empty">No buses match your search.</div>
+              {loading ? (
+                <div className="track-empty">Loading active trips...</div>
+              ) : error ? (
+                <div className="track-empty" style={{ color: '#ef4444' }}>Error: {error}</div>
+              ) : filteredTrips.length === 0 ? (
+                <div className="track-empty">
+                  {searchTerm ? "No trips match your search." : "No active trips at the moment."}
+                </div>
               ) : (
-                filteredBuses.map((bus) => (
-                  <div key={bus.id} className="track-bus-item">
-                    <div className="track-bus-info">
-                      <div className="track-bus-number">Bus #{bus.id}</div>
-                      <div className="track-bus-route">{bus.route}</div>
-                      <div className="track-bus-status-row">
-                        <span className={`track-status-badge ${bus.delay ? "delayed" : "ontrack"}`}>
-                          {bus.delay ? "Delayed" : "On Track"}
-                        </span>
-                        <span className="track-eta"><strong>ETA:</strong> {bus.eta}</span>
+                filteredTrips.map((trip) => {
+                  const statusInfo = getStatusInfo(trip);
+                  return (
+                    <div key={trip.trip_id} className="track-bus-item">
+                      <div className="track-bus-info">
+                        <div className="track-bus-number">
+                          Bus #{trip.bus_number}
+                          {trip.plate_number && <span className="track-bus-plate"> ({trip.plate_number})</span>}
+                        </div>
+                        <div className="track-bus-route">{trip.route_name || '—'}</div>
+                        {trip.driver_name && (
+                          <div className="track-bus-driver">Driver: {trip.driver_name}</div>
+                        )}
+                        <div className="track-bus-status-row">
+                          <span className={`track-status-badge ${statusInfo.class}`}>
+                            {statusInfo.text}
+                          </span>
+                          <span className="track-eta">
+                            <strong>Departed:</strong> {formatTime(trip.actual_departure || trip.scheduled_departure)}
+                          </span>
+                        </div>
+                        {trip.passenger_count !== null && (
+                          <div className="track-bus-occupancy">
+                            <span className="track-occupancy-label">Occupancy:</span>
+                            <span className="track-occupancy-value">
+                              {trip.passenger_count} / {trip.capacity}
+                            </span>
+                          </div>
+                        )}
                       </div>
+                      <button 
+                        className="track-view-btn"
+                        onClick={() => handleViewTrip(trip)}
+                        title="Open in new tab"
+                      >
+                        VIEW ↗
+                      </button>
                     </div>
-                    <button className="track-view-btn">VIEW</button>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
 
-            {/* ── Live Transit ── */}
-            <div className="track-map-card">
-              <div className="track-map-title">Live Transit</div>
-              <div className="track-map-body">
-
-                {/* Diagonal road: red (congestion) → green (clear) — identical to dashboard */}
-                <div className="track-route" />
-
-                {/* Bus #42 — En Route */}
-                <div className="track-pin" style={{ left: "32%", top: "50%" }}>
-                  <div className="track-pin-label">
-                    Bus #42
-                    <span className="track-pin-sub sub-blue">En Route</span>
-                  </div>
-                  <div className="track-pin-dot dot-blue" />
-                </div>
-
-                {/* Bus #102 — On Time */}
-                <div className="track-pin" style={{ left: "56%", top: "28%" }}>
-                  <div className="track-pin-label">
-                    Bus #102
-                    <span className="track-pin-sub sub-green">On Time</span>
-                  </div>
-                  <div className="track-pin-dot dot-blue" />
-                </div>
-
-                {/* Bus #88 — +5m Late */}
-                <div className="track-pin" style={{ left: "78%", top: "65%" }}>
-                  <div className="track-pin-label">
-                    Bus #88
-                    <span className="track-pin-sub sub-red">+5m Late</span>
-                  </div>
-                  <div className="track-pin-dot dot-red" />
-                </div>
-
-                {/* Legend */}
-                <div className="track-map-legend">
-                  <div className="track-map-legend-title">Legend</div>
-                  <div className="track-leg-row">
-                    <div className="track-leg-dot" style={{ background: "#3b82f6" }} />
-                    Moving Bus
-                  </div>
-                  <div className="track-leg-row">
-                    <div className="track-leg-dot" style={{ background: "#ef4444" }} />
-                    Heavy Congestion
-                  </div>
-                </div>
-
-              </div>
-            </div>
 
           </div>{/* /track-content */}
 
-          {/* Footer - Using reusable Footer component */}
+          {/* Footer */}
           <Footer />
         </div>{/* /track-main */}
       </div>{/* /track-body */}

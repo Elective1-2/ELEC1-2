@@ -39,6 +39,23 @@ function Passenger() {
   
   const { tripData, loading, error, stopTracking } = useTripData(trackingBus, !!trackingBus);
 
+
+  // In passenger.jsx, add this useEffect after the state declarations:
+
+  useEffect(() => {
+    // Check if coming from tracking page
+    const trackingBusNumber = sessionStorage.getItem('trackingBusNumber');
+    if (trackingBusNumber) {
+      // Clear the stored bus number
+      sessionStorage.removeItem('trackingBusNumber');
+      // Automatically track this bus
+      handleTrackBus(trackingBusNumber);
+      // Close the modal since we're auto-tracking
+      setIsModalOpen(false);
+    }
+}, []);
+
+
   // Handle bus submission from modal
   const handleTrackBus = async (busNumber) => {
     setModalError(null);
