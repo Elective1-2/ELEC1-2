@@ -1,8 +1,8 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-
+import { useAuth } from '../context/AuthContext';  // ← Removed AuthProvider
+import ProtectedSignupRoute from '../hooks/ProtectedSignupRoute';
 //? Hooks
-import SecretCodeSignup from '../hooks/SecretCodeSignup';
 
 //? Pages
 import Aboutus from '../pages/Aboutus';
@@ -21,7 +21,7 @@ function AppRoutes() {
     <Routes>
       {/* Logins */}
       <Route path="/login" element={<Login />} />
-      <Route path="/signup-secret" element={<SecretCodeSignup />} />
+      <Route path="/signup-secret" element={<ProtectedSignupRoute />} />
 
       {/* Infos */}
       <Route path="/about-us" element={<Aboutus />} />
@@ -35,7 +35,36 @@ function AppRoutes() {
       <Route path="/analytics" element={<Analytics />} />
       <Route path="/management" element={<Management />} />
 
-      {/* Default route */}
+      <Route 
+        path='/tracking' 
+        element={
+          // <ProtectedRoute allowedRoles={['admin']}>
+            <Tracking />
+          // </ProtectedRoute>
+        } 
+      />
+
+      <Route
+        path="/analytics"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <Analytics />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route 
+        path='/management' 
+        element={
+          // <ProtectedRoute allowedRoles={['admin']}>
+            <Management />
+          // </ProtectedRoute>
+        }
+      />
+
+      {/* Test route - accessible without auth */}
+      <Route path="/test-auth" element={<GoogleAuthTest />} />
+      
       <Route path="/" element={<Navigate to="/M2B" replace />} />
     </Routes>
   );

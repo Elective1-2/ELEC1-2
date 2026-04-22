@@ -1,0 +1,629 @@
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* DESKTOP — left panel + right map */
+.dmp-root {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  background: #f3f4f6;
+}
+
+/* Bottom panel — hidden on desktop */
+.dmp-bottom { display: none; }
+
+/* ── LEFT PANEL ── */
+.dmp-left {
+  width: clamp(240px, 26vw, 340px);
+  flex-shrink: 0;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(5px, 0.55vw, 8px);
+  padding: clamp(10px, 1vw, 14px) clamp(10px, 1vw, 16px);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── RIGHT PANEL (map) ── */
+.dmp-right {
+  flex: 1;
+  background: #e5e7eb;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Clock (desktop, inside left panel) ── */
+.dmp-clock-wrap {
+  position: absolute;
+  top: clamp(8px, 0.8vw, 12px);
+  right: clamp(10px, 1vw, 16px);
+  text-align: right;
+}
+
+.dmp-clock-time {
+  font-size: clamp(10px, 0.85vw, 12px);
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.dmp-clock-date {
+  font-size: clamp(8px, 0.65vw, 10px);
+  color: #6b7280;
+  margin-top: 1px;
+}
+
+/* ── Logo (desktop, inside left panel) ── */
+.dmp-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: clamp(6px, 0.6vw, 10px);
+  flex-shrink: 0;
+}
+
+.dmp-logo-seg {
+  width: clamp(28px, 2.8vw, 38px);
+  height: clamp(28px, 2.8vw, 38px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: clamp(11px, 1.1vw, 16px);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.dmp-logo-seg.seg-m { background: #1e2d3d; }
+.dmp-logo-seg.seg-2 { background: #38bdf8; }
+.dmp-logo-seg.seg-b { background: #f5a623; }
+
+/* ── Map overlays — hidden on desktop ── */
+.dmp-map-logo {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  z-index: 10;
+  gap: 4px;
+  align-items: center;
+}
+
+.dmp-map-clock {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 10;
+  background: rgba(255,255,255,0.92);
+  border-radius: 8px;
+  padding: 4px 10px;
+  text-align: right;
+}
+
+.dmp-map-clock .dmp-clock-time {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.dmp-map-clock .dmp-clock-date {
+  font-size: 9px;
+  color: #6b7280;
+  margin-top: 1px;
+}
+
+/* ══════════ SHARED COMPONENTS ══════════ */
+
+/* Section title */
+.dmp-section-title {
+  font-size: clamp(11px, 1vw, 14px);
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: 0.08em;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Driver card */
+.dmp-detail-card {
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: clamp(6px, 0.6vw, 9px) clamp(10px, 1vw, 14px);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.dmp-detail-label {
+  font-size: clamp(8px, 0.65vw, 10px);
+  font-weight: 600;
+  color: #9ca3af;
+  letter-spacing: 0.07em;
+  margin-bottom: 2px;
+}
+
+.dmp-driver-name {
+  font-size: clamp(13px, 1.2vw, 17px);
+  font-weight: 800;
+  color: #111827;
+}
+
+/* Times row */
+.dmp-times-row {
+  display: flex;
+  gap: clamp(8px, 0.9vw, 14px);
+  flex-shrink: 0;
+  position: relative;
+  padding-bottom: clamp(14px, 1.4vw, 18px);
+}
+
+.dmp-time-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dmp-time-value {
+  font-size: clamp(14px, 1.4vw, 20px);
+  font-weight: 900;
+  color: #111827;
+  line-height: 1;
+}
+
+/* Hide individual underlines — single shared bar used instead */
+.dmp-time-underline { display: none; }
+
+/* Single progress bar spanning full width of times row */
+.dmp-times-row::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, #22c55e 50%, #d1d5db 50%);
+}
+
+/* Tag rows */
+.dmp-tag-row {
+  display: flex;
+  gap: clamp(5px, 0.55vw, 8px);
+  flex-shrink: 0;
+}
+
+.dmp-tag-block {
+  flex: 1;
+  border-radius: 999px;
+  padding: clamp(6px, 0.6vw, 9px) clamp(8px, 0.8vw, 12px);
+  text-align: center;
+}
+
+/* ── FIX: origin and destination always yellow ── */
+.dmp-tag-block.origin      { background: #f5a623; }
+.dmp-tag-block.destination { background: #f5a623; }
+.dmp-tag-block.status-on   { background: #22c55e; }
+.dmp-tag-block.congestion  { background: #f97316; }
+
+.dmp-tag-label {
+  font-size: clamp(7px, 0.6vw, 9px);
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.05em;
+  margin-bottom: 1px;
+}
+
+/* ── FIX: bigger tag value text ── */
+.dmp-tag-value {
+  font-size: clamp(13px, 1.15vw, 17px);
+  font-weight: 800;
+  color: #111827;
+}
+
+/* Bus No + Passengers */
+.dmp-info-row {
+  display: flex;
+  gap: clamp(5px, 0.55vw, 8px);
+  flex-shrink: 0;
+}
+
+.dmp-info-block {
+  flex: 1;
+  border-radius: 14px;
+  padding: clamp(7px, 0.7vw, 10px) clamp(8px, 0.9vw, 12px);
+}
+
+.dmp-info-block.dark { background: #1e2d3d; }
+
+.dmp-info-top {
+  font-size: clamp(8px, 0.65vw, 10px);
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
+
+.dmp-info-number {
+  font-size: clamp(26px, 2.8vw, 38px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+
+.dmp-info-sub {
+  font-size: clamp(8px, 0.65vw, 10px);
+  color: #64748b;
+  margin-top: 3px;
+}
+
+/* End Trip button */
+.dmp-end-btn {
+  width: 100%;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-size: clamp(11px, 0.95vw, 14px);
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  padding: clamp(8px, 0.8vw, 11px);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+
+.dmp-end-btn:hover { background: #dc2626; }
+
+/* Emergency Call button */
+.dmp-emergency-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  background: #ffffff;
+  border: 2px solid #ef4444;
+  border-radius: 999px;
+  color: #ef4444;
+  font-size: clamp(11px, 0.95vw, 13px);
+  font-weight: 700;
+  padding: clamp(7px, 0.7vw, 10px);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+
+.dmp-emergency-btn:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+.dmp-emergency-icon { font-size: 13px; }
+
+/* Tablet-only / mobile-only sections — hidden on desktop */
+.dmp-tablet-grid  { display: none; }
+.dmp-mobile-stack { display: none; }
+
+
+/* TABLET (600 – 1023px)
+   Map top, 2-column details bottom */
+
+@media (max-width: 1023px) {
+
+  .dmp-root {
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Hide desktop left panel entirely */
+  .dmp-left { display: none; }
+
+  /* Map — top portion */
+  .dmp-right {
+    order: 0;
+    width: 100%;
+    height: 44vh;
+    flex: none;
+  }
+
+  /* Show map overlays */
+  .dmp-map-logo { display: flex; }
+  .dmp-map-clock { display: block; }
+
+  /* Bottom details panel — fixed height, fits all content without overflow */
+  .dmp-bottom {
+    display: flex;
+    flex-direction: column;
+    order: 1;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    background: #ffffff;
+    overflow: hidden;
+    padding: 10px 12px 10px;
+    gap: 6px;
+  }
+
+  .dmp-section-title {
+    font-size: 14px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  /* 2-column grid — flex:1 + min-height:0 so it shrinks properly */
+  .dmp-tablet-grid {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .dmp-tablet-left-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .dmp-tablet-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1.2;
+    min-height: 0;
+  }
+
+  /* Driver card — separate card, equal height as times card */
+  .dmp-tablet-right-col .dmp-detail-card {
+    border-radius: 12px;
+    padding: 8px 14px;
+    flex: 1;
+    min-height: 0;
+    background: #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .dmp-tablet-right-col .dmp-driver-name { font-size: 18px; }
+  .dmp-tablet-right-col .dmp-detail-label { font-size: 10px; }
+
+  /* Times row — one unified card, flex row */
+  .dmp-tablet-right-col .dmp-times-row {
+    background: #f3f4f6;
+    border-radius: 12px;
+    padding: 12px 16px 0;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Each time block: label top, value middle */
+  .dmp-tablet-right-col .dmp-time-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    padding-bottom: 14px;
+    position: static;
+  }
+
+  .dmp-tablet-right-col .dmp-time-block .dmp-detail-label {
+    font-size: 10px;
+    align-self: flex-start;
+  }
+
+  .dmp-tablet-right-col .dmp-time-value {
+    font-size: 22px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Hide individual underlines — we use one shared bar instead */
+  .dmp-tablet-right-col .dmp-time-underline {
+    display: none;
+  }
+
+  /* Single progress bar spanning full width, pinned near bottom */
+  .dmp-tablet-right-col .dmp-times-row::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 16px;
+    right: 16px;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, #22c55e 50%, #d1d5db 50%);
+  }
+
+  /* Bus blocks fill left col equally */
+  .dmp-tablet-left-col .dmp-info-block {
+    flex: 1;
+    min-height: 0;
+    border-radius: 14px;
+    padding: 10px 14px;
+  }
+
+  .dmp-tablet-left-col .dmp-info-number { font-size: 36px; }
+  .dmp-tablet-left-col .dmp-info-top    { font-size: 11px; }
+  .dmp-tablet-left-col .dmp-info-sub    { font-size: 10px; }
+
+  /* Tag row — flex-shrink:0 so it never gets pushed out */
+  .dmp-bottom > .dmp-tag-row {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .dmp-bottom > .dmp-tag-row .dmp-tag-block {
+    border-radius: 999px;
+    padding: 8px 6px;
+  }
+
+  .dmp-bottom > .dmp-tag-row .dmp-tag-value { font-size: 14px; }
+  .dmp-bottom > .dmp-tag-row .dmp-tag-label { font-size: 9px; }
+
+  /* Emergency button */
+  .dmp-bottom .dmp-emergency-btn {
+    font-size: 13px;
+    padding: 10px;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+
+  /* Hide mobile-only stack on tablet */
+  .dmp-mobile-stack { display: none; }
+}
+
+
+/* PHONE (< 600px)
+   Map top (~38vh), stacked details below */
+
+@media (max-width: 599px) {
+
+  .dmp-root {
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .dmp-left { display: none; }
+
+  /* Map top */
+  .dmp-right {
+    order: 0;
+    width: 100%;
+    height: 38vh;
+    flex: none;
+  }
+
+  .dmp-map-logo { display: flex; }
+  .dmp-map-clock { display: block; }
+
+  .dmp-map-logo .dmp-logo-seg {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+
+  /* Bottom panel — scrollable */
+  .dmp-bottom {
+    display: flex;
+    flex-direction: column;
+    order: 1;
+    width: 100%;
+    flex: 1;
+    background: #ffffff;
+    overflow-y: auto;
+    padding: 14px 14px 24px;
+    gap: 10px;
+  }
+
+  .dmp-section-title { font-size: 15px; }
+
+  /* Hide tablet 4-pill row and tablet grid on mobile */
+  .dmp-bottom > .dmp-tag-row { display: none; }
+  .dmp-tablet-grid { display: none; }
+
+  /* Show mobile stacked layout */
+  .dmp-mobile-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dmp-mobile-stack .dmp-detail-card {
+    border-radius: 12px;
+    padding: 12px 16px;
+    text-align: center;
+  }
+
+  .dmp-mobile-stack .dmp-driver-name  { font-size: 20px; }
+  .dmp-mobile-stack .dmp-detail-label { font-size: 11px; }
+
+  /* Mobile times row — side by side with single progress bar */
+  .dmp-mobile-stack .dmp-times-row {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    align-items: stretch;
+    background: #f3f4f6;
+    border-radius: 12px;
+    padding: 12px 14px clamp(20px, 3vw, 24px);
+    overflow: visible;
+  }
+
+  .dmp-mobile-stack .dmp-time-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2px;
+  }
+
+  /* Keep label on one line */
+  .dmp-mobile-stack .dmp-time-block .dmp-detail-label {
+    font-size: 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dmp-mobile-stack .dmp-time-value   { font-size: 22px; }
+
+  .dmp-mobile-stack .dmp-info-block {
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+
+  .dmp-mobile-stack .dmp-info-number  { font-size: 52px; }
+  .dmp-mobile-stack .dmp-info-top     { font-size: 12px; }
+  .dmp-mobile-stack .dmp-info-sub     { font-size: 11px; }
+
+  /* ── FIX: bigger tag text on mobile ── */
+  .dmp-mobile-stack .dmp-tag-block {
+    border-radius: 999px;
+    padding: 11px 10px;
+  }
+
+  .dmp-mobile-stack .dmp-tag-value    { font-size: 17px; }
+  .dmp-mobile-stack .dmp-tag-label    { font-size: 10px; }
+
+  .dmp-bottom .dmp-emergency-btn {
+    font-size: 14px;
+    padding: 13px;
+    border-radius: 999px;
+  }
+}
+
+
+/* 4K / ULTRA-WIDE (≥ 1920px) */
+@media (min-width: 1920px) {
+  .dmp-left        { width: 400px; gap: 12px; padding: 20px; }
+  .dmp-logo-seg    { width: 44px; height: 44px; font-size: 19px; }
+  .dmp-driver-name { font-size: 20px; }
+  .dmp-time-value  { font-size: 24px; }
+  .dmp-info-number { font-size: 46px; }
+  .dmp-tag-value   { font-size: 18px; }
+}

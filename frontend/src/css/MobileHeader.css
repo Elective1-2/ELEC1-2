@@ -1,11 +1,4 @@
-/* Import Figtree Font */
-@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;800&display=swap');
-
-/* ===================================================
-   MOBILE HEADER
-   Visible only on phones & tablet portrait (< 768px)
-   Logo → LEFT   |   Hamburger → RIGHT
-=================================================== */
+/*  MOBILE HEADER */
 .mobile-header {
   display: none;
   background: #1e2d3d;
@@ -58,9 +51,32 @@
   display: block;
 }
 
-/* ===================================================
-   SHOW on phones + tablet portrait (< 768px)
-=================================================== */
+/* ── Logo circles ── */
+.mobile-logo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mobile-logo-seg {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.mobile-logo-seg.seg-m { background: #2d4a6b; }
+.mobile-logo-seg.seg-2 { background: #38bdf8; }
+.mobile-logo-seg.seg-b { background: #f5a623; }
+
+/* SHOW on phones + tablet portrait (< 768px) */
 @media (max-width: 767px) {
   .mobile-header {
     display: flex;

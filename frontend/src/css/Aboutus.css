@@ -59,7 +59,7 @@
   font-size: 45px;
   font-weight: 900;
   color: #F1C40F;
-  margin: 0 0 12px;
+  margin: 0;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -100,6 +100,7 @@
   color: #F1C40F;
   font-weight: 900;
   font-size: 40px;
+  margin-top: 30px;
   margin-bottom: 12px;
   text-transform: uppercase;
 }
@@ -167,11 +168,6 @@
   border-radius: 16px;
   padding: 20px 40px;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.about-creator-row:hover {
-  transform: scale(1.03);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
 }
 
 .about-creator-avatar img {

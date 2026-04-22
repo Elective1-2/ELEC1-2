@@ -2,6 +2,19 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../css/Sidebar.css";
 import logoImage from "../assets/M2B logo for DB BG.png";
+import "../css/Sidebar.css";
+
+function Sidebar({ menuOpen, setMenuOpen }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Map sidebar display names to actual routes
+  const navItems = [
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Live Tracking", path: "/tracking" },
+    { name: "Analytics", path: "/analytics" },
+    { name: "Management", path: "/management" }
+  ];
 
 function Sidebar({ menuOpen, setMenuOpen }) {
   const navigate = useNavigate();
