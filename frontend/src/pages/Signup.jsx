@@ -1,3 +1,6 @@
+// todo: Fix UI -> Consistent design
+// todo: Fix UI -> Resend and Back to login is not that noticable
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import "../css/Signup.css";

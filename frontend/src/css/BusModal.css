@@ -1,0 +1,631 @@
+.bus-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.bus-modal {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.2s ease-out;
+  overflow: hidden;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.bus-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  flex-shrink: 0;
+}
+
+.bus-modal-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e2d3d;
+  margin: 0;
+}
+
+.bus-modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #9ca3af;
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.15s;
+}
+
+.bus-modal-close:hover {
+  background: #f3f4f6;
+  color: #ef4444;
+}
+
+/* Scrollable body */
+.bus-modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+  max-height: calc(90vh - 140px); /* Account for header + footer */
+}
+
+/* Custom scrollbar for better UX */
+.bus-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bus-modal-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.bus-modal-body::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.bus-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+.bus-form-group {
+  margin-bottom: 20px;
+}
+
+.bus-form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.bus-form-group input,
+.bus-form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-family: 'Figtree', sans-serif;
+  transition: all 0.15s;
+  box-sizing: border-box;
+}
+
+.bus-form-group input:focus,
+.bus-form-group select:focus {
+  outline: none;
+  border-color: #1e2d3d;
+  box-shadow: 0 0 0 3px rgba(30, 45, 61, 0.1);
+}
+
+.bus-form-group input:disabled,
+.bus-form-group select:disabled {
+  background: #f9fafb;
+  cursor: not-allowed;
+}
+
+/* Drivers list - scrollable independently */
+.bus-drivers-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px;
+  background: white;
+}
+
+.bus-drivers-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bus-drivers-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.bus-drivers-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.bus-driver-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.bus-driver-checkbox:hover {
+  background: #f9fafb;
+}
+
+.bus-driver-checkbox input {
+  width: auto;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.bus-driver-checkbox span {
+  font-weight: 500;
+  color: #1f2937;
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.bus-driver-checkbox small {
+  color: #6b7280;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.bus-no-drivers {
+  text-align: center;
+  color: #9ca3af;
+  padding: 20px;
+  font-size: 0.875rem;
+}
+
+.bus-modal-error {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.875rem;
+  border-left: 3px solid #dc2626;
+}
+
+.bus-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+  flex-shrink: 0;
+}
+
+.bus-modal-cancel,
+.bus-modal-submit {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Figtree', sans-serif;
+}
+
+.bus-modal-cancel {
+  background: white;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+.bus-modal-cancel:hover {
+  background: #f3f4f6;
+}
+
+.bus-modal-submit {
+  background: #1e2d3d;
+  border: none;
+  color: white;
+}
+
+.bus-modal-submit:hover {
+  background: #2c3e50;
+}
+
+.bus-modal-submit:disabled,
+.bus-modal-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.bus-form-disabled {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background: #f9fafb;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checkbox-label input {
+  width: auto;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .bus-modal-overlay {
+    padding: 10px;
+  }
+  
+  .bus-modal {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+  
+  .bus-modal-body {
+    padding: 16px;
+    max-height: calc(95vh - 130px);
+  }
+  
+  .bus-modal-header {
+    padding: 16px 20px;
+  }
+  
+  .bus-modal-footer {
+    padding: 12px 20px;
+  }
+  
+  .bus-driver-checkbox {
+    flex-wrap: wrap;
+  }
+  
+  .bus-driver-checkbox small {
+    width: 100%;
+    margin-left: 28px;
+  }
+  
+}
+
+/* Add to your existing BusModal.css */
+
+.required {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+.bus-form-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.bus-form-error {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #dc2626;
+}
+
+.bus-form-error-input {
+  border-color: #dc2626 !important;
+}
+
+.bus-form-error-input:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1) !important;
+}
+
+.bus-form-info {
+  margin-top: 16px;
+  padding: 8px 12px;
+  background-color: #f3f4f6;
+  border-radius: 6px;
+}
+
+.bus-form-info small {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+.checkbox-label span {
+  user-select: none;
+}
+
+/* Ensure modal body is scrollable */
+.bus-modal-body {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Custom scrollbar for modal body */
+.bus-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bus-modal-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.bus-modal-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.bus-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Large modal variant */
+.bus-modal-large {
+  max-width: 800px;
+  width: 90%;
+}
+
+/* Assignments section styles */
+.assignments-section {
+  margin-bottom: 24px;
+}
+
+.assignments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.assignments-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.mgmt-add-btn-small {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.no-assignments-message {
+  color: #64748b;
+  font-style: italic;
+  padding: 20px;
+  text-align: center;
+  background-color: #f8fafc;
+  border-radius: 6px;
+}
+
+.assignments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.assignment-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.assignment-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.assignment-info {
+  flex: 1;
+}
+
+.assignment-bus {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.assignment-bus strong {
+  color: #1e293b;
+}
+
+.assignment-route {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+
+.assignment-date {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.assignment-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.assignment-edit-btn,
+.assignment-delete-btn {
+  padding: 4px 12px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.assignment-edit-btn {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.assignment-edit-btn:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.assignment-delete-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.assignment-delete-btn:hover:not(:disabled) {
+  background-color: #dc2626;
+}
+
+.assignment-edit-btn:disabled,
+.assignment-delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.assignment-form-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 2px solid #e2e8f0;
+}
+
+.assignment-form-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* Custom scrollbar for assignments list */
+.assignments-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.assignments-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.assignments-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.assignments-list::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.required {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+.bus-form-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.bus-form-info {
+  margin-top: 16px;
+  padding: 8px 12px;
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+}
+
+.bus-form-info small {
+  color: #0369a1;
+  font-size: 12px;
+}
+
+.bus-modal-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  border: 1px solid #fecaca;
+}
+
+/* Ensure modal body is scrollable */
+.bus-modal-body {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Custom scrollbar for modal body */
+.bus-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bus-modal-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.bus-modal-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.bus-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

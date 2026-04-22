@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+// todo:Change admin Avatar to be the logo 
+
+import React, { useState, useEffect } from "react";
 import "../css/AdminNavbar.css";
 
-function AdminNavbar() {
-  const [searchValue, setSearchValue] = useState("");
+function AdminNavbar({ onSearchChange, initialSearchValue = "" }) {
+  const [searchValue, setSearchValue] = useState(initialSearchValue);
+
+  useEffect(() => {
+    setSearchValue(initialSearchValue);
+  }, [initialSearchValue]);
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchValue(value);
+    if (onSearchChange) {
+      onSearchChange(value);
+    }
+  };
 
   const handleSearchClear = () => {
     setSearchValue("");
+    if (onSearchChange) {
+      onSearchChange("");
+    }
   };
 
   return (
@@ -17,9 +34,9 @@ function AdminNavbar() {
         </svg>
         <input 
           type="text" 
-          placeholder="Search bus number"
+          placeholder="Search bus or driver"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={handleSearchChange}
         />
         {searchValue && (
           <span className="admin-search-clear" onClick={handleSearchClear}>✕</span>
@@ -28,8 +45,7 @@ function AdminNavbar() {
       
       <div className="admin-nav-right">
         <div className="admin-info">
-          <div className="admin-name">Admin123</div>
-          <div className="admin-role">Admin</div>
+          <div className="admin-name">M2B</div>
         </div>
         
         <div className="admin-avatar">

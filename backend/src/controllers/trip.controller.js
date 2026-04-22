@@ -205,11 +205,110 @@ const getETA = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/admin/trips/active
+ * Get all active trips (en_route status) for admin tracking
+ */
+const getActiveTrips = async (req, res) => {
+  try {
+    const [trips] = await pool.query(
+      `SELECT 
+        t.trip_id,
+        t.scheduled_departure,
+        t.actual_departure,
+        t.status,
+        b.bus_id,
+        b.bus_number,
+        b.plate_number,
+        b.capacity,
+        u.user_id as driver_id,
+        u.full_name as driver_name,
+        u.phone as driver_phone,
+        r.route_id,
+        r.name as route_name,
+        r.start_location,
+        r.end_location,
+        r.base_duration_minutes,
+        r.distance_km,
+        pc.passenger_count,
+        pc.is_overflow,
+        pc.recorded_at as passenger_updated_at,
+        ll.latitude,
+        ll.longitude,
+        ll.speed,
+        ll.heading,
+        ll.reported_at as location_updated_at
+       FROM trips t
+       JOIN buses b ON t.bus_id = b.bus_id
+       JOIN users u ON t.driver_id = u.user_id
+       JOIN routes r ON t.route_id = r.route_id
+       LEFT JOIN (
+         SELECT pc1.trip_id, pc1.passenger_count, pc1.is_overflow, pc1.recorded_at
+         FROM passenger_counts pc1
+         INNER JOIN (
+           SELECT trip_id, MAX(recorded_at) as max_recorded
+           FROM passenger_counts
+           GROUP BY trip_id
+         ) pc2 ON pc1.trip_id = pc2.trip_id AND pc1.recorded_at = pc2.max_recorded
+       ) pc ON t.trip_id = pc.trip_id
+       LEFT JOIN (
+         SELECT ll1.trip_id, ll1.latitude, ll1.longitude, ll1.speed, ll1.heading, ll1.reported_at
+         FROM live_locations ll1
+         INNER JOIN (
+           SELECT trip_id, MAX(reported_at) as max_reported
+           FROM live_locations
+           GROUP BY trip_id
+         ) ll2 ON ll1.trip_id = ll2.trip_id AND ll1.reported_at = ll2.max_reported
+       ) ll ON t.trip_id = ll.trip_id
+       WHERE t.status = 'en_route'
+       ORDER BY t.actual_departure DESC, t.scheduled_departure DESC`
+    );
+
+    const activeTrips = trips.map(trip => ({
+      trip_id: trip.trip_id,
+      bus_id: trip.bus_id,
+      bus_number: trip.bus_number,
+      plate_number: trip.plate_number,
+      capacity: trip.capacity,
+      driver_id: trip.driver_id,
+      driver_name: trip.driver_name,
+      driver_phone: trip.driver_phone,
+      route_id: trip.route_id,
+      route_name: trip.route_name,
+      start_location: trip.start_location,
+      end_location: trip.end_location,
+      base_duration_minutes: trip.base_duration_minutes,
+      distance_km: trip.distance_km,
+      scheduled_departure: trip.scheduled_departure,
+      actual_departure: trip.actual_departure,
+      status: trip.status,
+      passenger_count: trip.passenger_count,
+      is_overflow: trip.is_overflow === 1,
+      passenger_updated_at: trip.passenger_updated_at,
+      latitude: trip.latitude ? parseFloat(trip.latitude) : null,
+      longitude: trip.longitude ? parseFloat(trip.longitude) : null,
+      speed: trip.speed ? parseFloat(trip.speed) : null,
+      heading: trip.heading,
+      location_updated_at: trip.location_updated_at
+    }));
+
+    res.json({
+      success: true,
+      trips: activeTrips,
+      total: activeTrips.length
+    });
+  } catch (error) {
+    console.error('Get active trips error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 module.exports = {
   startTrip,
   reportLocation,
   reportPassengerCount,
   completeTrip,
   getLiveLocation,
-  getETA
+  getETA,
+  getActiveTrips
 };

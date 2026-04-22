@@ -5,8 +5,6 @@ import LiveMap from "../components/LiveMap";
 import BusNumberModal from "../components/BusNumberModal";
 import "../css/passenger.css";
 
-// ! TEST
-// import SimpleMap from '../components/SimpleMap';
 
 function LiveClock() {
   const [now, setNow] = useState(new Date());

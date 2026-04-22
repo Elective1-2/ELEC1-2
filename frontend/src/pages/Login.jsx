@@ -1,6 +1,10 @@
+// todo: Fix delayed Google auth button
+// todo: Modify Database and login to let user's sign up without google (Priority: low)
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Navbar from '../components/Navbar';
 import "../css/Login.css";
 
 function Login() {
@@ -131,18 +135,22 @@ function Login() {
 
   return (
     <div className="login-root">
+        <Navbar />
       <div className="login-page">
         <div className="login-card">
           <h1 className="login-card-title">LOGIN</h1>
 
-          <div style={{ marginBottom: '20px', fontSize: '12px', textAlign: 'center' }}>
+          {/* !Test */}
+          {/* <div style={{ marginBottom: '20px', fontSize: '12px', textAlign: 'center' }}>
             Backend: {backendStatus === 'online' ? '✅ Online' : backendStatus === 'checking' ? '⏳ Checking...' : '❌ Offline'}
-          </div>
+          </div> */}
 
           {error && <div className="login-error">{error}</div>}
 
+          {/* todo: Signin button is delayed cause of usestate  */}
           <div id="googleSignInButton" style={{ display: 'flex', justifyContent: 'center' }}></div>
           
+
           {loading && <p style={{ textAlign: 'center', marginTop: '20px' }}>Loading...</p>}
         </div>
       </div>

@@ -14,6 +14,8 @@ import Tracking from '../pages/Tracking';
 import Analytics from '../pages/analytics';
 import M2BDashboard from '../pages/dashboard';
 import Management from '../pages/management';
+import DriverMap from '../pages/drivermap';
+import DriverMain from '../pages/drivermain';
 
 function AppRoutes() {
   console.log('AppRoutes rendering');
@@ -25,7 +27,7 @@ function AppRoutes() {
 
       {/* Infos */}
       <Route path="/about-us" element={<Aboutus />} />
-      <Route path="/M2B" element={<LandingPage />} />
+      <Route path="/" element={<LandingPage />} />
 
       {/* Main Pages - All Accessible */}
       <Route path="/passenger" element={<Passenger />} />
@@ -34,38 +36,32 @@ function AppRoutes() {
       <Route path="/tracking" element={<Tracking />} />
       <Route path="/analytics" element={<Analytics />} />
       <Route path="/management" element={<Management />} />
+      <Route path="/drivermap" element={<DriverMap/>} />
+      <Route path="/drivermain" element={<DriverMain/>} />
 
       <Route 
         path='/tracking' 
         element={
-          // <ProtectedRoute allowedRoles={['admin']}>
             <Tracking />
-          // </ProtectedRoute>
         } 
       />
 
       <Route
         path="/analytics"
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
             <Analytics />
-          </ProtectedRoute>
         }
       />
 
       <Route 
         path='/management' 
         element={
-          // <ProtectedRoute allowedRoles={['admin']}>
             <Management />
-          // </ProtectedRoute>
         }
       />
 
-      {/* Test route - accessible without auth */}
-      <Route path="/test-auth" element={<GoogleAuthTest />} />
       
-      <Route path="/" element={<Navigate to="/M2B" replace />} />
+      <Route path="/" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

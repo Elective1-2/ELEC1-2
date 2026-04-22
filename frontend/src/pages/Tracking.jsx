@@ -67,7 +67,7 @@ function Tracking() {
             {/* ── Active Buses ── */}
             <div className="track-card">
               <div className="track-card-header">
-                <span className="track-card-title">Active Buses</span>
+                <span className="track-card-title">Active Trips</span>
                 <span className="track-badge">24</span>
               </div>
 

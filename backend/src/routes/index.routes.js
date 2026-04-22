@@ -19,13 +19,27 @@ const {
   completeTrip,
   getLiveLocation,
   getETA,
+  getActiveTrips,  
 } = require('../controllers/trip.controller');
 
 const {
   getActiveTripByBusNumber,
   getAllBuses,
+  getBusById,
   createBus,
   updateBus,
+  deleteBus,
+  assignBusToDriverAndRoute,
+  removeBusAssignment,
+  getAllDrivers,
+  getDriverById,
+  updateDriver,
+  deleteDriver,
+  assignDriverToBus,
+  updateAssignment,      
+  deleteAssignment,      
+  addDriverAssignment,   
+  addBusAssignment,
 } = require('../controllers/bus.controller');
 
 const {
@@ -82,10 +96,28 @@ router.post('/trips/:tripId/passengers', authenticateToken, reportPassengerCount
 router.post('/trips/:tripId/complete', authenticateToken, completeTrip);
 
 // ========== ADMIN ROUTES (authenticated + admin role) ==========
-// Buses
 router.get('/admin/buses', authenticateToken, requireRole(['admin']), getAllBuses);
+router.get('/admin/buses/:busId', authenticateToken, requireRole(['admin']), getBusById);
 router.post('/admin/buses', authenticateToken, requireRole(['admin']), createBus);
 router.put('/admin/buses/:busId', authenticateToken, requireRole(['admin']), updateBus);
+router.delete('/admin/buses/:busId', authenticateToken, requireRole(['admin']), deleteBus);
+router.post('/admin/buses/:busId/assignments', authenticateToken, requireRole(['admin']), addBusAssignment);
+
+// Bus Assignments
+router.post('/admin/buses/:busId/assign', authenticateToken, requireRole(['admin']), assignBusToDriverAndRoute);
+router.delete('/admin/buses/:busId/assignments/:assignmentId', authenticateToken, requireRole(['admin']), removeBusAssignment);
+
+// Drivers
+router.get('/admin/drivers', authenticateToken, requireRole(['admin']), getAllDrivers);
+router.get('/admin/drivers/:driverId', authenticateToken, requireRole(['admin']), getDriverById);
+router.put('/admin/drivers/:driverId', authenticateToken, requireRole(['admin']), updateDriver);
+router.delete('/admin/drivers/:driverId', authenticateToken, requireRole(['admin']), deleteDriver);
+router.post('/admin/drivers/:driverId/assign', authenticateToken, requireRole(['admin']), assignDriverToBus);
+
+// Individual Assignment Management (NEW ROUTES)
+router.put('/admin/assignments/:assignmentId', authenticateToken, requireRole(['admin']), updateAssignment);
+router.delete('/admin/assignments/:assignmentId', authenticateToken, requireRole(['admin']), deleteAssignment);
+router.post('/admin/drivers/:driverId/assignments', authenticateToken, requireRole(['admin']), addDriverAssignment);
 
 // Routes
 router.get('/admin/routes', authenticateToken, requireRole(['admin']), getAllRoutes);
@@ -98,13 +130,13 @@ router.get('/admin/routes/:routeId/congestion', authenticateToken, requireRole([
 router.get('/admin/dashboard/stats', authenticateToken, requireRole(['admin']), getDashboardStats);
 router.get('/admin/analytics/passengers', authenticateToken, requireRole(['admin']), getPassengerAnalytics);
 router.post('/admin/congestion/report', authenticateToken, requireRole(['admin']), reportCongestion);
+router.get('/admin/trips/active', authenticateToken, requireRole(['admin']), getActiveTrips);
 
 // ========== MAPS ROUTES (public, but rate-limited) ==========
 router.get('/maps/eta', getMapsETA);
 router.get('/maps/directions', getDirections);
 router.post('/maps/geocode', geocode);
 router.post('/maps/reverse-geocode', reverseGeocode);
-
 
 router.use('/*splat', (req, res) => {
   res.status(404).json({ error: 'Route not found' });

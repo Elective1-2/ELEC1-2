@@ -1,0 +1,85 @@
+.kebab-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.kebab-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: #6b7280;
+  transition: all 0.15s;
+  line-height: 1;
+}
+
+.kebab-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.kebab-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 4px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 100px;
+  z-index: 100;
+  overflow: hidden;
+  animation: dropdownFadeIn 0.15s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.kebab-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: 'Figtree', sans-serif;
+}
+
+.kebab-item:hover {
+  background: #f9fafb;
+}
+
+.kebab-item.edit {
+  color: #374151;
+}
+
+.kebab-item.delete {
+  color: #dc2626;
+}
+
+.kebab-item.delete:hover {
+  background: #fef2f2;
+}
+
+.kebab-item.assign {
+  color: #3b82f6;
+}
+
+.kebab-item.assign:hover {
+  background: #eff6ff;
+}

@@ -188,13 +188,13 @@ function Analytics() {
         {/* Main scrollable area */}
         <div className="analytics-main">
           {/* Top navbar */}
-          <AdminNavbar
+          {/* <AdminNavbar
             showNotifications={showNotifications}
             setShowNotifications={setShowNotifications}
             notifications={notifications}
             setNotifications={setNotifications}
             unreadCount={unreadCount}
-          />
+          /> */}
 
           {/* Page content */}
           <div className="analytics-content">
@@ -255,7 +255,6 @@ function Analytics() {
                         {t.status}
                       </span>
                     </div>
-                    <button className="analytics-trip-btn">VIEW</button>
                   </div>
                 ))}
               </div>
