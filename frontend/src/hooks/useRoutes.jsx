@@ -13,7 +13,7 @@ export function useRoutes() {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/admin/routes`, {
+      const response = await fetch(`${API_BASE}/admin/routes`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
