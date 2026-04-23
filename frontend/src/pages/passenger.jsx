@@ -39,24 +39,15 @@ function Passenger() {
   
   const { tripData, loading, error, stopTracking } = useTripData(trackingBus, !!trackingBus);
 
-
-  // In passenger.jsx, add this useEffect after the state declarations:
-
   useEffect(() => {
-    // Check if coming from tracking page
     const trackingBusNumber = sessionStorage.getItem('trackingBusNumber');
     if (trackingBusNumber) {
-      // Clear the stored bus number
       sessionStorage.removeItem('trackingBusNumber');
-      // Automatically track this bus
       handleTrackBus(trackingBusNumber);
-      // Close the modal since we're auto-tracking
       setIsModalOpen(false);
     }
 }, []);
 
-
-  // Handle bus submission from modal
   const handleTrackBus = async (busNumber) => {
     setModalError(null);
     
@@ -76,14 +67,12 @@ function Passenger() {
     }
   };
 
-  // Handle modal close (stop tracking)
   const handleModalClose = () => {
     if (!trackingBus) {
       setIsModalOpen(false);
     }
   };
 
-  // Format time helper
   const formatTime = (datetimeString) => {
     if (!datetimeString) return '—';
     const date = new Date(datetimeString);
@@ -94,7 +83,6 @@ function Passenger() {
     });
   };
 
-  // Format date for display
   const formatDate = (datetimeString) => {
     if (!datetimeString) return '—';
     const date = new Date(datetimeString);
@@ -104,7 +92,6 @@ function Passenger() {
     });
   };
 
-  // Get congestion level text
   const getCongestionLevel = (passengerCount, capacity) => {
     if (!passengerCount || !capacity) return 'Unknown';
     const percentage = (passengerCount / capacity) * 100;
@@ -114,7 +101,6 @@ function Passenger() {
     return 'Low';
   };
 
-  // Get status text and class
   const getStatusInfo = (status) => {
     switch (status) {
       case 'en_route': return { text: 'En Route', class: 'status-on' };
@@ -138,7 +124,6 @@ function Passenger() {
 
   return (
     <div className="dmp-root">
-      {/* Bus Number Modal */}
       <BusNumberModal
         isOpen={isModalOpen}
         onClose={handleModalClose}
@@ -146,7 +131,6 @@ function Passenger() {
         error={modalError}
       />
 
-      {/* LEFT PANEL — desktop only */}
       <div className="dmp-left">
         <div className="dmp-clock-wrap">
           <LiveClock />
@@ -160,7 +144,6 @@ function Passenger() {
         </Link>
         <div className="dmp-section-title">ACTIVE TRIP DETAILS</div>
 
-        {/* Bus info */}
         {tripData && !loading ? (
           <>
             <div className="dmp-info-block dark full-width">
@@ -169,7 +152,6 @@ function Passenger() {
               <div className="dmp-info-sub">Capacity: {tripData.bus?.capacity || '—'} passengers</div>
             </div>
 
-            {/* Origin / Destination */}
             <div className="dmp-tag-row">
               <div className="dmp-tag-block origin">
                 <div className="dmp-tag-label">ORIGIN</div>
@@ -185,7 +167,6 @@ function Passenger() {
               </div>
             </div>
 
-            {/* Status / Congestion */}
             <div className="dmp-tag-row">
               <div className={`dmp-tag-block ${statusInfo.class}`}>
                 <div className="dmp-tag-label">STATUS</div>
@@ -197,7 +178,6 @@ function Passenger() {
               </div>
             </div>
 
-            {/* Times */}
             <div className="dmp-times-container">
               <div className="dmp-times-row">
                 <div className="dmp-time-block">
@@ -217,7 +197,6 @@ function Passenger() {
               </div>
             </div>
 
-            {/* Driver */}
             <div className="dmp-detail-card">
               <div className="dmp-detail-label">DRIVER</div>
               <div className="dmp-driver-name">
@@ -232,14 +211,8 @@ function Passenger() {
             <div className="dmp-info-sub">Enter a bus number to track</div>
           </div>
         )}
-
-        <button className="dmp-emergency-btn">
-          <span className="dmp-emergency-icon">📞</span>
-          <strong>Emergency</strong> Call
-        </button>
       </div>
 
-      {/* RIGHT PANEL — map */}
       <div className="dmp-right">
         <Link to={"/"}>
           <div className="dmp-map-logo">
@@ -252,7 +225,6 @@ function Passenger() {
           <LiveClock />
         </div>
 
-        {/* <SimpleMap /> */}
         <LiveMap
           busLocation={busLocation}
           origin={tripData?.trip?.startLocation}
@@ -261,7 +233,6 @@ function Passenger() {
 
       </div>
 
-      {/* BOTTOM PANEL — tablet/mobile only */}
       <div className="dmp-bottom">
         <div className="dmp-section-title">ACTIVE TRIP DETAILS</div>
 
@@ -390,10 +361,6 @@ function Passenger() {
           </div>
         )}
 
-        <button className="dmp-emergency-btn">
-          <span className="dmp-emergency-icon">📞</span>
-          <strong>Emergency</strong> Call
-        </button>
       </div>
     </div>
   );

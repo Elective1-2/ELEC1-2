@@ -1,11 +1,9 @@
 import React from 'react';
 import '../css/Aboutus.css';
 
-// --- Shared Components ---
 import Navbar from '../components/menu/Navbar';
 import Footer from '../components/menu/Footer';
 
-// --- Imports: Photos ---
 import glenPic from '../assets/glen.jpg'; 
 import christianPic from '../assets/christian.jpg'; 
 import davePic from '../assets/dave.jpg';
@@ -25,12 +23,10 @@ function Aboutus() {
     <div className="about-root">
       <Navbar />
 
-      {/* Hero Section - Subtext Removed */}
       <div className="about-hero desktop">
         <h1 className="about-hero-title">ABOUT US</h1>
       </div>
 
-      {/* Intro Section */}
       <div className="about-feat-section desktop">
         <h1 className="about-feat-h1">BY COMMUTERS,</h1>
         <h2 className="about-feat-h2">FOR COMMUTERS.</h2>
@@ -40,7 +36,6 @@ function Aboutus() {
         </p>
       </div>
 
-      {/* Mission & Vision Section */}
       <div className="about-grid-container">
         <div className="about-grid">
           <div className="about-card">
@@ -60,7 +55,6 @@ function Aboutus() {
         </div>
       </div>
 
-      {/* What We Do Section */}
       <div className="about-wwd-wrapper">
         <h2 className="about-feat-h1">WHAT WE DO</h2>
         <div className="about-wwd-flex">
@@ -77,7 +71,6 @@ function Aboutus() {
         </div>
       </div>
 
-      {/* Creators Section */}
       <div className="about-creators-wrapper">
         <h2 className="about-feat-h1">THE CREATORS</h2>
         <div className="about-creators-list">

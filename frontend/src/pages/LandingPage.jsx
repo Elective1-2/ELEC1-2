@@ -34,7 +34,6 @@ function LandingPage() {
     <div className="landing-root">
       <Navbar />
 
-      {/* HERO */}
       <section className={`landing-hero ${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}`}>
         <h1 className="landing-hero-title">Tara, Biyahe Tayo!</h1>
         <p className="landing-hero-sub">
@@ -46,7 +45,6 @@ function LandingPage() {
         </button>
       </section>
 
-      {/* FEATURES */}
       <section className={`landing-feat-section ${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}`}>
         <h2 className="landing-feat-h1">By Commuters,</h2>
         <h2 className="landing-feat-h2">For Commuters.</h2>
@@ -54,7 +52,6 @@ function LandingPage() {
           Everything you need to analyze modern public transportation in one single dashboard.
         </p>
 
-        {/* DESKTOP GRID */}
         {isDesktop && (
           <div className="landing-grid">
             {features.map((f, i) => (
@@ -66,7 +63,6 @@ function LandingPage() {
           </div>
         )}
 
-        {/* MOBILE + TABLET CAROUSEL */}
         {!isDesktop && (
           <div className="lc-wrapper">
             <ul className="lc-carousel">

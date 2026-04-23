@@ -15,7 +15,6 @@ function M2BDashboard() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [activePage, setActivePage] = useState("Dashboard");
 
-  
   const { stats, loading } = useDashboard(true);
 
   useEffect(() => {
@@ -37,7 +36,6 @@ function M2BDashboard() {
         <div className="m2b-content">
           <div className="m2b-page-title">Welcome back, M2B Admin!</div>
           
-          {/* Stats Grid */}
           <div className="m2b-stats">
             <StatCard 
               label="Active Buses"
@@ -69,10 +67,8 @@ function M2BDashboard() {
             />
           </div>
 
-          {/* Quick Actions */}
           <QuickActions />
 
-          {/* Live Transit Map - Placeholder */}
           <div className="m2b-map-card">
             <div className="m2b-map-title">Live Transit</div>
             <div className="m2b-map-body m2b-map-placeholder">

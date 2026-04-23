@@ -1,4 +1,3 @@
-// src/pages/Analytics.jsx
 import React, { useState, useEffect } from "react";
 import MobileHeader from "../components/menu/MobileHeader";
 import Sidebar from "../components/menu/Sidebar";
@@ -19,7 +18,6 @@ import {
 } from "../hooks/useAnalytics";
 import "../css/analytics.css";
 
-// Helper function to format date
 const formatDate = (dateStr) => {
   if (!dateStr) return '';
   const date = new Date(dateStr);
@@ -32,7 +30,6 @@ function Analytics() {
   const [weekOffset, setWeekOffset] = useState(0);
   const [showFilters, setShowFilters] = useState(false);
   
-  // Filters state
   const [filters, setFilters] = useState({
     page: 1,
     limit: 10,
@@ -42,7 +39,6 @@ function Analytics() {
     dateEnd: new Date().toISOString().split('T')[0]
   });
 
-  // Custom hooks for data fetching
   const { summary, loading: summaryLoading, refetch: refetchSummary } = useAnalyticsSummary();
   const { data: weeklyRidership, loading: ridershipLoading, refetch: refetchRidership } = useWeeklyRidership(weekOffset);
   const { data: delayHistory, loading: delayLoading, refetch: refetchDelay } = useDelayHistory(weekOffset);
@@ -50,7 +46,6 @@ function Analytics() {
   const { data: tripHistory, pagination, loading: tripsLoading, refetch: refetchTrips } = useTripHistory(filters);
   const { routes: routesForFilter, loading: routesLoading } = useRoutesWithTrips();
 
-  // Auto-refresh every 30 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       refetchSummary();
@@ -62,17 +57,15 @@ function Analytics() {
     return () => clearInterval(interval);
   }, [refetchSummary, refetchRidership, refetchDelay, refetchPerformance, refetchTrips]);
 
-  // Handle filter changes
+
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value, page: 1 }));
   };
 
-  // Handle page change
   const handlePageChange = (newPage) => {
     setFilters(prev => ({ ...prev, page: newPage }));
   };
 
-  // Clear all filters
   const clearFilters = () => {
     setFilters({
       page: 1,
@@ -97,7 +90,6 @@ function Analytics() {
         <div className="analytics-main">
           
           <div className="analytics-content">
-            {/* Header */}
             <div className="analytics-header">
               <h1 className="analytics-title">Analytics Dashboard</h1>
               <div className="analytics-week-navigator">
@@ -105,7 +97,6 @@ function Analytics() {
                   className="week-nav-btn"
                   onClick={() => setWeekOffset(prev => prev - 1)}
                 >
-                  ← Previous Week
                 </button>
                 <span className="week-range">
                   {formatDate(weeklyRidership.weekStart)} - {formatDate(weeklyRidership.weekEnd)}
@@ -120,10 +111,8 @@ function Analytics() {
               </div>
             </div>
 
-            {/* Summary Cards */}
             <SummaryCards summary={summary} loading={summaryLoading} />
 
-            {/* Charts Row */}
             <div className="analytics-charts-row">
               <div className="chart-card">
                 <div className="chart-header">
@@ -142,7 +131,6 @@ function Analytics() {
               </div>
             </div>
 
-            {/* Route Performance */}
             <div className="chart-card full-width">
               <div className="chart-header">
                 <h3>Route Performance (Last 7 Days)</h3>
@@ -151,7 +139,6 @@ function Analytics() {
               <RoutePerformanceList data={routePerformance} loading={performanceLoading} />
             </div>
 
-            {/* Trip History */}
             <div className="chart-card full-width">
               <div className="chart-header with-filter">
                 <div>
@@ -183,7 +170,6 @@ function Analytics() {
               />
             </div>
 
-            {/* Auto-refresh indicator */}
             <div className="analytics-refresh-info">
               <span>Auto-refreshes every 30 seconds</span>
             </div>
