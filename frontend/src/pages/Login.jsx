@@ -99,7 +99,7 @@ function Login() {
         window.google.accounts.id.cancel();
         
         window.google.accounts.id.initialize({
-          client_id: 824368345277-d9bubjeb9hdbbbs33eaj6117l4qu40qk.apps.googleusercontent.com,
+          client_id: '824368345277-d9bubjeb9hdbbbs33eaj6117l4qu40qk.apps.googleusercontent.com',
           callback: handleGoogleResponse,
           auto_select: false,
         });
