@@ -99,7 +99,7 @@ app.get('/health', (req, res) => {
 
 // Only serve static files in production
   if (process.env.NODE_ENV === 'production') {
-    const frontendBuildPath = path.join(__dirname, '../../public_html/dist');
+    const frontendBuildPath = path.join(__dirname, '../dist');
     
     // Add this debug code
     const fs = require('fs');
