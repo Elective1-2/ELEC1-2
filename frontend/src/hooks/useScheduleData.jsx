@@ -47,7 +47,7 @@ export function useAllRoutes() {
   useEffect(() => {
     const fetchRoutes = async () => {
       try {
-        const response = await fetch(`${API_URL}/schedules/routes`);
+        const response = await fetch(`${API_BASE}/schedules/routes`);
         const data = await response.json();
 
         if (!response.ok) {
