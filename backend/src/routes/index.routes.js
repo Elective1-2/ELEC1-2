@@ -19,7 +19,12 @@ const {
   completeTrip,
   getLiveLocation,
   getETA,
-  getActiveTrips,  
+  getActiveTrips,
+  getDriverAssignedRoutes,      
+  getAvailableDepartures,        
+  createTripFromSchedule,
+  getDriverActiveTrip,
+  getTripDetails
 } = require('../controllers/trip.controller');
 
 const {
@@ -103,6 +108,12 @@ router.post('/trips/:tripId/start', authenticateToken, startTrip);
 router.post('/trips/:tripId/location', authenticateToken, reportLocation);
 router.post('/trips/:tripId/passengers', authenticateToken, reportPassengerCount);
 router.post('/trips/:tripId/complete', authenticateToken, completeTrip);
+
+router.get('/driver/routes/assigned', authenticateToken, requireRole(['driver']), getDriverAssignedRoutes);
+router.get('/driver/routes/:routeId/departures', authenticateToken, requireRole(['driver']), getAvailableDepartures);
+router.post('/driver/trips/create', authenticateToken, requireRole(['driver']), createTripFromSchedule);
+router.get('/driver/trips/active', authenticateToken, requireRole(['driver']), getDriverActiveTrip); 
+router.get('/driver/trips/:tripId/details', authenticateToken, requireRole(['driver']), getTripDetails);
 
 // ========== ADMIN ROUTES (authenticated + admin role) ==========
 router.get('/admin/buses', authenticateToken, requireRole(['admin']), getAllBuses);

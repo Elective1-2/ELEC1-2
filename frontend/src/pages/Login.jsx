@@ -52,7 +52,7 @@ function Login() {
         if (result.user.role === 'admin') {
           navigate('/dashboard');
         } else if (result.user.role === 'driver') {
-          navigate('/drivermain');
+          navigate('/driver');
         } else {
           navigate('/passenger');
         }

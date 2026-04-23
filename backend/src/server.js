@@ -1,3 +1,4 @@
+// ! WHAT IS POSTMAN IF YOU HAVE CONSOLE.LOG!!!
 console.log('🚀 [1] Starting server.js...');
 console.log(`📅 Time: ${new Date().toISOString()}`);
 console.log(`📦 Node version: ${process.version}`);
