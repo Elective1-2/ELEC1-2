@@ -79,6 +79,22 @@ const reverseGeocode = mapsController.reverseGeocode;
 
 const router = express.Router();
 
+// ! ERROR TEST FOR PRODUCTION
+router.get('/test-db', async (req, res) => {
+    try {
+        // Assuming you have a db connection pool
+        const result = await db.query('SELECT 1 as connected');
+        res.json({ success: true, message: 'Database connected', result });
+    } catch (err) {
+        console.error('Database test failed:', err);
+        res.status(500).json({ 
+            success: false, 
+            error: err.message,
+            code: err.code 
+        });
+    }
+});
+
 router.use((req, res, next) => {
   console.log(`📡 ${req.method} ${req.originalUrl}`);
   next();
