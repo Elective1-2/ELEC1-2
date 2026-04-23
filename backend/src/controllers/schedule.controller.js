@@ -30,7 +30,7 @@ async function getRouteSchedule(req, res) {
     const [toEndSchedules] = await pool.query(
       `SELECT departure_time, schedule_id
        FROM route_schedules
-       WHERE route_id = ? AND direction = 'to_end' AND day_type = ? AND is_active = 1
+       WHERE route_id = ? AND direction = 'to_end' AND (day_type = ? OR day_type = 'daily') AND is_active = 1
        ORDER BY departure_time ASC`,
       [routeId, day_type]
     );
@@ -39,7 +39,7 @@ async function getRouteSchedule(req, res) {
     const [toStartSchedules] = await pool.query(
       `SELECT departure_time, schedule_id
        FROM route_schedules
-       WHERE route_id = ? AND direction = 'to_start' AND day_type = ? AND is_active = 1
+       WHERE route_id = ? AND direction = 'to_start' AND (day_type = ? OR day_type = 'daily') AND is_active = 1
        ORDER BY departure_time ASC`,
       [routeId, day_type]
     );
