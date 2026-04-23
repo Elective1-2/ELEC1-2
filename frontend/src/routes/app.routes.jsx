@@ -44,17 +44,27 @@ function AppRoutes() {
       <Route path="/schedule" element={<Schedule />} />
       
       <Route path="/dashboard" element={
+        <ProtectedRoute allowedRoles={['admin']}>
         <M2BDashboard />
+        </ProtectedRoute>
       } />
       <Route path="/analytics" element={
+        <ProtectedRoute allowedRoles={['admin']}>
         <Analytics />
+        </ProtectedRoute>
       } />
       
       <Route path="/management" element={
+        <ProtectedRoute allowedRoles={['admin']}>
         <Management />
+        </ProtectedRoute>
       } />
 
-      <Route path="/tracking" element={<Tracking />} />
+      <Route path="/tracking" element={
+        <ProtectedRoute allowedRoles={['admin']}>
+        <Tracking />
+        </ProtectedRoute>
+      } />
       
       <Route path="/driver" element={
         <ProtectedRoute allowedRoles={['driver']}>
