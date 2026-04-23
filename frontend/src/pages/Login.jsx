@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Navbar from '../components/menu/Navbar';
+import Navbar from '../components/menu/NavBar';
 import "../css/Login.css";
 
 function Login() {

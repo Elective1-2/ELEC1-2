@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAllRoutes, useScheduleData } from '../hooks/useScheduleData';
-import Navbar from '../components/menu/Navbar'; 
+import Navbar from '../components/menu/NavBar'; 
 import heroImage from '../assets/herohome.png'; 
 import '../css/Schedule.css'; 
 import Footer from '../components/menu/Footer';
