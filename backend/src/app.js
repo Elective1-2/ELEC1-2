@@ -21,6 +21,9 @@ console.log('✅ [app.js] Path loaded');
 require('dotenv').config();
 console.log('✅ [app.js] Dotenv configured');
 
+
+console.log(` TRY 1`);
+
 console.log('📊 [app.js] Environment variables check:');
 console.log(`  - NODE_ENV: ${process.env.NODE_ENV || 'NOT SET'}`);
 console.log(`  - DB_HOST: ${process.env.DB_HOST ? 'SET ✓' : 'NOT SET ✗'}`);
