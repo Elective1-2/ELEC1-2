@@ -14,15 +14,12 @@ function Tracking() {
   const [activePage, setActivePage] = useState("Live Tracking");
 
   const [searchTerm, setSearchTerm] = useState("");
-  
-  // Active trips state
+
   const [activeTrips, setActiveTrips] = useState([]);
   const [filteredTrips, setFilteredTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
-  // Fetch active trips from backend
   const fetchActiveTrips = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
@@ -46,7 +43,6 @@ function Tracking() {
     }
   }, []);
 
-  // Initial fetch and auto-refresh every 30 seconds
   useEffect(() => {
     fetchActiveTrips();
     
@@ -54,7 +50,6 @@ function Tracking() {
     return () => clearInterval(interval);
   }, [fetchActiveTrips]);
 
-  // Filter trips based on search term
   useEffect(() => {
     if (!searchTerm || !searchTerm.trim()) {
       setFilteredTrips(activeTrips);
@@ -74,12 +69,10 @@ function Tracking() {
     setFilteredTrips(filtered);
   }, [activeTrips, searchTerm]);
 
-  // Handle search from AdminNavbar
   const handleSearchChange = (value) => {
     setSearchTerm(value);
   };
 
-  // Format time helper
   const formatTime = (datetimeString) => {
     if (!datetimeString) return '—';
     const date = new Date(datetimeString);
@@ -90,19 +83,14 @@ function Tracking() {
     });
   };
 
-  // Open passenger view in new tab
   const handleViewTrip = (trip) => {
-    // Store the bus number in sessionStorage for the passenger page
     sessionStorage.setItem('trackingBusNumber', trip.bus_number);
     
-    // Open passenger page in new tab
     const passengerUrl = '/passenger';
     window.open(passengerUrl, '_blank');
   };
 
-  // Get status display info
   const getStatusInfo = (trip) => {
-    // Check if delayed (you can add delay logic here based on schedule vs actual)
     const isDelayed = trip.status === 'delayed';
     return {
       text: isDelayed ? 'Delayed' : 'On Track',
@@ -112,11 +100,10 @@ function Tracking() {
 
   return (
     <div className="track-root">
-      {/* Mobile header (< 768 px) */}
       <MobileHeader setMenuOpen={setMenuOpen} />
 
       <div className="track-body">
-        {/* Sidebar */}
+
         <Sidebar
           menuOpen={menuOpen}
           setMenuOpen={setMenuOpen}
@@ -124,15 +111,11 @@ function Tracking() {
           setActivePage={setActivePage}
         />
 
-        {/* Main scrollable column */}
         <div className="track-main">
-          {/* Top navbar */}
           <AdminNavbar/>
 
-          {/* Page content */}
           <div className="track-content">
 
-            {/* ── Active Buses ── */}
             <div className="track-card">
               <div className="track-card-header">
                 <span className="track-card-title">Active Trips</span>
@@ -190,14 +173,11 @@ function Tracking() {
                 })
               )}
             </div>
+          </div>
 
-
-          </div>{/* /track-content */}
-
-          {/* Footer */}
           <Footer />
-        </div>{/* /track-main */}
-      </div>{/* /track-body */}
+        </div>
+      </div>
     </div>
   );
 }

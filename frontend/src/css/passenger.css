@@ -2,7 +2,6 @@
 *::before,
 *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* DESKTOP — left panel + right map */
 .dmp-root {
   display: flex;
   flex-direction: row;
@@ -13,10 +12,8 @@
   background: #f3f4f6;
 }
 
-/* Bottom panel — hidden on desktop */
 .dmp-bottom { display: none; }
 
-/* ── LEFT PANEL ── */
 .dmp-left {
   width: clamp(260px, 27vw, 360px);
   flex-shrink: 0;
@@ -29,7 +26,6 @@
   position: relative;
 }
 
-/* ── RIGHT PANEL (map) ── */
 .dmp-right {
   flex: 1;
   background: #e5e7eb;
@@ -37,9 +33,8 @@
   position: relative;
 }
 
-/* ── Clock (desktop, inside left panel) ── */
 .dmp-clock-wrap {
-  display: none; /* hidden in new layout — clock moved below logo or removed from sidebar */
+  display: none; 
 }
 
 .dmp-clock-time {
@@ -55,7 +50,6 @@
   margin-top: 1px;
 }
 
-/* ── Logo (desktop) — centered at top ── */
 .dmp-logo {
   display: flex;
   align-items: center;
@@ -82,7 +76,6 @@
 .dmp-logo-seg.seg-2 { background: #38bdf8; }
 .dmp-logo-seg.seg-b { background: #f5a623; }
 
-/* ── Map overlays — hidden on desktop ── */
 .dmp-map-logo {
   display: none;
   position: absolute;
@@ -118,9 +111,6 @@
   margin-top: 1px;
 }
 
-/* ══════════ SHARED COMPONENTS ══════════ */
-
-/* Section title */
 .dmp-section-title {
   font-size: clamp(11px, 1vw, 14px);
   font-weight: 800;
@@ -130,8 +120,6 @@
   flex-shrink: 0;
 }
 
-
-/* Bus No + Passengers — new layout: full-width bus card like in image */
 .dmp-info-row {
   display: flex;
   gap: clamp(5px, 0.55vw, 8px);
@@ -170,7 +158,6 @@
   margin-top: 4px;
 }
 
-/* Driver card */
 .dmp-detail-card {
   background: #f3f4f6;
   border-radius: 12px;
@@ -193,7 +180,6 @@
   color: #111827;
 }
 
-/* Times row */
 .dmp-times-row {
   display: flex;
   gap: clamp(8px, 0.9vw, 14px);
@@ -227,7 +213,6 @@
 .dmp-time-underline.green { background: #22c55e; }
 .dmp-time-underline.gray  { background: #d1d5db; }
 
-/* Tag rows */
 .dmp-tag-row {
   display: flex;
   gap: clamp(5px, 0.55vw, 8px);
@@ -260,7 +245,6 @@
   color: #111827;
 }
 
-/* End Trip button */
 .dmp-end-btn {
   width: 100%;
   background: #ef4444;
@@ -279,46 +263,13 @@
 
 .dmp-end-btn:hover { background: #dc2626; }
 
-/* Emergency Call button */
-.dmp-emergency-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  background: #ffffff;
-  border: 2px solid #ef4444;
-  border-radius: 999px;
-  color: #ef4444;
-  font-size: clamp(11px, 0.95vw, 13px);
-  font-weight: 700;
-  padding: clamp(7px, 0.7vw, 10px);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.15s, color 0.15s;
-  font-family: 'Inter', sans-serif;
-}
 
-.dmp-emergency-btn:hover {
-  background: #ef4444;
-  color: #fff;
-}
-
-.dmp-emergency-icon { font-size: 13px; }
-
-/* Tablet-only / mobile-only sections — hidden on desktop */
 .dmp-tablet-grid  { display: none; }
 .dmp-mobile-stack { display: none; }
 
 
-/* ══════════════════════════════════════
-   DESKTOP SIDEBAR — Bus No. card full width
-   ══════════════════════════════════════ */
-
-/* End Trip button hidden per image */
 .dmp-left .dmp-end-btn { display: none; }
 
-/* Bus No. card: full-width column, hide passengers block */
 .dmp-left .dmp-info-row {
   flex-direction: column;
 }
@@ -335,9 +286,6 @@
 .dmp-left .dmp-info-number {
   font-size: clamp(52px, 5.5vw, 80px);
 }
-
-
-/* TABLET (600 – 1023px) */
 
 @media (max-width: 1023px) {
 
@@ -416,7 +364,6 @@
   .dmp-tablet-left-col .dmp-info-top    { font-size: 12px; }
   .dmp-tablet-left-col .dmp-info-sub    { font-size: 11px; }
 
-  /* Restore times-row background removed for desktop */
   .dmp-times-row {
     background: transparent;
     border-radius: 0;
@@ -446,7 +393,6 @@
 }
 
 
-/* PHONE (< 600px) */
 
 @media (max-width: 599px) {
 
@@ -491,7 +437,6 @@
   .dmp-bottom > .dmp-tag-row { display: none; }
   .dmp-tablet-grid { display: none; }
 
-  /* Restore times-row background on mobile */
   .dmp-times-row {
     background: transparent;
     border-radius: 0;
@@ -539,8 +484,6 @@
   }
 }
 
-
-/* 4K / ULTRA-WIDE (≥ 1920px) */
 @media (min-width: 1920px) {
   .dmp-left        { width: 420px; gap: 14px; padding: 24px; }
   .dmp-logo-seg    { width: 48px; height: 48px; font-size: 20px; }
@@ -550,10 +493,6 @@
   .dmp-tag-value   { font-size: 16px; }
 }
 
-
-/* ============================================
-   MODAL STYLES
-   ============================================ */
 .dmp-modal-overlay {
   position: fixed;
   top: 0;

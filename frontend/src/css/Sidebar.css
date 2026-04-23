@@ -1,13 +1,9 @@
-/* Import Figtree Font */
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;800&display=swap');
 
-/* ===================================================
-   SIDEBAR
-=================================================== */
+
 .sidebar {
   width: clamp(160px, 14vw, 210px);
   min-width: clamp(160px, 14vw, 210px);
-  /* fills full viewport height and stays fixed while main scrolls */
   height: 100vh;
   position: sticky;
   top: 0;
@@ -25,7 +21,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* ── Logo ── */
 .sidebar-logo {
   display: flex;
   align-items: center;
@@ -34,14 +29,12 @@
   flex-shrink: 0;
 }
 
-/* Logo Image - Consistent size across all screens */
 .sidebar-logo-img {
   max-width: 100%;
   height: auto;
   width: 80px;
 }
 
-/* ── Nav items ── */
 .sidebar-nav-item {
   margin: 1px 8px;
   padding: clamp(9px, 0.9vw, 12px) 14px;
@@ -66,10 +59,6 @@
   color: #fff;
 }
 
-/* ===================================================
-   MOBILE + TABLET PORTRAIT (< 768px)
-   Hidden by default — slides in as drawer
-=================================================== */
 @media (max-width: 767px) {
   .sidebar {
     position: fixed;
@@ -88,45 +77,33 @@
     transform: translateX(0);
   }
 
-  /* Logo stays the same size */
   .sidebar-logo-img {
     width: 80px;
   }
 }
 
-/* ===================================================
-   TABLET LANDSCAPE (768px – 1023px)
-=================================================== */
 @media (min-width: 768px) and (max-width: 1023px) {
   .sidebar {
     width: 170px;
     min-width: 170px;
   }
 
-  /* Logo stays the same size */
   .sidebar-logo-img {
     width: 80px;
   }
 }
 
-/* ===================================================
-   DESKTOP (1024px – 1919px)
-=================================================== */
 @media (min-width: 1024px) and (max-width: 1919px) {
   .sidebar {
     width: clamp(170px, 13vw, 200px);
     min-width: clamp(170px, 13vw, 200px);
   }
 
-  /* Logo stays the same size */
   .sidebar-logo-img {
     width: 80px;
   }
 }
 
-/* ===================================================
-   4K / ULTRA-WIDE (≥ 1920px)
-=================================================== */
 @media (min-width: 1920px) {
   .sidebar {
     width: clamp(200px, 11vw, 260px);
@@ -138,7 +115,6 @@
     padding: 13px 18px;
   }
 
-  /* Logo stays the same size even on 4K */
   .sidebar-logo-img {
     width: 80px;
   }

@@ -76,15 +76,13 @@
   color: #ef4444;
 }
 
-/* Scrollable body */
 .bus-modal-body {
   padding: 24px;
   overflow-y: auto;
   flex: 1;
-  max-height: calc(90vh - 140px); /* Account for header + footer */
+  max-height: calc(90vh - 140px); 
 }
 
-/* Custom scrollbar for better UX */
 .bus-modal-body::-webkit-scrollbar {
   width: 6px;
 }
@@ -140,7 +138,6 @@
   cursor: not-allowed;
 }
 
-/* Drivers list - scrollable independently */
 .bus-drivers-list {
   max-height: 200px;
   overflow-y: auto;
@@ -284,7 +281,6 @@
   margin: 0;
 }
 
-/* Responsive adjustments */
 @media (max-width: 640px) {
   .bus-modal-overlay {
     padding: 10px;
@@ -319,7 +315,6 @@
   
 }
 
-/* Add to your existing BusModal.css */
 
 .required {
   color: #dc2626;
@@ -378,14 +373,12 @@
   user-select: none;
 }
 
-/* Ensure modal body is scrollable */
 .bus-modal-body {
   max-height: 60vh;
   overflow-y: auto;
   padding-right: 4px;
 }
 
-/* Custom scrollbar for modal body */
 .bus-modal-body::-webkit-scrollbar {
   width: 6px;
 }
@@ -404,13 +397,11 @@
   background: #94a3b8;
 }
 
-/* Large modal variant */
 .bus-modal-large {
   max-width: 800px;
   width: 90%;
 }
 
-/* Assignments section styles */
 .assignments-section {
   margin-bottom: 24px;
 }
@@ -550,7 +541,6 @@
   margin-top: 20px;
 }
 
-/* Custom scrollbar for assignments list */
 .assignments-list::-webkit-scrollbar {
   width: 6px;
 }
@@ -604,14 +594,12 @@
   border: 1px solid #fecaca;
 }
 
-/* Ensure modal body is scrollable */
 .bus-modal-body {
   max-height: 60vh;
   overflow-y: auto;
   padding-right: 4px;
 }
 
-/* Custom scrollbar for modal body */
 .bus-modal-body::-webkit-scrollbar {
   width: 6px;
 }

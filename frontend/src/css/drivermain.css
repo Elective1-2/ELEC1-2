@@ -10,7 +10,6 @@
   flex-direction: column;
 }
 
-/* ── NAVBAR ── */
 .dm-nav {
   background: #1e2d3d;
   display: flex;
@@ -40,12 +39,12 @@
   font-size: 16px;
   color: #fff;
 }
-/* FIX: exact colors from screenshot */
+
 .dm-logo-seg.m   { background: #2c3e55; color: #fff; }
 .dm-logo-seg.two { background: #4aafd5; color: #fff; }
 .dm-logo-seg.b   { background: #e8a020; color: #fff; }
 
-/* nav right — white container with black text and icons */
+
 .dm-nav-right {
   display: flex;
   align-items: center;
@@ -68,7 +67,6 @@
   line-height: 1.25;
 }
 
-/* FIX: black/dark text for username */
 .dm-nav-username {
   font-size: 13px;
   font-weight: 700;
@@ -99,7 +97,6 @@
   color: #111827;
 }
 
-/* FIX: vertical divider between user and bell */
 .dm-nav-divider {
   width: 1px;
   height: 36px;
@@ -124,7 +121,6 @@
   border: 2px solid #ffffff;
 }
 
-/* ── BODY ── */
 .dm-body {
   flex: 1;
   padding: 28px 28px 40px;
@@ -133,7 +129,6 @@
   gap: 0;
 }
 
-/* ── WELCOME CARD ── */
 .dm-welcome-card {
   background: #fff;
   border-radius: 16px;
@@ -177,7 +172,6 @@
   color: #374151;
 }
 
-/* Clock widget */
 .dm-clock-widget {
   background: #f3f4f6;
   border-radius: 12px;
@@ -200,7 +194,6 @@
   margin-top: 1px;
 }
 
-/* ── ASSIGNED BUSES SECTION ── */
 .dm-section {
   margin-top: 28px;
 }
@@ -220,7 +213,6 @@
   gap: 10px;
 }
 
-/* ── BUS ROW ── */
 .dm-bus-row {
   background: #f8fafc;
   border: 1px solid #e5e7eb;
@@ -240,7 +232,6 @@
   min-width: 100px;
 }
 
-/* FIX: route section takes remaining space, items inline */
 .dm-bus-route {
   display: flex;
   align-items: center;
@@ -249,7 +240,6 @@
   min-width: 0;
 }
 
-/* FIX: each route item is inline label+value side by side */
 .dm-route-item {
   display: flex;
   align-items: center;
@@ -272,7 +262,6 @@
   color: #374151;
 }
 
-/* FIX: meta section aligned right */
 .dm-bus-meta {
   display: flex;
   align-items: center;
@@ -281,7 +270,6 @@
   margin-left: auto;
 }
 
-/* FIX: departure and status both have label on top, value below */
 .dm-departure {
   text-align: center;
 }
@@ -345,9 +333,7 @@
 
 .dm-start-btn:hover { background: #2d4156; }
 
-/* ════════════════════════════
-   TABLET  (600–1023px)
-════════════════════════════ */
+
 @media (max-width: 1023px) {
   .dm-nav         { padding: 0 18px; height: 58px; }
   .dm-logo-seg    { width: 34px; height: 34px; font-size: 14px; }
@@ -371,9 +357,7 @@
   }
 }
 
-/* ════════════════════════════
-   MOBILE  (< 600px)
-════════════════════════════ */
+
 @media (max-width: 599px) {
   .dm-nav         { padding: 0 14px; height: 52px; }
   .dm-logo-seg    { width: 28px; height: 28px; font-size: 11px; }
@@ -435,7 +419,6 @@
   }
 }
 
-/* ── NOTIFICATION DROPDOWN ── */
 .dm-notif-container {
   position: relative;
   display: flex;
@@ -552,7 +535,6 @@
   color: #9ca3af;
 }
 
-/* Modal Styles for Departure Selector */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -748,7 +730,6 @@
   cursor: not-allowed;
 }
 
-/* Loading spinner for modal */
 .loading-indicator {
   display: flex;
   flex-direction: column;
@@ -770,8 +751,6 @@
   to { transform: rotate(360deg); }
 }
 
-
-/* Button spinner animation */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
@@ -780,7 +759,6 @@
   display: inline-block;
 }
 
-/* Disabled button states */
 .btn-confirm:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -791,7 +769,6 @@
   cursor: not-allowed;
 }
 
-/* Form select disabled state */
 .form-select:disabled {
   background: #f9fafb;
   color: #9ca3af;

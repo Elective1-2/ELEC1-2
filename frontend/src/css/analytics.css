@@ -1,7 +1,5 @@
-/* Import Figtree Font */
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap');
 
-/* Analytics Page Styles */
 .analytics-root {
   display: flex;
   flex-direction: column;
@@ -30,7 +28,6 @@
   box-sizing: border-box;
 }
 
-/* Header */
 .analytics-header {
   display: flex;
   align-items: center;
@@ -90,7 +87,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* Summary Cards - FIXED RESPONSIVE GRID */
 .analytics-summary-grid {
   display: grid;
   gap: clamp(12px, 1.5vw, 20px);
@@ -98,19 +94,16 @@
   width: 100%;
 }
 
-/* Default: 1 column for mobile */
 .analytics-summary-grid {
   grid-template-columns: 1fr;
 }
 
-/* Tablet: 2 columns */
 @media (min-width: 640px) {
   .analytics-summary-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Laptop/Desktop: 4 columns - but with proper sizing */
 @media (min-width: 1024px) {
   .analytics-summary-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -128,13 +121,8 @@
   transition: transform 0.2s, box-shadow 0.2s;
   width: 100%;
   box-sizing: border-box;
-  min-width: 0; /* Prevents overflow */
+  min-width: 0;
 }
-
-/* .summary-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-} */
 
 .summary-card.warning {
   background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
@@ -177,7 +165,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* Charts Row - FIXED RESPONSIVE */
 .analytics-charts-row {
   display: grid;
   gap: 20px;
@@ -185,12 +172,10 @@
   width: 100%;
 }
 
-/* Default: 1 column for mobile */
 .analytics-charts-row {
   grid-template-columns: 1fr;
 }
 
-/* Tablet and up: 2 columns */
 @media (min-width: 768px) {
   .analytics-charts-row {
     grid-template-columns: repeat(2, 1fr);
@@ -272,7 +257,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* Route Performance List - FIXED RESPONSIVE */
 .route-performance-list {
   display: flex;
   flex-direction: column;
@@ -347,7 +331,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* Filter Toggle Button */
 .filter-toggle-btn {
   padding: 8px 16px;
   background-color: #f1f5f9;
@@ -366,7 +349,6 @@
   background-color: #e2e8f0;
 }
 
-/* Trip Filters */
 .trip-filters {
   display: flex;
   gap: 12px;
@@ -430,7 +412,6 @@
   border-color: #cbd5e1;
 }
 
-/* Trip Table - FIXED RESPONSIVE */
 .trip-table-container {
   overflow-x: auto;
   border-radius: 12px;
@@ -520,7 +501,7 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* Pagination */
+
 .pagination {
   display: flex;
   align-items: center;
@@ -564,7 +545,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* Refresh Info */
 .analytics-refresh-info {
   display: flex;
   align-items: center;
@@ -586,7 +566,6 @@
   50% { opacity: 0.5; }
 }
 
-/* Skeleton Loading */
 .summary-card.skeleton {
   pointer-events: none;
 }
@@ -615,11 +594,6 @@
   100% { background-position: -200% 0; }
 }
 
-/* ===================================================
-   RESPONSIVE BREAKPOINTS
-=================================================== */
-
-/* Large Screens (1440px+) */
 @media (min-width: 1440px) {
   .analytics-content {
     padding: 28px 36px;
@@ -634,7 +608,6 @@
   }
 }
 
-/* Laptop (1024px - 1439px) */
 @media (min-width: 1024px) and (max-width: 1439px) {
   .analytics-content {
     padding: 24px 28px;
@@ -667,7 +640,6 @@
   }
 }
 
-/* Tablet (640px - 1023px) */
 @media (min-width: 640px) and (max-width: 1023px) {
   .analytics-content {
     padding: 20px 20px;
@@ -727,7 +699,6 @@
   }
 }
 
-/* Mobile (below 640px) */
 @media (max-width: 639px) {
   .analytics-content {
     padding: 16px 14px;
@@ -846,7 +817,6 @@
   }
 }
 
-/* Small Mobile (below 480px) */
 @media (max-width: 479px) {
   .analytics-content {
     padding: 12px 10px;
@@ -903,14 +873,12 @@
   }
 }
 
-/* Fix for sidebar spacing */
 @media (min-width: 769px) {
   .analytics-main {
     width: calc(100% - 260px);
   }
 }
 
-/* Ensure footer stays at bottom */
 .analytics-main {
   display: flex;
   flex-direction: column;

@@ -49,7 +49,6 @@ function DriverMap() {
   const [showCongestionModal, setShowCongestionModal] = useState(false);
   const [showCompleteConfirm, setShowCompleteConfirm] = useState(false);
 
-  // Redirect if trip not found or error
   useEffect(() => {
     if (error) {
       alert('Error loading trip: ' + error);
@@ -139,7 +138,6 @@ function DriverMap() {
     return colors[status] || '#6b7280';
   };
 
-  // Loading state
   if (loading) {
     return (
       <div className="dmp-root">
@@ -151,7 +149,6 @@ function DriverMap() {
     );
   }
 
-  // No trip data
   if (!tripDetails) {
     return (
       <div className="dmp-root">
@@ -171,11 +168,9 @@ function DriverMap() {
 
   return (
     <div className="dmp-root">
-      {/* LEFT PANEL - desktop only */}
       <div className="dmp-left">
         <LiveClock />
 
-        {/* Logo */}
         <div className="dmp-logo">
           <div className="dmp-logo-seg seg-m">M</div>
           <div className="dmp-logo-seg seg-2">2</div>
@@ -184,13 +179,11 @@ function DriverMap() {
 
         <div className="dmp-section-title">TRIP DETAILS</div>
 
-        {/* Driver */}
         <div className="dmp-detail-card">
           <div className="dmp-detail-label">DRIVER</div>
           <div className="dmp-driver-name">{tripDetails.driver.name}</div>
         </div>
 
-        {/* Times */}
         <div className="dmp-times-row">
           <div className="dmp-time-block">
             <div className="dmp-detail-label">DEPARTURE TIME</div>
@@ -204,7 +197,6 @@ function DriverMap() {
           </div>
         </div>
 
-        {/* Origin / Destination */}
         <div className="dmp-tag-row">
           <div className="dmp-tag-block origin">
             <div className="dmp-tag-label">ORIGIN</div>
@@ -216,7 +208,6 @@ function DriverMap() {
           </div>
         </div>
 
-        {/* Status / Congestion - Clickable */}
         <div className="dmp-tag-row">
           <div className="dmp-tag-block status-on">
             <div className="dmp-tag-label">STATUS</div>
@@ -237,7 +228,6 @@ function DriverMap() {
           </div>
         </div>
 
-        {/* BUS NO + PASSENGERS - Clickable */}
         <div className="dmp-info-row">
           <div className="dmp-info-block dark">
             <div className="dmp-info-top">BUS NO.</div>
@@ -259,18 +249,12 @@ function DriverMap() {
           </div>
         </div>
 
-        {/* END TRIP - first button */}
         <button className="dmp-end-btn" onClick={() => setShowCompleteConfirm(true)}>
           END TRIP
         </button>
 
-        {/* EMERGENCY CALL - second button */}
-        <button className="dmp-emergency-btn">
-          <span className="dmp-emergency-icon">EMERGENCY CALL</span>
-        </button>
       </div>
 
-      {/* RIGHT PANEL - map */}
       <div className="dmp-right">
         <div className="dmp-map-logo">
           <div className="dmp-logo-seg seg-m">M</div>
@@ -293,11 +277,9 @@ function DriverMap() {
         />
       </div>
 
-      {/* BOTTOM PANEL - tablet/mobile only */}
       <div className="dmp-bottom">
         <div className="dmp-section-title">TRIP DETAILS</div>
 
-        {/* TABLET layout */}
         <div className="dmp-tablet-grid">
           <div className="dmp-tablet-left-col">
             <div className="dmp-info-block dark">
@@ -340,7 +322,6 @@ function DriverMap() {
           </div>
         </div>
 
-        {/* Tag rows - full width */}
         <div className="dmp-tag-row">
           <div className="dmp-tag-block origin">
             <div className="dmp-tag-label">ORIGIN</div>
@@ -369,12 +350,10 @@ function DriverMap() {
           </div>
         </div>
 
-        {/* END TRIP - tablet only */}
         <button className="dmp-end-btn dmp-tablet-end-btn" onClick={() => setShowCompleteConfirm(true)}>
           END TRIP
         </button>
 
-        {/* MOBILE-only stacked layout */}
         <div className="dmp-mobile-stack">
           <div className="dmp-detail-card">
             <div className="dmp-detail-label">DRIVER</div>
@@ -447,13 +426,8 @@ function DriverMap() {
             END TRIP
           </button>
         </div>
-
-        <button className="dmp-emergency-btn">
-          <span className="dmp-emergency-icon">EMERGENCY CALL</span>
-        </button>
       </div>
 
-      {/* Modals */}
       <PassengerCounterModal
         isOpen={showPassengerModal}
         onClose={() => setShowPassengerModal(false)}
@@ -469,7 +443,6 @@ function DriverMap() {
         currentLevel={tripDetails.congestion_level}
       />
 
-      {/* Complete Trip Confirmation Modal */}
       {showCompleteConfirm && (
         <div className="modal-overlay" onClick={() => setShowCompleteConfirm(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
