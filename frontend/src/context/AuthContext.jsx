@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext();
 
@@ -7,142 +6,141 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [needsSignup, setNeedsSignup] = useState(false);
-  const [pendingGoogleData, setPendingGoogleData] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [loading, setLoading] = useState(false);
+  
+  // Store pending Google data for signup flow
+  const [pendingGoogleData, setPendingGoogleData] = useState(() => {
+    // Try to restore from sessionStorage on page refresh
+    const saved = sessionStorage.getItem('pendingGoogleData');
+    return saved ? JSON.parse(saved) : null;
+  });
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-  // Check for existing session on load
+  // Load user data if token exists
   useEffect(() => {
-    const storedToken = localStorage.getItem('auth_token');
-    if (storedToken) {
-      verifyToken(storedToken);
-    } else {
-      setLoading(false);
+    if (token) {
+      fetchUser();
     }
-  }, []);
+  }, [token]);
 
-  const verifyToken = async (storedToken) => {
+  const fetchUser = async () => {
     try {
-      const response = await fetch(`${API_URL}/auth/me`, {
-        headers: { 'Authorization': `Bearer ${storedToken}` }
+      const res = await fetch(`${API_URL}/auth/me`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
-      if (response.ok) {
-        const data = await response.json();
+      const data = await res.json();
+      if (data.success) {
         setUser(data.user);
-        setToken(storedToken);
       } else {
-        localStorage.removeItem('auth_token');
+        logout();
       }
     } catch (error) {
-      console.error('Token verification failed:', error);
-      localStorage.removeItem('auth_token');
+      console.error('Fetch user error:', error);
+      logout();
+    }
+  };
+
+  const login = async (googleToken) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/auth/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: googleToken }),
+      });
+
+      const data = await res.json();
+
+      if (data.token) {
+        // Existing user - login successful
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        setToken(data.token);
+        setUser(data.user);
+        sessionStorage.removeItem('pendingGoogleData');
+        setPendingGoogleData(null);
+        return { success: true, user: data.user };
+      } else if (data.needsSignup) {
+        // New user - store Google data for signup flow
+        setPendingGoogleData(data.googleData);
+        sessionStorage.setItem('pendingGoogleData', JSON.stringify(data.googleData));
+        return { success: false, needsSignup: true, googleData: data.googleData };
+      } else {
+        return { success: false, error: data.error };
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      return { success: false, error: 'Network error' };
     } finally {
       setLoading(false);
     }
   };
 
-  // Google Login handler
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        const response = await fetch(`${API_URL}/auth/google`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: tokenResponse.access_token })
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.success) {
-          // Login successful
-          localStorage.setItem('auth_token', data.token);
-          setUser(data.user);
-          setToken(data.token);
-          setNeedsSignup(false);
-          setPendingGoogleData(null);
-          window.location.href = '/dashboard';
-        } else if (response.status === 404 && data.needsSignup) {
-          // Need to complete signup with secret code
-          setPendingGoogleData(data.googleData);
-          setNeedsSignup(true);
-        } else {
-          console.error('Login failed:', data.error);
-          alert(data.error || 'Login failed');
-        }
-      } catch (error) {
-        console.error('Google auth error:', error);
-        alert('Authentication failed. Please try again.');
-      }
-    },
-    onError: () => {
-      console.error('Google Login Failed');
-      alert('Google login failed. Please try again.');
-    }
-  });
-
-  // Complete signup with secret code
-  const completeSignup = async (secretCode, role = 'driver') => {
+  const completeSignup = async (secretCode) => {
     if (!pendingGoogleData) {
-      alert('No pending signup data. Please try logging in again.');
-      return false;
+      return { success: false, error: 'No pending signup data' };
     }
 
+    setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/auth/verify-secret`, {
+      const res = await fetch(`${API_URL}/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           secretCode,
-          googleData: { ...pendingGoogleData, role }
-        })
+          googleData: pendingGoogleData
+        }),
       });
 
-      const data = await response.json();
+      const data = await res.json();
 
-      if (response.ok && data.success) {
-        localStorage.setItem('auth_token', data.token);
-        setUser(data.user);
+      if (data.success && data.token) {
+        // Signup successful - log user in
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
         setToken(data.token);
-        setNeedsSignup(false);
+        setUser(data.user);
+        // Clear pending data
+        sessionStorage.removeItem('pendingGoogleData');
         setPendingGoogleData(null);
-        return true;
+        return { success: true, user: data.user };
       } else {
-        alert(data.error || 'Signup failed');
-        return false;
+        return { success: false, error: data.error };
       }
     } catch (error) {
       console.error('Signup error:', error);
-      alert('Signup failed. Please try again.');
-      return false;
+      return { success: false, error: 'Network error' };
+    } finally {
+      setLoading(false);
     }
   };
 
   const logout = () => {
-    googleLogout();
-    localStorage.removeItem('auth_token');
-    setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    sessionStorage.removeItem('pendingGoogleData');
     setToken(null);
-    setNeedsSignup(false);
+    setUser(null);
     setPendingGoogleData(null);
-    window.location.href = '/login';
   };
 
   const value = {
     user,
     token,
     loading,
-    needsSignup,
     pendingGoogleData,
-    googleLogin,
+    login,
     completeSignup,
-    logout,
-    isAuthenticated: !!user,
-    isDriver: user?.role === 'driver',
-    isAdmin: user?.role === 'admin'
+    logout
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

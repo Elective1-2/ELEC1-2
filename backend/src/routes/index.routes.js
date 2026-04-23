@@ -6,7 +6,10 @@ const {
   googleLogin, 
   verifySecretAndSignup, 
   getMe, 
-  logout 
+  logout,
+  initiateSignup,           
+  verifyCodeAndSignup,      
+  resendVerificationCode    
 } = require('../controllers/auth.controller');
 
 const {
@@ -48,11 +51,19 @@ const reverseGeocode = mapsController.reverseGeocode;
 
 const router = express.Router();
 
+router.use((req, res, next) => {
+  console.log(`📡 ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 // ========== AUTH ROUTES (public) ==========
 router.post('/auth/google', googleLogin);
 router.post('/auth/verify-secret', verifySecretAndSignup);
 router.post('/auth/logout', authenticateToken, logout);
 router.get('/auth/me', authenticateToken, getMe);
+router.post('/auth/signup/initiate', initiateSignup);        
+router.post('/auth/signup/verify', verifyCodeAndSignup);     
+router.post('/auth/signup/resend', resendVerificationCode);  
 
 // ========== PASSENGER ROUTES (public - track by bus number) ==========
 router.get('/buses/:busNumber/active-trip', getActiveTripByBusNumber);
@@ -93,6 +104,11 @@ router.get('/maps/eta', getMapsETA);
 router.get('/maps/directions', getDirections);
 router.post('/maps/geocode', geocode);
 router.post('/maps/reverse-geocode', reverseGeocode);
+
+
+router.use('/*splat', (req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
 
 //! ========== TEST ENDPOINTS (for development only - remove in production) ==========
 if (process.env.NODE_ENV !== 'production') {
