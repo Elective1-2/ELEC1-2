@@ -78,10 +78,17 @@
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
+  overflow: hidden; /* important for circular crop */
   transition: background 0.2s;
 }
 
 .admin-avatar:hover { background: #4b5563; }
+
+.admin-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* keeps it nicely cropped */
+}
 
 .admin-divider {
   width: 1px;
