@@ -22,7 +22,7 @@ function Sidebar({ menuOpen, setMenuOpen }) {
 
   // Handle logo click - navigate to home
   const handleLogoClick = () => {
-    navigate("/M2B");
+    navigate("/dashboard");
     setMenuOpen(false);
   };
 

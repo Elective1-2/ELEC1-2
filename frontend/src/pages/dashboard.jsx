@@ -14,14 +14,9 @@ function M2BDashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [activePage, setActivePage] = useState("Dashboard");
-  const [notifications, setNotifications] = useState([
-    { id: 1, message: "Bus #102 is arriving in 5 minutes", read: false, time: "Just now" },
-    { id: 2, message: "Delay detected on Route 7: +8 minutes", read: false, time: "2 mins ago" },
-    { id: 3, message: "Bus #42 has completed its route", read: true, time: "15 mins ago" },
-  ]);
+
   
   const { stats, loading } = useDashboard(true);
-  const unreadCount = notifications.filter(n => !n.read).length;
 
   useEffect(() => {
     const link = document.createElement("link");
@@ -121,13 +116,7 @@ function M2BDashboard() {
         />
         
         <div className="m2b-main">
-          <AdminNavbar
-            showNotifications={showNotifications}
-            setShowNotifications={setShowNotifications}
-            notifications={notifications}
-            setNotifications={setNotifications}
-            unreadCount={unreadCount}
-          />
+          <AdminNavbar/>
           {renderContent()}
           <Footer />
         </div>

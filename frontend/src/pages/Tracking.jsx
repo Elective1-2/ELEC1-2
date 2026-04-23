@@ -12,12 +12,7 @@ function Tracking() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activePage, setActivePage] = useState("Live Tracking");
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState([
-    { id: 1, message: "Bus #67 is running 20 min late on Trinoma route.", time: "3 min ago", read: false },
-    { id: 2, message: "Heavy congestion detected near EDSA-Trinoma.", time: "10 min ago", read: false },
-    { id: 3, message: "Bus #101 departed Malolos terminal on time.", time: "30 min ago", read: true },
-  ]);
+
   const [searchTerm, setSearchTerm] = useState("");
   
   // Active trips state
@@ -26,7 +21,6 @@ function Tracking() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
 
   // Fetch active trips from backend
   const fetchActiveTrips = useCallback(async () => {
@@ -133,15 +127,7 @@ function Tracking() {
         {/* Main scrollable column */}
         <div className="track-main">
           {/* Top navbar */}
-          <AdminNavbar
-            onSearchChange={handleSearchChange}
-            initialSearchValue={searchTerm}
-            showNotifications={showNotifications}
-            setShowNotifications={setShowNotifications}
-            notifications={notifications}
-            setNotifications={setNotifications}
-            unreadCount={unreadCount}
-          />
+          <AdminNavbar/>
 
           {/* Page content */}
           <div className="track-content">
