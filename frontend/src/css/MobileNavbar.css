@@ -11,7 +11,7 @@
   cursor: pointer;
   font-family: 'Nunito', sans-serif;
   transition: opacity 0.2s;
-  padding: 8px;
+padding: 8px;
   z-index: 101;
 }
 

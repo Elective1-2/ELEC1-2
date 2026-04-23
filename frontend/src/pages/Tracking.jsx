@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import AdminNavbar from "../components/AdminNavbar";
-import MobileHeader from "../components/MobileHeader";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
+import AdminNavbar from "../components/menu/AdminNavbar";
+import MobileHeader from "../components/menu/MobileHeader";
+import Sidebar from "../components/menu/Sidebar";
+import Footer from "../components/menu/Footer";
 import "../css/tracking.css";
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';

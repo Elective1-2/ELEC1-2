@@ -1,9 +1,8 @@
 // src/pages/Analytics.jsx
 import React, { useState, useEffect } from "react";
-import AdminNavbar from "../components/AdminNavbar";
-import MobileHeader from "../components/MobileHeader";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
+import MobileHeader from "../components/menu/MobileHeader";
+import Sidebar from "../components/menu/Sidebar";
+import Footer from "../components/menu/Footer";
 import SummaryCards from "../components/analytics/SummaryCards";
 import WeeklyRidershipChart from "../components/analytics/WeeklyRidershipChart";
 import DelayHistoryChart from "../components/analytics/DelayHistoryChart";
@@ -96,7 +95,6 @@ function Analytics() {
           setActivePage={setActivePage}
         />
         <div className="analytics-main">
-          <AdminNavbar />
           
           <div className="analytics-content">
             {/* Header */}
@@ -187,7 +185,6 @@ function Analytics() {
 
             {/* Auto-refresh indicator */}
             <div className="analytics-refresh-info">
-              <span className="refresh-icon">🔄</span>
               <span>Auto-refreshes every 30 seconds</span>
             </div>
           </div>

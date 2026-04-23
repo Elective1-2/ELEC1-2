@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/DeleteConfirmModal.css';
+import '../../css/DeleteConfirmModal.css';
 
 function DeleteConfirmModal({ isOpen, onClose, onConfirm, title, message, itemName, loading = false }) {
   if (!isOpen) return null;

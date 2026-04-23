@@ -31,6 +31,7 @@ body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* ===================================================
@@ -42,10 +43,11 @@ body {
   display: flex;
   flex-direction: column;
   background: #edf0f4;
-  /* allow vertical scroll so map is never clipped */
   overflow-y: auto;
   overflow-x: hidden;
   height: 100vh;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* ===================================================
@@ -56,8 +58,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: clamp(16px, 1.8vw, 24px);
-  /* let content be as tall as it needs to be */
   flex: 1;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .m2b-page-title {
@@ -69,7 +73,7 @@ body {
 }
 
 /* ===================================================
-   STAT CARDS — always 2 columns on all screen sizes
+   STAT CARDS
 =================================================== */
 .m2b-stats {
   display: grid;
@@ -77,6 +81,7 @@ body {
   gap: clamp(12px, 1.5vw, 20px);
   width: 100%;
   flex-shrink: 0;
+  margin: 0;
 }
 
 .m2b-stat-card {
@@ -89,6 +94,8 @@ body {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
   min-width: 0;
   gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .m2b-stat-lbl {
@@ -118,13 +125,138 @@ body {
   flex-shrink: 0;
 }
 
+.m2b-stat-icon svg {
+  width: 60%;
+  height: 60%;
+}
+
 .ic-navy   { background: #1e3a5f; }
 .ic-green  { background: #22c55e; }
 .ic-orange { background: #f97316; }
 .ic-red    { background: #ef4444; }
+.ic-blue   { background: #3b82f6; }
 
 /* ===================================================
-   MAP CARD — fixed tall height so it always shows fully
+   SKELETON LOADING
+=================================================== */
+.m2b-stat-card.skeleton {
+  pointer-events: none;
+}
+
+.skeleton-label {
+  height: 14px;
+  width: 100px;
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.skeleton-value {
+  height: 28px;
+  width: 60px;
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-icon {
+  background: linear-gradient(90deg, #cbd5e1 25%, #e2e8f0 50%, #cbd5e1 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ===================================================
+   QUICK ACTIONS
+=================================================== */
+.m2b-quick-actions {
+  flex-shrink: 0;
+  width: 100%;
+  margin: 0;
+}
+
+.m2b-section-title {
+  font-size: clamp(14px, 1.1vw, 18px);
+  font-weight: 700;
+  color: #1a2a3f;
+  margin-bottom: clamp(12px, 1vw, 16px);
+  font-family: 'Figtree', sans-serif;
+}
+
+.m2b-quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 1.2vw, 16px);
+  width: 100%;
+}
+
+.m2b-quick-action-card {
+  background: #fff;
+  border-radius: clamp(12px, 1vw, 14px);
+  padding: clamp(14px, 1.2vw, 18px);
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1vw, 16px);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.m2b-quick-action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-color: #e2e8f0;
+}
+
+.m2b-quick-action-icon {
+  width: clamp(42px, 3.5vw, 52px);
+  height: clamp(42px, 3.5vw, 52px);
+  border-radius: clamp(10px, 0.9vw, 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.m2b-quick-action-icon svg {
+  width: 45%;
+  height: 45%;
+}
+
+.m2b-quick-action-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.m2b-quick-action-label {
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 2px;
+  font-family: 'Figtree', sans-serif;
+}
+
+.m2b-quick-action-desc {
+  font-size: clamp(11px, 0.8vw, 12px);
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Figtree', sans-serif;
+}
+
+/* ===================================================
+   MAP CARD
 =================================================== */
 .m2b-map-card {
   background: #fff;
@@ -133,6 +265,7 @@ body {
   overflow: hidden;
   width: 100%;
   flex-shrink: 0;
+  margin: 0;
 }
 
 .m2b-map-title {
@@ -144,16 +277,66 @@ body {
   font-family: 'Figtree', sans-serif;
 }
 
-/* Map body: explicit height — always fully visible, never clipped */
 .m2b-map-body {
   position: relative;
   background: #f0f2f5;
-  /* tall enough to see the full map on every device */
   height: clamp(300px, 45vw, 520px);
   overflow: hidden;
   width: 100%;
 }
 
+/* Map Placeholder */
+.m2b-map-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.m2b-placeholder-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.m2b-placeholder-icon {
+  font-size: clamp(48px, 5vw, 64px);
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+
+.m2b-placeholder-title {
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+  font-family: 'Figtree', sans-serif;
+}
+
+.m2b-placeholder-text {
+  font-size: clamp(13px, 1vw, 15px);
+  color: #64748b;
+  margin-bottom: 20px;
+  font-family: 'Figtree', sans-serif;
+}
+
+.m2b-placeholder-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #3b82f6;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 0.2s;
+  font-family: 'Figtree', sans-serif;
+}
+
+.m2b-placeholder-link:hover {
+  background: #2563eb;
+}
+
+/* Live Map Elements */
 .m2b-route {
   position: absolute;
   left: 0;
@@ -165,7 +348,6 @@ body {
   background: linear-gradient(to right, #ef4444 0%, #ef4444 35%, #22c55e 60%, #22c55e 100%);
 }
 
-/* ── Bus pins ── */
 .m2b-pin {
   position: absolute;
   display: flex;
@@ -212,7 +394,6 @@ body {
 .dot-blue { background: #3b82f6; }
 .dot-red  { background: #ef4444; }
 
-/* ── Legend ── */
 .m2b-legend {
   position: absolute;
   bottom: clamp(10px, 1vw, 16px);
@@ -299,18 +480,29 @@ body {
 .m2b-overlay.open { display: block; }
 
 /* ===================================================
-   BREAKPOINTS
+   RESPONSIVE BREAKPOINTS
 =================================================== */
 
-/* ── Phone < 600px ── */
+/* Phone < 600px */
 @media (max-width: 599px) {
   .m2b-app {
     flex-direction: column;
   }
 
-  /* single column cards on phone */
   .m2b-stats {
     grid-template-columns: 1fr;
+  }
+
+  .m2b-quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .m2b-quick-action-card {
+    padding: 16px;
+  }
+
+  .m2b-quick-action-desc {
+    white-space: normal;
   }
 
   .m2b-stat-icon {
@@ -318,7 +510,6 @@ body {
     height: 48px;
   }
 
-  /* map still tall so it's fully visible while scrolling */
   .m2b-map-body {
     height: 280px;
   }
@@ -331,16 +522,25 @@ body {
   .m2b-page-title {
     font-size: 24px;
   }
+
+  .m2b-content {
+    padding: 14px;
+    gap: 14px;
+  }
 }
 
-/* ── Tablet portrait 600–767px ── */
+/* Tablet 600–767px */
 @media (min-width: 600px) and (max-width: 767px) {
   .m2b-app {
     flex-direction: column;
   }
 
   .m2b-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .m2b-quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .m2b-map-body {
@@ -355,12 +555,21 @@ body {
   .m2b-page-title {
     font-size: 28px;
   }
+
+  .m2b-content {
+    padding: 16px;
+    gap: 16px;
+  }
 }
 
-/* ── Tablet landscape 768–1023px ── */
+/* Tablet landscape 768–1023px */
 @media (min-width: 768px) and (max-width: 1023px) {
   .m2b-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .m2b-quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .m2b-map-body {
@@ -370,12 +579,21 @@ body {
   .m2b-page-title {
     font-size: 32px;
   }
+
+  .m2b-content {
+    padding: 20px;
+    gap: 18px;
+  }
 }
 
-/* ── Desktop 1024–1439px ── */
+/* Desktop 1024–1439px */
 @media (min-width: 1024px) and (max-width: 1439px) {
   .m2b-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .m2b-quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .m2b-map-body {
@@ -385,12 +603,21 @@ body {
   .m2b-page-title {
     font-size: 34px;
   }
+
+  .m2b-content {
+    padding: 24px 28px;
+    gap: 20px;
+  }
 }
 
-/* ── Large desktop / 2K  1440–2559px ── */
+/* Large desktop / 2K 1440–2559px */
 @media (min-width: 1440px) and (max-width: 2559px) {
   .m2b-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .m2b-quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .m2b-map-body {
@@ -400,12 +627,21 @@ body {
   .m2b-page-title {
     font-size: 38px;
   }
+
+  .m2b-content {
+    padding: 28px 36px;
+    gap: 24px;
+  }
 }
 
-/* ── 4K / Ultra-wide ≥ 2560px ── */
+/* 4K / Ultra-wide ≥ 2560px */
 @media (min-width: 2560px) {
   .m2b-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .m2b-quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .m2b-map-body {
@@ -413,7 +649,7 @@ body {
   }
 
   .m2b-content {
-    padding: 48px 56px;
+    padding: 40px 56px;
     gap: 32px;
   }
   
@@ -432,4 +668,136 @@ body {
   .m2b-map-title {
     font-size: 22px;
   }
+}
+
+/* ===================================================
+   BUS NUMBER MODAL STYLES (Restored)
+=================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-container {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  font-family: 'Figtree', sans-serif;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #64748b;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: #f1f5f9;
+}
+
+.modal-body {
+  margin-bottom: 24px;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: 'Figtree', sans-serif;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.modal-input::placeholder {
+  color: #94a3b8;
+}
+
+.modal-error {
+  color: #ef4444;
+  font-size: 13px;
+  margin-top: 8px;
+  font-family: 'Figtree', sans-serif;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.modal-btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-family: 'Figtree', sans-serif;
+}
+
+.modal-btn-cancel {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.modal-btn-cancel:hover {
+  background: #e2e8f0;
+}
+
+.modal-btn-submit {
+  background: #3b82f6;
+  color: white;
+}
+
+.modal-btn-submit:hover {
+  background: #2563eb;
+}
+
+.modal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

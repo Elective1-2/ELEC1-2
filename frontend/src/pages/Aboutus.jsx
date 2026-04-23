@@ -2,8 +2,8 @@ import React from 'react';
 import '../css/Aboutus.css';
 
 // --- Shared Components ---
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Navbar from '../components/menu/Navbar';
+import Footer from '../components/menu/Footer';
 
 // --- Imports: Photos ---
 import glenPic from '../assets/glen.jpg'; 

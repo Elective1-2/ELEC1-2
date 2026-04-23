@@ -65,6 +65,71 @@ async function getDashboardStats(req, res) {
 }
 
 /**
+ * GET /api/admin/dashboard/stats
+ * Get dashboard statistics
+ */
+async function getDashboardStats(req, res) {
+  try {
+    // Active buses count
+    const [activeBuses] = await pool.query(
+      'SELECT COUNT(*) as count FROM buses WHERE status = "active"'
+    );
+
+    // Active trips (en_route)
+    const [activeTrips] = await pool.query(
+      'SELECT COUNT(*) as count FROM trips WHERE status = "en_route"'
+    );
+
+    // Total trips today
+    const [tripsToday] = await pool.query(
+      `SELECT COUNT(*) as count FROM trips 
+       WHERE DATE(scheduled_departure) = CURDATE()`
+    );
+
+    // Total passengers today
+    const [totalPassengers] = await pool.query(
+      `SELECT COALESCE(SUM(pc.passenger_count), 0) as total
+       FROM passenger_counts pc
+       JOIN trips t ON pc.trip_id = t.trip_id
+       WHERE DATE(t.scheduled_departure) = CURDATE()`
+    );
+
+    // Average passenger count today
+    const [avgPassengers] = await pool.query(
+      `SELECT AVG(pc.passenger_count) as avg_passengers
+       FROM passenger_counts pc
+       JOIN trips t ON pc.trip_id = t.trip_id
+       WHERE DATE(t.scheduled_departure) = CURDATE()`
+    );
+
+    // Delayed trips today (>5 min)
+    const [delayedTrips] = await pool.query(
+      `SELECT COUNT(*) as count, COALESCE(AVG(dh.delay_minutes), 0) as avg_delay
+       FROM delay_history dh
+       JOIN trips t ON dh.trip_id = t.trip_id
+       WHERE dh.delay_minutes > 5
+         AND DATE(t.scheduled_departure) = CURDATE()`
+    );
+
+    res.json({
+      success: true,
+      stats: {
+        activeBuses: activeBuses[0].count,
+        activeTrips: activeTrips[0].count,
+        tripsToday: tripsToday[0].count,
+        totalPassengersToday: parseInt(totalPassengers[0].total) || 0,
+        avgPassengersToday: Math.round(avgPassengers[0].avg_passengers || 0),
+        delayedTripsToday: delayedTrips[0].count,
+        averageDelayMinutes: Math.round(delayedTrips[0].avg_delay || 0)
+      }
+    });
+  } catch (error) {
+    console.error('Dashboard stats error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+/**
  * GET /api/admin/analytics/passengers
  * Get passenger count analytics over time
  * Query params: period (day, week, month)

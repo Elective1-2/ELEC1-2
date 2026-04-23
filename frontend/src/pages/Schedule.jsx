@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useAllRoutes, useScheduleData } from '../hooks/useScheduleData';
-import Navbar from '../components/Navbar'; 
+import Navbar from '../components/menu/Navbar'; 
 import heroImage from '../assets/herohome.png'; 
 import '../css/Schedule.css'; 
-import Footer from '../components/Footer'; // Import Footer component
+import Footer from '../components/menu/Footer'; // Import Footer component
 
 function SchedulePage() {
   const [selectedRouteId, setSelectedRouteId] = useState('');

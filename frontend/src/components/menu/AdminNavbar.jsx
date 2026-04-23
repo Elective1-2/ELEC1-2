@@ -1,7 +1,7 @@
 // todo:Change admin Avatar to be the logo 
 
 import React, { useState, useEffect } from "react";
-import "../css/AdminNavbar.css";
+import "../../css/AdminNavbar.css";
 
 function AdminNavbar({ onSearchChange, initialSearchValue = "" }) {
   const [searchValue, setSearchValue] = useState(initialSearchValue);

@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import herohome from '../assets/herohome.png';
 import { Link, useNavigate } from 'react-router-dom';
 
-import Navbar from "../components/NavBar"; 
-import Footer from "../components/Footer"; // Imported the new Footer component
+import Navbar from "../components/menu/NavBar"; 
+import Footer from "../components/menu/Footer";
 import "../css/Landingpage.css";
 
 function LandingPage() {

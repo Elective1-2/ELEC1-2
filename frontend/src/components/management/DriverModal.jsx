@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../css/BusModal.css';
+import '../../css/BusModal.css';
 
 function DriverModal({ isOpen, onClose, driver, onSubmit, title }) {
   const [formData, setFormData] = useState({

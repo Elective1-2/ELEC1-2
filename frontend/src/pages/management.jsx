@@ -1,18 +1,18 @@
 //! Delete Driver Assign Modal
 import React, { useState } from "react";
 
-import AdminNavbar from "../components/AdminNavbar";
-import MobileHeader from "../components/MobileHeader";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
+import AdminNavbar from "../components/menu/AdminNavbar";
+import MobileHeader from "../components/menu/MobileHeader";
+import Sidebar from "../components/menu/Sidebar";
+import Footer from "../components/menu/Footer";
 import BusModal from "../components/BusModal";
-import AssignmentModal from "../components/AssignmentModal";
-import DeleteConfirmModal from "../components/DeleteConfirmModal";
-import DriverModal from "../components/DriverModal";
-import DriverAssignModal from "../components/DriverAssignModal";
-import DriverAssignmentsModal from "../components/DriverAssignmentsModal";
-import BusAssignmentsModal from "../components/BusAssignmentsModal";
-import KebabMenu from "../components/KebabMenu";
+import AssignmentModal from "../components/management/AssignmentModal";
+import DeleteConfirmModal from "../components/management/DeleteConfirmModal";
+import DriverModal from "../components/management/DriverModal";
+import DriverAssignModal from "../components/management/DriverAssignModal";
+import DriverAssignmentsModal from "../components/management/DriverAssignmentsModal";
+import BusAssignmentsModal from "../components/management/BusAssignmentsModal";
+import KebabMenu from "../components/menu/KebabMenu";
 
 import { useRoutes } from "../hooks/useRoutes";
 import { useBuses, useDrivers, useFilteredData } from "../hooks/useBuses";

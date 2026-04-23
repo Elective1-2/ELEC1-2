@@ -1,6 +1,6 @@
 import React from 'react';
-import '../css/Footer.css';
-import logo from '../assets/M2B logo.png';
+import '../../css/Footer.css';
+import logo from '../../assets/M2B logo.png';
 
 const Footer = () => {
   return (
