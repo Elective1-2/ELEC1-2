@@ -1,8 +1,3 @@
-/* ============================================ */
-/* REUSABLE MOBILE NAVBAR STYLES */
-/* Component logic handles when to show/hide */
-/* ============================================ */
-
 .mobile-hamburger {
   background: none;
   border: none;
@@ -145,7 +140,6 @@ padding: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Small mobile adjustments */
 @media (max-width: 599px) {
   .mobile-menu {
     max-height: 80vh;
@@ -174,7 +168,6 @@ padding: 8px;
   }
 }
 
-/* Extra small mobile */
 @media (max-width: 380px) {
   .mobile-menu {
     max-height: 75vh;

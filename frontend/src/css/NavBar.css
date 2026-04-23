@@ -129,14 +129,12 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Tablet: 800px – 1279px */
 @media (max-width: 1279px) and (min-width: 800px) {
   .navbar {
     padding: 0 20px;
   }
 }
 
-/* Mobile: up to 799px */
 @media (max-width: 799px) {
   .navbar {
     padding: 0 20px;

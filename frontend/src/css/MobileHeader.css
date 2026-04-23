@@ -1,29 +1,24 @@
-/*  MOBILE HEADER */
 .mobile-header {
   display: none;
   background: #1e2d3d;
   padding: 11px 16px;
   align-items: center;
-  /* pushes logo to left and hamburger to right */
   justify-content: space-between;
   flex-shrink: 0;
   border-bottom: 3px solid #38bdf8;
   width: 100%;
-  /* sticky so it stays visible when the page scrolls */
   position: sticky;
   top: 0;
   z-index: 55;
   font-family: 'Figtree', sans-serif;
 }
 
-/* Logo — LEFT */
 .mobile-header-left {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Logo Image Styles - Smaller size */
 .mobile-logo-img {
   height: 28px;
   width: auto;
@@ -31,7 +26,6 @@
   display: block;
 }
 
-/* Hamburger — RIGHT */
 .mobile-hamburger {
   background: none;
   border: none;
@@ -51,7 +45,6 @@
   display: block;
 }
 
-/* ── Logo circles ── */
 .mobile-logo {
   display: flex;
   align-items: center;
@@ -76,14 +69,12 @@
 .mobile-logo-seg.seg-2 { background: #38bdf8; }
 .mobile-logo-seg.seg-b { background: #f5a623; }
 
-/* SHOW on phones + tablet portrait (< 768px) */
 @media (max-width: 767px) {
   .mobile-header {
     display: flex;
   }
 }
 
-/* Tablet (480px - 767px) */
 @media (min-width: 480px) and (max-width: 767px) {
   .mobile-logo-img {
     height: 28px;
@@ -94,7 +85,6 @@
   }
 }
 
-/* Small phones (< 480px) */
 @media (max-width: 479px) {
   .mobile-logo-img {
     height: 26px;
@@ -105,7 +95,6 @@
   }
 }
 
-/* Tiny phones < 360px */
 @media (max-width: 359px) {
   .mobile-logo-img {
     height: 24px;

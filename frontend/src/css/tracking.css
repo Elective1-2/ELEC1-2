@@ -1,4 +1,3 @@
-/* Import Figtree Font */
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap');
 
 .track-root {
@@ -9,7 +8,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* ── Body = sidebar + main side-by-side ── */
 .track-body {
   display: flex;
   flex: 1;
@@ -17,7 +15,6 @@
   overflow: hidden;
 }
 
-/* ── Main column ── */
 .track-main {
   flex: 1;
   display: flex;
@@ -27,7 +24,6 @@
   overflow-y: auto;
 }
 
-/* ── Page content padding ── */
 .track-content {
   padding: clamp(16px, 2.5vw, 30px);
   display: flex;
@@ -36,9 +32,6 @@
   flex: 1;
 }
 
-/* ===================================================
-   SHARED CARD
-=================================================== */
 .track-card {
   background: #fff;
   border-radius: clamp(12px, 1.2vw, 16px);
@@ -62,7 +55,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* Yellow rounded-square badge */
 .track-badge {
   background: #f5a623;
   color: #fff;
@@ -78,9 +70,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* ===================================================
-   BUS LIST ITEMS
-=================================================== */
 .track-bus-item {
   display: flex;
   align-items: center;
@@ -136,7 +125,6 @@
   flex-wrap: wrap;
 }
 
-/* Status badges */
 .track-status-badge {
   font-size: clamp(12px, 0.85vw, 13px);
   font-weight: 600;
@@ -160,7 +148,6 @@
   color: #1e293b;
 }
 
-/* VIEW button */
 .track-view-btn {
   background: #1e2d3d;
   color: #fff;
@@ -187,9 +174,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* ===================================================
-   LIVE TRANSIT MAP
-=================================================== */
 .track-map-card {
   background: #fff;
   border-radius: clamp(12px, 1.2vw, 16px);
@@ -216,7 +200,6 @@
   width: 100%;
 }
 
-/* Diagonal road */
 .track-route {
   position: absolute;
   left: 0;
@@ -228,7 +211,6 @@
   background: linear-gradient(to right, #ef4444 0%, #ef4444 35%, #22c55e 60%, #22c55e 100%);
 }
 
-/* Bus pins */
 .track-pin {
   position: absolute;
   display: flex;
@@ -275,7 +257,6 @@
 .dot-blue { background: #3b82f6; }
 .dot-red  { background: #ef4444; }
 
-/* Legend */
 .track-map-legend {
   position: absolute;
   bottom: clamp(8px, 1vw, 16px);
@@ -315,9 +296,6 @@
   flex-shrink: 0;
 }
 
-/* ===================================================
-   SEARCH INFO
-=================================================== */
 .track-search-info {
   padding: 10px 16px;
   background-color: #f0fdf4;
@@ -329,9 +307,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* ===================================================
-   BUS DETAILS
-=================================================== */
 .track-bus-plate {
   font-size: 12px;
   color: #64748b;
@@ -365,15 +340,11 @@
   color: #1e293b;
 }
 
-/* Gray dot for no location */
 .dot-gray {
   background: #94a3b8 !important;
   box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.2) !important;
 }
 
-/* ===================================================
-   REFRESH INFO
-=================================================== */
 .track-refresh-info {
   display: flex;
   align-items: center;
@@ -395,11 +366,6 @@
   50% { opacity: 0.5; }
 }
 
-/* ===================================================
-   RESPONSIVE BREAKPOINTS
-=================================================== */
-
-/* Phone < 600px */
 @media (max-width: 599px) {
   .track-content { padding: 14px; gap: 14px; }
   .track-map-body { height: 280px; }
@@ -408,28 +374,24 @@
   .track-card-title { font-size: 20px; }
 }
 
-/* Tablet 600–767px */
 @media (min-width: 600px) and (max-width: 767px) {
   .track-content { padding: 16px; gap: 16px; }
   .track-map-body { height: 320px; }
   .track-card-title { font-size: 22px; }
 }
 
-/* Tablet landscape 768–1023px */
 @media (min-width: 768px) and (max-width: 1023px) {
   .track-content { padding: 20px; gap: 18px; }
   .track-map-body { height: 380px; }
   .track-card-title { font-size: 22px; }
 }
 
-/* Desktop 1024–1439px */
 @media (min-width: 1024px) and (max-width: 1439px) {
   .track-content { padding: 24px 28px; gap: 20px; }
   .track-map-body { height: 440px; }
   .track-card-title { font-size: 22px; }
 }
 
-/* Large desktop / 2K 1440–2559px */
 @media (min-width: 1440px) and (max-width: 2559px) {
   .track-content { padding: 28px 36px; gap: 24px; }
   .track-map-body { height: 500px; }
@@ -438,7 +400,6 @@
   .track-view-btn { font-size: 14px; padding: 10px 26px; }
 }
 
-/* 4K / Ultra-wide ≥ 2560px */
 @media (min-width: 2560px) {
   .track-content { padding: 40px 56px; gap: 32px; }
   .track-map-body { height: 620px; }
@@ -448,14 +409,12 @@
   .track-view-btn { font-size: 16px; padding: 12px 32px; }
 }
 
-/* Mobile sidebar drawer mode */
 @media (max-width: 767px) {
   .track-body { overflow: visible; }
   .track-main { height: auto; overflow-y: visible; }
   .track-root { overflow-y: auto; }
 }
 
-/* Small phone */
 @media (max-width: 479px) {
   .track-map-body { height: 260px; }
 }
