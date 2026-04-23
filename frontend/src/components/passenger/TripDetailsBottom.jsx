@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 function TripDetailsBottom({ tripData, formatTime, statusInfo, congestionLevel, onTrackAnother, isOpen, onToggle }) {
   return (
     <div className={`dmp-bottom ${isOpen ? 'open' : 'closed'}`}>
-      {/* Toggle Handle */}
       <div className="dmp-bottom-handle" onClick={onToggle}>
         <div className="dmp-bottom-handle-bar" />
         <svg 

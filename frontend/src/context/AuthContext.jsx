@@ -15,16 +15,13 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(false);
   
-  // Store pending Google data for signup flow
   const [pendingGoogleData, setPendingGoogleData] = useState(() => {
-    // Try to restore from sessionStorage on page refresh
     const saved = sessionStorage.getItem('pendingGoogleData');
     return saved ? JSON.parse(saved) : null;
   });
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-  // Load user data if token exists
   useEffect(() => {
     if (token) {
       fetchUser();
@@ -62,7 +59,6 @@ export const AuthProvider = ({ children }) => {
       const data = await res.json();
 
       if (data.token) {
-        // Existing user - login successful
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         setToken(data.token);
@@ -71,7 +67,6 @@ export const AuthProvider = ({ children }) => {
         setPendingGoogleData(null);
         return { success: true, user: data.user };
       } else if (data.needsSignup) {
-        // New user - store Google data for signup flow
         setPendingGoogleData(data.googleData);
         sessionStorage.setItem('pendingGoogleData', JSON.stringify(data.googleData));
         return { success: false, needsSignup: true, googleData: data.googleData };
@@ -105,12 +100,10 @@ export const AuthProvider = ({ children }) => {
       const data = await res.json();
 
       if (data.success && data.token) {
-        // Signup successful - log user in
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         setToken(data.token);
         setUser(data.user);
-        // Clear pending data
         sessionStorage.removeItem('pendingGoogleData');
         setPendingGoogleData(null);
         return { success: true, user: data.user };

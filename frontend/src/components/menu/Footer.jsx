@@ -5,14 +5,12 @@ const Footer = () => {
   return (
     <footer className="footer-container">
       <div className="footer-content">
-        {/* Credits Section */}
         <div className="footer-info">
           <span className="credit-text">Developed by <strong>BSCpE Students</strong></span>
           <span className="separator">|</span>
           <span className="credit-text">Bulacan State University</span>
         </div>
 
-        {/* Copyright Section - Below */}
         <div className="footer-copyright">
           <p>&copy; 2026 M2B. All Rights Reserved.</p>
         </div>

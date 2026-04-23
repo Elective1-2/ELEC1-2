@@ -62,7 +62,6 @@ function DriverAssignmentsModal({ isOpen, onClose, driver, buses, routes, onUpda
         throw new Error(data.error || 'Failed to delete assignment');
       }
       
-      // Update local state
       setAssignments(prev => prev.filter(a => a.assignment_id !== assignment.assignment_id));
       onUpdate?.();
     } catch (err) {
@@ -88,7 +87,6 @@ function DriverAssignmentsModal({ isOpen, onClose, driver, buses, routes, onUpda
       let response;
       
       if (editingAssignment) {
-        // Update existing assignment
         response = await fetch(`${API_URL}/admin/assignments/${editingAssignment.assignment_id}`, {
           method: 'PUT',
           headers: {
@@ -98,7 +96,6 @@ function DriverAssignmentsModal({ isOpen, onClose, driver, buses, routes, onUpda
           body: JSON.stringify(formData)
         });
       } else {
-        // Add new assignment
         response = await fetch(`${API_URL}/admin/drivers/${driver.user_id}/assignments`, {
           method: 'POST',
           headers: {
@@ -115,15 +112,12 @@ function DriverAssignmentsModal({ isOpen, onClose, driver, buses, routes, onUpda
         throw new Error(data.error || 'Failed to save assignment');
       }
       
-      // Refresh data
       onUpdate?.();
       
-      // Close form and reset
       setShowAddForm(false);
       setEditingAssignment(null);
       setFormData({ bus_id: '', route_id: '' });
       
-      // Note: The parent component will refetch data and update the driver prop
     } catch (err) {
       setError(err.message);
     } finally {
@@ -135,11 +129,9 @@ function DriverAssignmentsModal({ isOpen, onClose, driver, buses, routes, onUpda
 
   const activeBuses = buses.filter(b => b.status === 'active');
   const availableBuses = activeBuses.filter(bus => {
-    // For editing, include the current bus
     if (editingAssignment && bus.bus_id === editingAssignment.bus_id) {
       return true;
     }
-    // Check if bus is already assigned to this driver
     return !assignments.some(a => a.bus_id === bus.bus_id);
   });
 
@@ -154,7 +146,6 @@ function DriverAssignmentsModal({ isOpen, onClose, driver, buses, routes, onUpda
         <div className="bus-modal-body">
           {error && <div className="bus-modal-error">{error}</div>}
           
-          {/* Current Assignments List */}
           <div className="assignments-section">
             <div className="assignments-header">
               <h3>Current Assignments</h3>
@@ -209,7 +200,6 @@ function DriverAssignmentsModal({ isOpen, onClose, driver, buses, routes, onUpda
             )}
           </div>
           
-          {/* Add/Edit Form */}
           {(showAddForm || editingAssignment) && (
             <div className="assignment-form-section">
               <h3>{editingAssignment ? 'Edit Assignment' : 'Add New Assignment'}</h3>

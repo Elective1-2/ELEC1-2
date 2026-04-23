@@ -109,7 +109,6 @@ function Passenger() {
         error={modalError}
       />
 
-      {/* Desktop Left Panel */}
       <TripDetails
         tripData={tripData}
         formatTime={formatTime}
@@ -118,7 +117,6 @@ function Passenger() {
         onTrackAnother={handleTrackAnotherBus}
       />
 
-      {/* Map Area */}
       <div className={`dmp-right ${trackingBus && !isBottomPanelOpen ? 'expanded' : ''}`}>
         <Link to={"/"}>
           <div className="dmp-map-logo">
@@ -137,7 +135,6 @@ function Passenger() {
           destination={tripData?.trip?.endLocation}
         />
 
-        {/* Toggle Bottom Panel Button - Tablet/Mobile */}
         {trackingBus && (
           <button 
             className="dmp-toggle-panel-btn"
@@ -160,7 +157,6 @@ function Passenger() {
           </button>
         )}
 
-        {/* Track Another Bus - Floating button */}
         {trackingBus && (
           <button 
             className="dmp-map-track-btn"
@@ -177,7 +173,6 @@ function Passenger() {
         )}
       </div>
 
-      {/* Bottom Panel - Tablet/Mobile */}
       <TripDetailsBottom
         tripData={tripData}
         formatTime={formatTime}
