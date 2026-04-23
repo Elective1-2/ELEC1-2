@@ -235,7 +235,7 @@ function Management() {
                             <td>{bus.capacity} seats</td>
                             <td>
                               <span className={`mgmt-status-badge ${bus.status}`}>
-                                {bus.status}
+                                {bus.status.charAt(0).toUpperCase() + bus.status.slice(1)}
                               </span>
                             </td>
                             <td className="mgmt-action-cell">
