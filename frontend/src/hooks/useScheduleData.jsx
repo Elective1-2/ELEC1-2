@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 export function useScheduleData(routeId, dayType = 'weekday') {
   const [schedule, setSchedule] = useState(null);
@@ -17,7 +17,7 @@ export function useScheduleData(routeId, dayType = 'weekday') {
     setError(null);
 
     try {
-      const response = await fetch(`${API_URL}/schedules/${routeId}?day_type=${dayType}`);
+      const response = await fetch(`${API_BASE}/schedules/${routeId}?day_type=${dayType}`);
       const data = await response.json();
 
       if (!response.ok) {
