@@ -33,7 +33,7 @@ function SummaryCards({ summary, loading }) {
           <div className="summary-label">Avg Passengers/Trip</div>
         </div>
       </div>
-      <div className="summary-card warning">
+      <div className="summary-card">
         <div className="summary-icon">⚠️</div>
         <div className="summary-content">
           <div className="summary-value">{summary?.delayedTrips || 0}</div>

@@ -57,7 +57,7 @@ function M2BDashboard() {
               label="Active Trips"
               value={stats.activeTrips}
               icon={<TripIcon />}
-              color="ic-red"
+              color="ic-blue"
               loading={loading}
             />
             <StatCard 

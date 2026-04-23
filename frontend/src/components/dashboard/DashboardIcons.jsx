@@ -33,16 +33,14 @@ export const PassengerIcon = () => (
 );
 
 export const TripIcon = () => (
-  <svg viewBox="0 0 48 48" width="30" height="30" fill="none">
-    <path d="M17 17 C18 11 44 11 45 17" fill="white"/>
-    <rect x="15" y="16" width="30" height="12" rx="3" fill="white"/>
-    <rect x="18" y="12" width="9" height="6" rx="1.5" fill="#ef4444" opacity="0.35"/>
-    <rect x="35" y="12" width="9" height="6" rx="1.5" fill="#ef4444" opacity="0.35"/>
-    <circle cx="21" cy="29" r="4" fill="white"/>
-    <circle cx="21" cy="29" r="1.6" fill="#ef4444"/>
-    <circle cx="41" cy="29" r="4" fill="white"/>
-    <circle cx="41" cy="29" r="1.6" fill="#ef4444"/>
-  </svg>
+<svg viewBox="0 0 48 48" width="30" height="30" fill="none">
+  <path d="M24 44C24 44 10 30 10 20C10 13 16 8 24 8C32 8 38 13 38 20C38 30 24 44 24 44Z" fill="white"/>
+
+  <circle cx="24" cy="20" r="4" fill="#3b82f6"/>
+
+  <path d="M8 20C8 12 15 6 24 6" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+  <path d="M40 20C40 12 33 6 24 6" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+</svg>
 );
 
 export const DelayIcon = () => (
