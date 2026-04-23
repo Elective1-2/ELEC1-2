@@ -162,7 +162,7 @@ function Analytics() {
                   className="filter-toggle-btn"
                   onClick={() => setShowFilters(!showFilters)}
                 >
-                  {showFilters ? 'Hide Filters' : 'Show Filters'} 🔍
+                  {showFilters ? 'Hide Filters' : 'Show Filters'} 
                 </button>
               </div>
 

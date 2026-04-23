@@ -116,7 +116,6 @@ function M2BDashboard() {
         />
         
         <div className="m2b-main">
-          <AdminNavbar/>
           {renderContent()}
           <Footer />
         </div>

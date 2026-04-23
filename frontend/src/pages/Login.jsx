@@ -135,7 +135,7 @@ function Login() {
 
   return (
     <div className="login-root">
-        <Navbar />
+      <Navbar />
       <div className="login-page">
         <div className="login-card">
           <h1 className="login-card-title">LOGIN</h1>
