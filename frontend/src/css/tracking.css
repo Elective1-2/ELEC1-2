@@ -57,7 +57,7 @@
 
 .track-badge {
   background: #f5a623;
-  color: #fff;
+  color: #000000;
   font-weight: 800;
   font-size: clamp(16px, 1.3vw, 20px);
   min-width: clamp(40px, 3.5vw, 52px);
