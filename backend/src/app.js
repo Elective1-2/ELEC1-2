@@ -37,6 +37,9 @@ console.log('✅ [app.js] Routes loaded');
 const app = express();
 console.log('✅ [app.js] Express app created');
 
+app.set('trust proxy', 1);
+console.log('✅ [app.js] Trust proxy enabled for Hostinger');
+
 // Security middleware
 app.use(helmet());
 
@@ -46,6 +49,14 @@ const limiter = rateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
   message: { error: 'Too many requests, please try again later.' },
   skipSuccessfulRequests: true, // Don't count successful requests against limit
+  // Fix for Hostinger proxy
+  validate: { 
+    xForwardedForHeader: false  // Disable the warning since we trust the proxy
+  },
+  keyGenerator: (req) => {
+    // Use the forwarder IP from proxy or fall back to req.ip
+    return req.headers['x-forwarded-for'] || req.ip;
+  }
 });
 app.use('/api/', limiter);
 
@@ -57,7 +68,7 @@ app.use(cors({
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'X-Forwarded-For'],
 }));
 
 // Body parsing middleware
