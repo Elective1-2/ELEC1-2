@@ -1,7 +1,3 @@
-/* ===================================================
-   ADMIN NAVBAR (top bar)
-   position: sticky so it stays visible while content scrolls
-=================================================== */
 .admin-navbar {
   background: #fff;
   padding: clamp(8px, 0.9vw, 12px) clamp(14px, 2vw, 28px);
@@ -19,7 +15,6 @@
   gap: 10px;
 }
 
-/* ── Search ── */
 .admin-search {
   display: flex;
   align-items: center;
@@ -55,7 +50,6 @@
 
 .admin-search-clear:hover { color: #ef4444; }
 
-/* ── Right section ── */
 .admin-nav-right {
   display: flex;
   align-items: center;
@@ -91,7 +85,6 @@
   flex-shrink: 0;
 }
 
-/* ── Notification button ── */
 .admin-notif-container { position: relative; }
 
 .admin-notif-btn {
@@ -125,7 +118,6 @@
   padding: 0 2px;
 }
 
-/* ── Notification dropdown ── */
 .admin-notif-dropdown {
   position: absolute;
   top: 46px;
@@ -194,11 +186,7 @@
   color: #9ca3af;
 }
 
-/* ===================================================
-   BREAKPOINTS
-=================================================== */
 
-/* Phone < 480px */
 @media (max-width: 479px) {
   .admin-navbar  { padding: 8px 12px; }
   .admin-info    { display: none; }
@@ -216,7 +204,6 @@
   }
 }
 
-/* Tablet portrait 480–767px */
 @media (min-width: 480px) and (max-width: 767px) {
   .admin-info    { display: none; }
   .admin-divider { display: none; }
@@ -229,7 +216,7 @@
   }
 }
 
-/* 4K ≥ 1920px */
+
 @media (min-width: 1920px) {
   .admin-navbar { padding: 14px clamp(28px, 3vw, 48px); }
   .admin-name   { font-size: 16px; }

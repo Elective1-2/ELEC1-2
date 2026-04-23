@@ -6,7 +6,6 @@
   padding: 0;
 }
 
-/* DESKTOP - left panel + right map */
 .dmp-root {
   display: flex;
   flex-direction: row;
@@ -17,12 +16,10 @@
   background: #f3f4f6;
 }
 
-/* Bottom panel - hidden on desktop */
 .dmp-bottom {
   display: none !important;
 }
 
-/* LEFT PANEL */
 .dmp-left {
   width: clamp(260px, 26vw, 340px);
   flex-shrink: 0;
@@ -36,12 +33,10 @@
   position: relative;
 }
 
-/* Force left panel to show all children */
 .dmp-left > * {
   flex-shrink: 0;
 }
 
-/* RIGHT PANEL (map) */
 .dmp-right {
   flex: 1;
   background: #e5e7eb;
@@ -49,7 +44,6 @@
   position: relative;
 }
 
-/* CLOCK - smaller for laptop 1440px to prevent overlap */
 .dmp-clock-container {
   position: absolute;
   top: 4px;
@@ -79,7 +73,6 @@
   margin-top: 1px;
 }
 
-/* Logo (desktop) */
 .dmp-logo {
   display: flex;
   align-items: center;
@@ -114,7 +107,6 @@
   background: #f5a623;
 }
 
-/* Map overlays - hidden on desktop */
 .dmp-map-logo {
   display: none;
 }
@@ -123,9 +115,6 @@
   display: none;
 }
 
-/* SHARED COMPONENTS */
-
-/* Section title */
 .dmp-section-title {
   font-size: clamp(11px, 1vw, 14px);
   font-weight: 800;
@@ -136,7 +125,6 @@
   margin-top: 6px;
 }
 
-/* Driver card */
 .dmp-detail-card {
   background: #f3f4f6;
   border-radius: 10px;
@@ -160,7 +148,6 @@
   color: #111827;
 }
 
-/* Times row */
 .dmp-times-row {
   display: flex;
   gap: 0;
@@ -208,7 +195,6 @@
   background: linear-gradient(to right, #22c55e 50%, #d1d5db 50%);
 }
 
-/* Tag rows */
 .dmp-tag-row {
   display: flex;
   gap: 5px;
@@ -236,7 +222,6 @@
   color: #111827;
 }
 
-/* BUS NO + PASSENGERS row (side by side) */
 .dmp-info-row {
   display: flex !important;
   flex-direction: row !important;
@@ -247,7 +232,6 @@
   padding: 0 !important;
 }
 
-/* Square blocks with centered content */
 .dmp-info-block {
   flex: 1 !important;
   min-width: 0 !important;
@@ -289,7 +273,6 @@
   text-align: center;
 }
 
-/* BUTTONS */
 .dmp-end-btn {
   display: flex !important;
   align-items: center !important;
@@ -339,7 +322,6 @@
   font-size: 11px;
 }
 
-/* Tablet/mobile sections - hidden on desktop */
 .dmp-tablet-grid {
   display: none !important;
 }
@@ -352,7 +334,6 @@
   display: none !important;
 }
 
-/* TABLET (600 - 1023px) - LARGER TEXT IN BUBBLES */
 @media (max-width: 1023px) and (min-width: 600px) {
   .dmp-root {
     flex-direction: column;
@@ -454,7 +435,6 @@
     flex: 1;
   }
 
-  /* Driver card - larger text */
   .dmp-tablet-right-col .dmp-detail-card {
     border-radius: 12px;
     padding: 12px 10px;
@@ -473,7 +453,6 @@
     font-size: 11px;
   }
 
-  /* Times row - larger text */
   .dmp-tablet-right-col .dmp-times-row {
     padding: 12px 12px 20px 12px;
     border-radius: 12px;
@@ -490,7 +469,6 @@
     font-size: 10px;
   }
 
-  /* Bus and passengers blocks - larger text */
   .dmp-tablet-left-col .dmp-info-block {
     flex: 1;
     min-height: 100px;
@@ -514,7 +492,6 @@
     font-size: 10px;
   }
 
-  /* Tag rows */
   .dmp-bottom > .dmp-tag-row {
     display: flex;
     flex-wrap: wrap;
@@ -538,7 +515,6 @@
     font-size: 8px;
   }
 
-  /* Buttons */
   .dmp-tablet-end-btn {
     display: block !important;
     width: 100%;
@@ -562,7 +538,6 @@
   }
 }
 
-/* MOBILE (< 600px) - LARGER TEXT IN BUBBLES */
 @media (max-width: 599px) {
   .dmp-root {
     flex-direction: column;
@@ -658,7 +633,6 @@
     gap: 8px;
   }
 
-  /* Driver card - larger text */
   .dmp-mobile-stack .dmp-detail-card {
     border-radius: 12px;
     padding: 12px;
@@ -677,7 +651,6 @@
     font-size: 10px;
   }
 
-  /* Times row - larger text */
   .dmp-mobile-stack .dmp-times-row {
     padding: 12px 12px 20px 12px;
     min-height: 90px;
@@ -696,7 +669,6 @@
     font-size: 16px;
   }
 
-  /* Tag rows in mobile stack */
   .dmp-mobile-stack .dmp-tag-row {
     display: flex;
     gap: 6px;
@@ -714,7 +686,6 @@
     font-size: 7px;
   }
 
-  /* Bus and passengers blocks - larger text */
   .dmp-mobile-stack .dmp-info-row {
     display: flex !important;
     flex-direction: row !important;
@@ -740,7 +711,6 @@
     font-size: 9px;
   }
 
-  /* Buttons */
   .dmp-mobile-stack .dmp-end-btn {
     width: 100%;
     font-size: 13px;
@@ -756,7 +726,6 @@
   }
 }
 
-/* 4K / ULTRA-WIDE (>= 1920px) */
 @media (min-width: 1920px) {
   .dmp-left {
     width: 440px;
@@ -790,7 +759,6 @@
     font-size: 11px;
   }
 
-  /* Larger clock for 4K */
   .dmp-clock-container {
     top: 12px;
     right: 12px;
@@ -807,7 +775,6 @@
     font-size: 11px;
   }
 }
-/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -930,7 +897,6 @@
   cursor: not-allowed;
 }
 
-/* Form Styles for Modals */
 .form-group {
   margin-bottom: 20px;
 }
@@ -977,7 +943,6 @@
   font-weight: 500;
 }
 
-/* Clickable elements */
 .dmp-info-block.dark {
   transition: opacity 0.2s;
 }

@@ -1,7 +1,6 @@
-/* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap');
 @import url('./MobileNavbar.css');
-/* Root Container */
+
 .login-root {
   font-family: 'Nunito', sans-serif;
   margin: 0;
@@ -10,10 +9,6 @@
   display: flex;
   flex-direction: column;
 }
-
-/* ============================================ */
-/* NAVBAR STYLES */
-/* ============================================ */
 
 .login-nav {
   display: flex;
@@ -139,9 +134,6 @@
   color: #FFFFFF;
 }
 
-/* ============================================ */
-/* HAMBURGER MENU (MOBILE FULL-WIDTH MODAL) */
-/* ============================================ */
 
 .login-hamburger {
   background: none;
@@ -149,7 +141,7 @@
   color: #1A2B3C;
   font-size: 26px;
   cursor: pointer;
-  display: none; /* Hidden by default, shown on mobile */
+  display: none;
   font-family: 'Nunito', sans-serif;
   transition: opacity 0.2s;
   padding: 8px;
@@ -160,7 +152,6 @@
   opacity: 0.7;
 }
 
-/* Overlay background when menu is open (dark dim) */
 .login-mobile-overlay {
   position: fixed;
   top: 0;
@@ -181,7 +172,6 @@
   }
 }
 
-/* Full-width modal menu that slides down from top */
 .login-mobile-menu {
   position: fixed;
   top: 0;
@@ -195,7 +185,7 @@
   overflow-y: auto;
   animation: slideDown 0.3s ease;
   border-bottom: 1px solid #e8ecef;
-  max-height: 85vh; /* Limits height so login remains visible */
+  max-height: 85vh; 
   border-radius: 0 0 20px 20px;
 }
 
@@ -210,7 +200,6 @@
   }
 }
 
-/* Menu header with logo and close button */
 .login-mobile-menu-header {
   padding: 20px 24px;
   text-align: center;
@@ -222,7 +211,6 @@
   justify-content: space-between;
 }
 
-/* Close button inside modal */
 .login-mobile-close {
   background: none;
   border: none;
@@ -244,7 +232,6 @@
   background-color: #eef2f5;
 }
 
-/* Navigation links in modal */
 .login-mobile-nav {
   display: flex;
   flex-direction: column;
@@ -276,7 +263,6 @@
   margin: 12px 24px;
 }
 
-/* Login button in modal */
 .login-mobile-login-btn {
   background-color: #1A2B3C;
   color: #FFFFFF;
@@ -299,9 +285,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* ============================================ */
-/* HERO BACKGROUND */
-/* ============================================ */
 
 .login-page {
   flex: 1;
@@ -311,10 +294,6 @@
   justify-content: center;
   padding: 40px 20px;
 }
-
-/* ============================================ */
-/* LOGIN CARD */
-/* ============================================ */
 
 .login-card {
   background-color: #f0f0f0;
@@ -437,11 +416,7 @@
   transform: translateY(0);
 }
 
-/* ============================================ */
-/* RESPONSIVE DESIGN */
-/* ============================================ */
 
-/* Tablet (600px - 899px) */
 @media (min-width: 600px) and (max-width: 899px) {
   .login-nav {
     padding: 12px 20px;
@@ -469,7 +444,6 @@
     font-size: 14px;
   }
   
-  /* Tablet: full-width modal as well for better UX */
   .login-hamburger {
     display: block;
   }
@@ -489,7 +463,6 @@
   }
 }
 
-/* Mobile (below 600px) */
 @media (max-width: 599px) {
   .login-nav {
     padding: 12px 16px;
@@ -531,7 +504,6 @@
     font-size: 12px;
   }
   
-  /* Show hamburger, hide desktop nav */
   .login-hamburger {
     display: block;
   }
@@ -540,9 +512,8 @@
     display: none;
   }
   
-  /* Full-width modal menu styles for mobile */
   .login-mobile-menu {
-    max-height: 80vh; /* Keeps login visible, menu scrolls if needed */
+    max-height: 80vh; 
     border-radius: 0 0 20px 20px;
     top: 0;
   }
@@ -579,7 +550,6 @@
   }
 }
 
-/* Small Mobile (below 380px) */
 @media (max-width: 380px) {
   .login-card {
     padding: 24px 16px;
@@ -620,7 +590,6 @@
   }
 }
 
-/* Desktop (900px and above) - hide hamburger, show normal nav */
 @media (min-width: 900px) {
   .login-hamburger {
     display: none !important;
@@ -630,43 +599,36 @@
     display: flex !important;
   }
   
-  /* Ensure overlay and mobile menu are not visible on desktop */
   .login-mobile-overlay,
   .login-mobile-menu {
     display: none !important;
   }
 }
 
-/* Fix for hero background image */
 .login-page {
   --hero-image: url('../assets/herohome.png');
 }
 
-/* Additional utility to prevent body scroll when modal is open */
 body.modal-open {
   overflow: hidden;
 }
 
-/* Smooth transitions for interactive elements */
 .login-mobile-nav-link, 
 .login-mobile-login-btn,
 .login-mobile-close {
   transition: all 0.2s ease;
 }
 
-/* Make sure the login card stays above background but below modal when open */
 .login-card {
   position: relative;
   z-index: 1;
 }
 
-/* Ensure navbar has proper stacking context */
 .login-nav {
   z-index: 100;
   position: relative;
 }
 
-/* Improved focus states for accessibility */
 .login-mobile-close:focus-visible,
 .login-mobile-nav-link:focus-visible,
 .login-mobile-login-btn:focus-visible,

@@ -1,4 +1,3 @@
-/* Import Figtree Font */
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap');
 
 .mgmt-root {
@@ -9,7 +8,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* ── Body = sidebar + main side-by-side ── */
 .mgmt-body {
   display: flex;
   flex: 1;
@@ -17,7 +15,6 @@
   overflow: hidden;
 }
 
-/* ── Main column ── */
 .mgmt-main {
   flex: 1;
   display: flex;
@@ -27,7 +24,6 @@
   overflow-y: auto;
 }
 
-/* ── Page content padding ── */
 .mgmt-content {
   padding: clamp(16px, 2vw, 28px);
   display: flex;
@@ -36,9 +32,6 @@
   flex: 1;
 }
 
-/* ===================================================
-   TABLE CARDS
-=================================================== */
 .mgmt-table-card {
   background: #fff;
   border-radius: 12px;
@@ -48,7 +41,6 @@
   flex-direction: column;
 }
 
-/* ── Card header: title + add button ── */
 .mgmt-table-header {
   display: flex;
   align-items: center;
@@ -81,10 +73,6 @@
 
 .mgmt-add-btn:hover { background: #374151; }
 
-/* ===================================================
-   SCROLLABLE TABLE WRAPPER
-   Fixed height so the table scrolls independently
-=================================================== */
 .mgmt-table-scroll {
   overflow-x: auto;
   overflow-y: auto;
@@ -92,7 +80,6 @@
   border-top: 1px solid #e5e7eb;
 }
 
-/* ── Table ── */
 .mgmt-table {
   width: 100%;
   border-collapse: collapse;
@@ -101,7 +88,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* ── Sticky header inside the scroll box ── */
 .mgmt-table thead th {
   position: sticky;
   top: 0;
@@ -117,7 +103,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* ── Body rows ── */
 .mgmt-table tbody td {
   padding: clamp(12px, 1.2vw, 16px) clamp(12px, 1.2vw, 18px);
   color: #374151;
@@ -137,7 +122,6 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* ── Action column ── */
 .mgmt-action-cell {
   text-align: center;
   width: 48px;
@@ -157,45 +141,29 @@
 
 .mgmt-dots-btn:hover { background: #f3f4f6; }
 
-
-/* ===================================================
-   MOBILE  (< 768 px) — sidebar drawer mode
-=================================================== */
 @media (max-width: 767px) {
   .mgmt-body  { overflow: visible; }
   .mgmt-main  { height: auto; overflow-y: visible; }
   .mgmt-root  { overflow-y: auto; }
 
-  /* slightly shorter table scroll boxes on phones */
   .mgmt-table-scroll { max-height: 300px; }
 }
 
-/* ===================================================
-   PHONE  < 480 px
-=================================================== */
 @media (max-width: 479px) {
   .mgmt-table-header { flex-wrap: wrap; gap: 8px; }
   .mgmt-add-btn      { width: 100%; text-align: center; }
   .mgmt-table-scroll { max-height: 260px; }
 }
 
-/* ===================================================
-   TABLET PORTRAIT  480 – 767 px
-=================================================== */
 @media (min-width: 480px) and (max-width: 767px) {
   .mgmt-table-scroll { max-height: 300px; }
 }
 
-/* ===================================================
-   TABLET LANDSCAPE  768 – 1023 px
-=================================================== */
 @media (min-width: 768px) and (max-width: 1023px) {
   .mgmt-table-scroll { max-height: 340px; }
 }
 
-/* ===================================================
-   4K / ULTRA-WIDE  ≥ 1920 px
-=================================================== */
+
 @media (min-width: 1920px) {
   .mgmt-content        { padding: 36px 48px; gap: 28px; }
   .mgmt-table-scroll   { max-height: 500px; }
@@ -205,7 +173,6 @@
   .mgmt-add-btn        { font-size: 15px; padding: 10px 24px; }
 }
 
-/* ── Search Info Bar ── */
 .mgmt-search-info {
   background: #f0fdf4;
   border-left: 4px solid #22c55e;
@@ -231,8 +198,6 @@
   margin-left: 8px;
 }
 
-
-/* Driver assignments list styles */
 .mgmt-assignments-list {
   display: flex;
   flex-direction: column;
@@ -290,14 +255,12 @@
   color: #991b1b;
 }
 
-/* Adjust table column widths for better display */
-.mgmt-table th:nth-child(1) { width: 20%; } /* Name */
-.mgmt-table th:nth-child(2) { width: 30%; } /* Assigned Buses */
-.mgmt-table th:nth-child(3) { width: 25%; } /* Contact */
-.mgmt-table th:nth-child(4) { width: 10%; } /* Status */
-.mgmt-table th:nth-child(5) { width: 5%; }  /* Action */
+.mgmt-table th:nth-child(1) { width: 20%; } 
+.mgmt-table th:nth-child(2) { width: 30%; } 
+.mgmt-table th:nth-child(3) { width: 25%; }
+.mgmt-table th:nth-child(4) { width: 10%; }
+.mgmt-table th:nth-child(5) { width: 5%; } 
 
-/* Bus assignments specific styles */
 .mgmt-assignment-main {
   display: flex;
   flex-direction: column;

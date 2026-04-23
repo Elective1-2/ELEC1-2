@@ -15,9 +15,6 @@
   background: #f8fafc;
 }
 
-/* ===================================================
-   HERO SECTION
-=================================================== */
 .about-hero {
   background: linear-gradient(rgba(26, 43, 60, 0.80), rgba(26, 43, 60, 0.80)), 
               url('../assets/herohome.png') center/cover;
@@ -42,9 +39,6 @@
   text-align: center;
 }
 
-/* ===================================================
-   FEATURES SECTION - REDUCED PADDING
-=================================================== */
 .about-feat-section {
   background-color: #f8fafc;
   text-align: center;
@@ -81,9 +75,6 @@
   text-align: center;
 }
 
-/* ===================================================
-   GRID SECTION - REDUCED PADDING
-=================================================== */
 .about-grid-container {
   padding: clamp(30px, 4vw, 50px) clamp(20px, 4vw, 40px);
   background-color: #fff;
@@ -125,9 +116,6 @@
   text-align: center;
 }
 
-/* ===================================================
-   WHAT WE DO SECTION - REDUCED PADDING
-=================================================== */
 .about-wwd-wrapper {
   background-color: #F1C40F;
   padding: clamp(30px, 4vw, 50px) clamp(20px, 4vw, 40px);
@@ -183,7 +171,6 @@
   align-items: center;
 }
 
-/* Custom bullet aligned left */
 .about-wwd-list li::before {
   content: "•";
   color: #1e293b;
@@ -192,9 +179,6 @@
   display: inline-block;
 }
 
-/* ===================================================
-   CREATORS SECTION - FIXED ALIGNMENT
-=================================================== */
 .about-creators-wrapper {
   padding: clamp(40px, 5vw, 60px) clamp(20px, 4vw, 40px);
   text-align: center;
@@ -260,11 +244,7 @@
   text-align: left;
 }
 
-/* ===================================================
-   RESPONSIVE BREAKPOINTS
-=================================================== */
 
-/* Tablet (640px - 1023px) */
 @media (max-width: 1023px) {
   .about-grid {
     grid-template-columns: 1fr;
@@ -304,7 +284,6 @@
   }
 }
 
-/* Mobile (below 640px) */
 @media (max-width: 639px) {
   .about-hero {
     min-height: 220px;
@@ -360,7 +339,6 @@
   }
 }
 
-/* Small Mobile (below 480px) */
 @media (max-width: 479px) {
   .about-hero-title {
     font-size: 28px;
@@ -406,8 +384,6 @@
     font-size: 12px;
   }
 }
-
-/* Large Screens (1440px+) */
 @media (min-width: 1440px) {
   .about-hero-title {
     font-size: 64px;

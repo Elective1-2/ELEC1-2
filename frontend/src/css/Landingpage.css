@@ -8,16 +8,11 @@
   font-display: swap;
 }
 
-/* ── ROOT ── */
 .landing-root {
   font-family: 'Figtree', sans-serif;
   margin: 0;
   padding: 0;
 }
-
-/* ══════════════════════════════════════════
-   HERO
-══════════════════════════════════════════ */
 
 .landing-hero {
   background: linear-gradient(rgba(26, 43, 60, 0.80), rgba(26, 43, 60, 0.80)),
@@ -81,9 +76,6 @@
   transform: translateY(-2px);
 }
 
-/* ══════════════════════════════════════════
-   FEATURES SECTION
-══════════════════════════════════════════ */
 
 .landing-feat-section {
   background-color: #ebebeb;
@@ -126,9 +118,6 @@
   line-height: 1.5;
 }
 
-/* ══════════════════════════════════════════
-   DESKTOP GRID
-══════════════════════════════════════════ */
 
 .landing-grid {
   display: grid;
@@ -166,9 +155,6 @@
   font-weight: 400;
 }
 
-/* ══════════════════════════════════════════
-   CSS SCROLL-SNAP CAROUSEL
-══════════════════════════════════════════ */
 
 .lc-wrapper {
   display: flex;
@@ -177,13 +163,11 @@
 }
 
 .lc-carousel {
-  /* nav button styles */
   --nav-btn-size: 44px;
   --nav-btn-bg: #F1C40F;
   --nav-btn-txt: #1A2B3C;
   --nav-marker-bg: #9aa5b4;
 
-  /* dot sizes — inactive small, active big */
   --dot-size: 10px;
   --dot-size-active: 22px;
 
@@ -214,7 +198,6 @@
     content: '';
   }
 
-  /* ── SCROLL MARKER GROUP (dots row) ── */
   scroll-marker-group: after;
   &::scroll-marker-group {
     position: absolute;
@@ -224,14 +207,13 @@
     align-items: center;
     justify-content: center;
     justify-self: center;
-    gap: 16px;                        /* generous spacing between dots */
+    gap: 16px;                     
     padding-block-start: 2rem;
     top: anchor(bottom);
     left: calc(anchor(left) - 10%);
     right: calc(anchor(right) - 10%);
   }
 
-  /* ── EACH CAROUSEL ITEM ── */
   & > div {
     position: relative;
     scroll-snap-align: center;
@@ -246,7 +228,6 @@
       scroll-initial-target: nearest;
     }
 
-    /* ── THE CARD ── */
     & > .lc-card-inner {
       background-color: #1A2B3C;
       border-radius: 20px;
@@ -268,14 +249,11 @@
       }
     }
 
-    /* ══════════════════════════════════════════
-       DOTS — large solid circles
-    ══════════════════════════════════════════ */
     &::scroll-marker {
       content: ' ';
       height: var(--dot-size);
       width: var(--dot-size);
-      background-color: var(--nav-marker-bg);   /* solid medium gray */
+      background-color: var(--nav-marker-bg); 
       border-radius: 50%;
       transition:
         width      300ms cubic-bezier(0.34, 1.2, 0.64, 1),
@@ -283,10 +261,9 @@
         background-color 250ms ease,
         box-shadow 250ms ease;
       cursor: pointer;
-      opacity: 1;                               /* fully visible, no dimming */
+      opacity: 1;                             
     }
 
-    /* ACTIVE DOT — larger + yellow */
     &::scroll-marker:target-current {
       height: var(--dot-size-active);
       width: var(--dot-size-active);
@@ -294,7 +271,6 @@
       box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
     }
 
-    /* Hover effect */
     &::scroll-marker:where(:hover, :focus-visible) {
       background-color: #F1C40F;
       height: calc(var(--dot-size) + 3px);
@@ -307,7 +283,6 @@
     }
   }
 
-  /* ── NAV BUTTONS ── */
   &::scroll-button(*) {
     position: absolute;
     position-anchor: --lc-carousel;
@@ -358,12 +333,10 @@
   }
 }
 
-/* ── HIDE SCROLLBAR ── */
 .lc-carousel::-webkit-scrollbar {
   display: none;
 }
 
-/* ── CAROUSEL CARD TEXT ── */
 .lc-card-title {
   font-family: 'Basement Grotesque', sans-serif;
   color: #F1C40F;
@@ -396,9 +369,6 @@
   }
 }
 
-/* ══════════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════════ */
 
 @media (max-width: 768px) {
   .lc-carousel {
