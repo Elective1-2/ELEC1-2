@@ -57,22 +57,21 @@
 }
 
 .week-nav-btn {
-  padding: 8px 16px;
-  background-color: #fff;
-  border: 1px solid #e2e8f0;
+  background: #1e2d3d;
+  color: #fff;
+  border: none;
   border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #475569;
+  padding: clamp(8px, 0.8vw, 10px) clamp(16px, 1.6vw, 22px);
+  font-size: clamp(12px, 0.9vw, 14px);
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
   white-space: nowrap;
+  transition: background 0.15s;
   font-family: 'Figtree', sans-serif;
 }
 
-.week-nav-btn:hover:not(:disabled) {
-  background-color: #f8fafc;
-  border-color: #cbd5e1;
+.week-nav-btn:hover {
+  background: #374151;
 }
 
 .week-nav-btn:disabled {

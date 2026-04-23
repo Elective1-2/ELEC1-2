@@ -12,9 +12,12 @@
   font-family: 'Figtree', sans-serif;
   margin: 0;
   padding: 0;
+  background: #f8fafc;
 }
 
-/* HERO SECTION SPECIFICS */
+/* ===================================================
+   HERO SECTION
+=================================================== */
 .about-hero {
   background: linear-gradient(rgba(26, 43, 60, 0.80), rgba(26, 43, 60, 0.80)), 
               url('../assets/herohome.png') center/cover;
@@ -23,99 +26,118 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 250px;
-  padding: 5px 40px;
+  min-height: 300px;
+  padding: clamp(40px, 5vw, 60px) clamp(20px, 4vw, 40px);
 }
 
 .about-hero-title {
   color: #F1C40F;
   font-family: 'Basement Grotesque', sans-serif;
-  font-weight: 900;
-  font-size: 80px;
+  font-weight: 1000;
+  font-size: clamp(52px, 8vw, 80px);
   margin: 0;
   letter-spacing: -1px;
   text-transform: uppercase;
-  line-height: 1.0;
+  line-height: 1.2;
+  text-align: center;
 }
 
+/* ===================================================
+   FEATURES SECTION - REDUCED PADDING
+=================================================== */
 .about-feat-section {
-  background-color: #ebebeb;
+  background-color: #f8fafc;
   text-align: center;
-  padding: 60px 40px;
+  padding: clamp(30px, 4vw, 50px) clamp(20px, 4vw, 40px);
 }
 
 .about-feat-h1 {
   font-family: 'Basement Grotesque', sans-serif;
-  font-size: 45px;
+  font-size: clamp(28px, 4vw, 36px);
   font-weight: 900;
-  color: #1A2B3C;
+  color: #1e293b;
   margin: 0;
   text-transform: uppercase;
-  white-space: nowrap;
+  text-align: center;
 }
 
 .about-feat-h2 {
   font-family: 'Basement Grotesque', sans-serif;
-  font-size: 45px;
+  font-size: clamp(28px, 4vw, 36px);
   font-weight: 900;
   color: #F1C40F;
-  margin: 0;
+  margin: 0 0 12px;
   text-transform: uppercase;
-  white-space: nowrap;
+  text-align: center;
 }
 
 .about-feat-desc {
-  color: #555;
-  font-size: 18px;
+  color: #64748b;
+  font-size: clamp(14px, 1.2vw, 16px);
   max-width: 700px;
-  margin: 0 auto 36px;
-  line-height: 1.5;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+  font-family: 'Figtree', sans-serif;
+  text-align: center;
 }
 
+/* ===================================================
+   GRID SECTION - REDUCED PADDING
+=================================================== */
 .about-grid-container {
-  padding: 80px 40px;
+  padding: clamp(30px, 4vw, 50px) clamp(20px, 4vw, 40px);
   background-color: #fff;
 }
 
 .about-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
+  gap: clamp(16px, 2vw, 24px);
   max-width: 1000px;
   margin: 0 auto;
 }
 
 .about-card {
-  background-color: #1A2B3C;
-  border-radius: 12px;
-  padding: 15px 24px;
+  background-color: #1e293b;
+  border-radius: clamp(12px, 1.5vw, 16px);
+  padding: clamp(20px, 3vw, 30px) clamp(16px, 2vw, 24px);
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
-.about-card:hover { transform: translateY(-6px); }
 
 .about-card-title {
   font-family: 'Basement Grotesque', sans-serif;
   color: #F1C40F;
   font-weight: 900;
-  font-size: 40px;
-  margin-top: 30px;
+  font-size: clamp(28px, 3.5vw, 36px);
+  margin-top: 0;
   margin-bottom: 12px;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .about-card-desc {
-  color: #ffffff;
-  font-size: 20px;
-  line-height: 1.4;
-  margin: 0 auto 36px;
+  color: #cbd5e0;
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.5;
+  margin: 0 auto;
+  font-family: 'Figtree', sans-serif;
+  text-align: center;
 }
 
+/* ===================================================
+   WHAT WE DO SECTION - REDUCED PADDING
+=================================================== */
 .about-wwd-wrapper {
   background-color: #F1C40F;
-  padding: 80px 40px;
+  padding: clamp(30px, 4vw, 50px) clamp(20px, 4vw, 40px);
   text-align: center;
+}
+
+.about-wwd-wrapper .about-feat-h1 {
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .about-wwd-flex {
@@ -124,32 +146,64 @@
   align-items: center;
   gap: 40px;
   max-width: 1100px;
-  margin: 40px auto 0;
+  margin: 0 auto;
 }
 
-.about-wwd-text, .about-wwd-list {
+.about-wwd-text {
   flex: 1;
   font-weight: 500;
-  font-size: 25px;
-  color: #1A2B3C;
+  font-size: clamp(16px, 1.5vw, 20px);
+  color: #1e293b;
+  line-height: 1.5;
+  font-family: 'Figtree', sans-serif;
+  text-align: center;
 }
 
 .about-wwd-divider {
   width: 4px;
-  height: 100px;
-  background-color: #1A2B3C;
+  height: 80px;
+  background-color: #1e293b;
 }
 
 .about-wwd-list {
+  flex: 1;
   text-align: left;
-  list-style-type: disc;
-  padding-left: 20px;
+  list-style: none;
+  padding-left: 0;
+  font-size: clamp(16px, 1.5vw, 20px);
+  color: #1e293b;
+  font-family: 'Figtree', sans-serif;
+  margin: 0;
 }
 
-/* CREATORS LIST SPECIFICS */
+.about-wwd-list li {
+  margin-bottom: 12px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+/* Custom bullet aligned left */
+.about-wwd-list li::before {
+  content: "•";
+  color: #1e293b;
+  font-weight: bold;
+  margin-right: 12px;
+  display: inline-block;
+}
+
+/* ===================================================
+   CREATORS SECTION - FIXED ALIGNMENT
+=================================================== */
 .about-creators-wrapper {
-  padding: 80px 40px;
+  padding: clamp(40px, 5vw, 60px) clamp(20px, 4vw, 40px);
   text-align: center;
+  background-color: #f8fafc;
+}
+
+.about-creators-wrapper .about-feat-h1 {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 .about-creators-list {
@@ -157,53 +211,240 @@
   flex-direction: column;
   gap: 20px;
   max-width: 800px;
-  margin: 40px auto 0;
+  margin: 0 auto;
 }
 
 .about-creator-row {
   display: flex;
   align-items: center;
-  background: linear-gradient(to right, #1A2B3C 60%, rgba(26, 43, 60, 0.50) 100%), 
+  background: linear-gradient(to right, #1e293b 60%, rgba(30, 41, 59, 0.5) 100%), 
               url('../assets/herohome.png') center/cover;
   border-radius: 16px;
-  padding: 20px 40px;
+  padding: 20px 28px;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+.about-creator-avatar {
+  flex-shrink: 0;
+}
+
 .about-creator-avatar img {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   border: 3px solid #F1C40F;
   object-fit: cover;
 }
 
 .about-creator-info {
-  margin-left: 30px;
+  margin-left: 24px;
   text-align: left;
+  flex: 1;
 }
 
 .about-creator-name {
   font-family: 'Basement Grotesque', sans-serif;
   color: #F1C40F;
   font-weight: 900;
-  font-size: 25px;
-  margin-bottom: 0px;
+  font-size: 20px;
+  margin-bottom: 4px;
+  text-align: left;
 }
 
 .about-creator-desc {
   color: #cbd5e0;
-  font-size: 18px;
-  margin-top: 0px;
+  font-size: 14px;
+  margin-top: 0;
+  line-height: 1.5;
+  font-family: 'Figtree', sans-serif;
+  text-align: left;
 }
 
-/* RESPONSIVE FIXES */
-@media (max-width: 800px) {
-  .about-hero-title { font-size: 52px; }
-  .about-feat-h1, .about-feat-h2 { font-size: 36px; }
-  .about-grid { grid-template-columns: 1fr; }
-  .about-wwd-flex { flex-direction: column; gap: 20px; }
-  .about-wwd-divider { width: 80%; height: 4px; }
-  .about-creator-row { flex-direction: column; text-align: center; background: linear-gradient(to top, #1A2B3C 45%, rgba(26, 43, 60, 0.50) 100%), url('../assets/herohome.png') center/cover;}
-  .about-creator-info { margin-left: 0; margin-top: 5px; text-align: center; }
+/* ===================================================
+   RESPONSIVE BREAKPOINTS
+=================================================== */
+
+/* Tablet (640px - 1023px) */
+@media (max-width: 1023px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+  
+  .about-wwd-flex {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .about-wwd-divider {
+    width: 80%;
+    height: 2px;
+  }
+  
+  .about-wwd-text {
+    text-align: center;
+  }
+  
+  .about-wwd-list {
+    text-align: center;
+    padding-left: 0;
+  }
+  
+  .about-wwd-list li {
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .about-wwd-list li::before {
+    margin-right: 8px;
+  }
+  
+  .about-creator-row {
+    justify-content: center;
+  }
+}
+
+/* Mobile (below 640px) */
+@media (max-width: 639px) {
+  .about-hero {
+    min-height: 220px;
+    padding: 30px 20px;
+  }
+  
+  .about-hero-title {
+    font-size: 32px;
+  }
+  
+  .about-feat-h1,
+  .about-feat-h2 {
+    font-size: 24px;
+  }
+  
+  .about-feat-desc {
+    font-size: 14px;
+  }
+  
+  .about-card-title {
+    font-size: 24px;
+  }
+  
+  .about-card-desc {
+    font-size: 13px;
+  }
+  
+  .about-wwd-text,
+  .about-wwd-list {
+    font-size: 15px;
+  }
+  
+  .about-creator-row {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px 20px;
+  }
+  
+  .about-creator-info {
+    margin-left: 0;
+    margin-top: 16px;
+    text-align: center;
+  }
+  
+  .about-creator-name {
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  .about-creator-desc {
+    font-size: 13px;
+    text-align: center;
+  }
+}
+
+/* Small Mobile (below 480px) */
+@media (max-width: 479px) {
+  .about-hero-title {
+    font-size: 28px;
+  }
+  
+  .about-feat-h1,
+  .about-feat-h2 {
+    font-size: 22px;
+  }
+  
+  .about-feat-desc {
+    font-size: 13px;
+  }
+  
+  .about-card {
+    padding: 20px 16px;
+  }
+  
+  .about-card-title {
+    font-size: 22px;
+    margin-top: 0;
+  }
+  
+  .about-card-desc {
+    font-size: 12px;
+  }
+  
+  .about-wwd-text,
+  .about-wwd-list {
+    font-size: 14px;
+  }
+  
+  .about-creator-avatar img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .about-creator-name {
+    font-size: 16px;
+  }
+  
+  .about-creator-desc {
+    font-size: 12px;
+  }
+}
+
+/* Large Screens (1440px+) */
+@media (min-width: 1440px) {
+  .about-hero-title {
+    font-size: 64px;
+  }
+  
+  .about-feat-h1,
+  .about-feat-h2 {
+    font-size: 42px;
+  }
+  
+  .about-feat-desc {
+    font-size: 18px;
+  }
+  
+  .about-card-title {
+    font-size: 38px;
+  }
+  
+  .about-card-desc {
+    font-size: 16px;
+  }
+  
+  .about-wwd-text,
+  .about-wwd-list {
+    font-size: 20px;
+  }
+  
+  .about-creator-avatar img {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .about-creator-name {
+    font-size: 24px;
+  }
+  
+  .about-creator-desc {
+    font-size: 16px;
+  }
 }

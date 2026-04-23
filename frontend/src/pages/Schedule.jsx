@@ -3,7 +3,7 @@ import { useAllRoutes, useScheduleData } from '../hooks/useScheduleData';
 import Navbar from '../components/menu/Navbar'; 
 import heroImage from '../assets/herohome.png'; 
 import '../css/Schedule.css'; 
-import Footer from '../components/menu/Footer'; // Import Footer component
+import Footer from '../components/menu/Footer';
 
 function SchedulePage() {
   const [selectedRouteId, setSelectedRouteId] = useState('');
@@ -38,7 +38,7 @@ function SchedulePage() {
 
   // Get the table data (first 20 schedules to avoid overflow)
   const getTableData = () => {
-    if (!schedule?.schedules) return { toEnd: [], toStart: [] };
+    if (!schedule?.schedules) return { rows: [], toEndCount: 0, toStartCount: 0 };
     
     const toEndTimes = schedule.schedules.toEnd || [];
     const toStartTimes = schedule.schedules.toStart || [];
@@ -62,12 +62,9 @@ function SchedulePage() {
     <div className="schedule-page">
       <Navbar />
       
-      {/* Banner Section */}
-      <div 
-        className="banner-section"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
-        <h1 className="banner-title">SCHEDULE</h1>
+      {/* Hero Section - Updated with Aboutus style */}
+      <div className="schedule-hero">
+        <h1 className="schedule-hero-title">SCHEDULE</h1>
       </div>
 
       {/* Schedule Content */}
