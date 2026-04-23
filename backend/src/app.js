@@ -49,9 +49,12 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// CORS configuration - UPDATE for production
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://m2b-p2p.com', //todo: pls help
+  origin: [
+    'https://www.m2b-p2p.com', 
+    'https://m2b-p2p.com', 
+    'http://localhost:5173'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
