@@ -1,6 +1,3 @@
-// todo: Fix UI -> Consistent design
-// todo: Fix UI -> Resend and Back to login is not that noticable
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import "../css/Signup.css";
@@ -17,7 +14,6 @@ function SecretCodeSignup() {
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-  // Extract Google data from URL params
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const email = params.get("email");
@@ -73,13 +69,11 @@ function SecretCodeSignup() {
       console.log('Backend response:', { status: res.status, data });
 
       if (res.ok && data.success) {
-        // Account created successfully!
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         
         console.log('Signup successful! Redirecting...');
-        
-        // Redirect based on role
+
         if (data.user.role === 'admin') {
           navigate('/management');
         } else if (data.user.role === 'driver') {
@@ -98,7 +92,6 @@ function SecretCodeSignup() {
     }
   };
 
-  // Loading state
   if (!googleData) {
     return (
       <div className="signup-root">
@@ -124,7 +117,7 @@ function SecretCodeSignup() {
             Please enter the administrator-provided secret code to complete your registration.
           </p>
           <p className="signup-hint" style={{ fontSize: '12px', color: '#666', marginBottom: '20px' }}>
-            💡 Default secret code: <code style={{ background: '#f0f0f0', padding: '2px 6px', borderRadius: '4px' }}>M2B2024</code>
+             Default secret code: <code style={{ background: '#f0f0f0', padding: '2px 6px', borderRadius: '4px' }}>M2B2024</code>
           </p>
 
           {error && (
@@ -158,7 +151,6 @@ function SecretCodeSignup() {
                   cursor: 'pointer'
                 }}
               >
-                {showSecretCode ? "🙈" : "👁"}
               </button>
             </div>
 

@@ -19,11 +19,8 @@ const DriverMain = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Redirect to map if there's an active trip
   useEffect(() => {
     if (!checkingTrip && activeTrip) {
-      // If trip is en_route or delayed, go directly to map
-      // If trip is scheduled, we might want to show it differently
       if (activeTrip.status === 'en_route' || activeTrip.status === 'delayed') {
         navigate(`/driver/map/${activeTrip.trip_id}`);
       }
@@ -32,7 +29,6 @@ const DriverMain = () => {
 
   const handleTripCreated = (tripId) => {
     console.log('Trip created:', tripId);
-    // Navigation happens in the modal component
   };
 
   const handleContinueTrip = () => {
@@ -73,7 +69,6 @@ const DriverMain = () => {
     return 'Good evening';
   };
 
-  // Show loading state while checking for active trip
   if (checkingTrip || loading) {
     return (
       <div className="dm-root">
@@ -127,7 +122,6 @@ const DriverMain = () => {
           </div>
         </div>
 
-        {/* Active Trip Card - Show if there's a scheduled trip that hasn't started */}
         {activeTrip && activeTrip.status === 'scheduled' && (
           <div className="dm-section">
             <div className="dm-section-label">CURRENT TRIP</div>
@@ -195,7 +189,6 @@ const DriverMain = () => {
             <div className="dm-bus-list">
               {routes
                 .filter(route => {
-                  // If there's an active trip, filter out that route from the list
                   if (activeTrip) {
                     return route.route_id !== activeTrip.route.route_id;
                   }

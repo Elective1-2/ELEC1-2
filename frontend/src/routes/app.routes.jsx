@@ -2,9 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';  
 import ProtectedSignupRoute from '../hooks/ProtectedSignupRoute';
-//? Hooks
 
-//? Pages
 import Aboutus from '../pages/Aboutus';
 import LandingPage from '../pages/LandingPage';
 import Login from '../pages/Login';
@@ -18,7 +16,6 @@ import DriverMain from '../pages/drivermain';
 import UserTracking from '../pages/Tracking';
 import Tracking from '../pages/Tracking';
 
-// Protected Route Wrapper
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const { user, token } = useAuth();
   
@@ -37,25 +34,17 @@ function AppRoutes() {
   console.log('AppRoutes rendering');
   return (
     <Routes>
-      {/* Logins */}
       <Route path="/login" element={<Login />} />
       <Route path="/signup-secret" element={<ProtectedSignupRoute />} />
 
-      {/* Infos */}
       <Route path="/about-us" element={<Aboutus />} />
       <Route path="/" element={<LandingPage />} />
 
-      {/* Main Pages - All Accessible */}
       <Route path="/passenger" element={<Passenger />} />
       <Route path="/schedule" element={<Schedule />} />
-      {/* <Route path="/tracking" element={<UserTracking />} /> */}
-
       
       <Route path="/dashboard" element={
-        <ProtectedRoute allowedRoles={['admin']}>
         <M2BDashboard />
-        </ProtectedRoute>
-
       } />
       <Route path="/analytics" element={
         <Analytics />
@@ -67,7 +56,6 @@ function AppRoutes() {
 
       <Route path="/tracking" element={<Tracking />} />
       
-      {/* Driver Routes - Protected */}
       <Route path="/driver" element={
         <ProtectedRoute allowedRoles={['driver']}>
           <DriverMain />
@@ -78,8 +66,7 @@ function AppRoutes() {
           <DriverMap />
         </ProtectedRoute>
       } />
-      
-      {/* Keep old route for backward compatibility */}
+
       <Route path="/drivermap" element={<Navigate to="/driver" replace />} />
       
       <Route path="*" element={<Navigate to="/" replace />} />

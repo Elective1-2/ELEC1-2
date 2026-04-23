@@ -26,7 +26,6 @@ function SchedulePage() {
     }
   };
 
-  // Format time from HH:MM:SS to 12-hour format
   const formatTime = (timeString) => {
     if (!timeString) return '—';
     const [hours, minutes] = timeString.split(':');
@@ -36,7 +35,6 @@ function SchedulePage() {
     return `${hour12}:${minutes} ${ampm}`;
   };
 
-  // Get the table data (first 20 schedules to avoid overflow)
   const getTableData = () => {
     if (!schedule?.schedules) return { rows: [], toEndCount: 0, toStartCount: 0 };
     
@@ -62,14 +60,11 @@ function SchedulePage() {
     <div className="schedule-page">
       <Navbar />
       
-      {/* Hero Section - Updated with Aboutus style */}
       <div className="schedule-hero">
         <h1 className="schedule-hero-title">SCHEDULE</h1>
       </div>
 
-      {/* Schedule Content */}
       <div className="schedule-content">
-        {/* Dropdown Container */}
         <div className="dropdown-container">
           <select 
             className="station-select" 
@@ -86,7 +81,6 @@ function SchedulePage() {
           </select>
         </div>
 
-        {/* Table Card - Only show when a route is selected */}
         {selectedRouteId && !scheduleLoading && schedule && (
           <div className="table-card">
             <div className="table-title">
@@ -122,22 +116,18 @@ function SchedulePage() {
           </div>
         )}
 
-        {/* Loading State */}
         {selectedRouteId && scheduleLoading && (
           <div className="table-card">
             <div className="table-title">Loading schedule...</div>
           </div>
         )}
 
-        {/* No Selection State */}
         {!selectedRouteId && !routesLoading && (
           <div className="table-card">
             <div className="table-title">Please select a route to view schedule</div>
           </div>
         )}
       </div>
-
-      {/* Footer */}
       <Footer />
     </div>
   );

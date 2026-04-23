@@ -1,4 +1,3 @@
-//! Delete Driver Assign Modal
 import React, { useState } from "react";
 
 import AdminNavbar from "../components/menu/AdminNavbar";
@@ -21,7 +20,6 @@ import { useDriverForm } from "../hooks/useDriverForm";
 import "../css/management.css";
 
 function Management() {
-  // ========== STATE VARIABLES ==========
   const [menuOpen, setMenuOpen] = useState(false);
   const [activePage, setActivePage] = useState("Management");
   const [showNotifications, setShowNotifications] = useState(false);
@@ -33,31 +31,26 @@ function Management() {
   ]);
   const [searchTerm, setSearchTerm] = useState("");
   
-  // Modal states
   const [isBusModalOpen, setIsBusModalOpen] = useState(false);
   const [isAssignmentModalOpen, setIsAssignmentModalOpen] = useState(false);
   const [isDriverModalOpen, setIsDriverModalOpen] = useState(false);
-  const [isDriverAssignModalOpen, setIsDriverAssignModalOpen] = useState(false); //! Delete
+  const [isDriverAssignModalOpen, setIsDriverAssignModalOpen] = useState(false);
   const [isBusAssignmentsModalOpen, setIsBusAssignmentsModalOpen] = useState(false);
-  
-  // Selected items
+
   const [selectedBus, setSelectedBus] = useState(null);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [modalTitle, setModalTitle] = useState("Add New Bus");
   const [selectedDriver, setSelectedDriver] = useState(null);
   
-  // Delete modal state
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
-  const [deleteType, setDeleteType] = useState(null); // 'bus' or 'driver'
+  const [deleteType, setDeleteType] = useState(null); 
   const [deleting, setDeleting] = useState(false);
 
-  // ========== DATA FETCHING HOOKS ==========
   const { buses, loading: busesLoading, error: busesError, refetch: refetchBuses } = useBuses();
   const { drivers, loading: driversLoading, error: driversError, refetch: refetchDrivers } = useDrivers();
   const { routes, loading: routesLoading } = useRoutes();
   
-  // ========== FORM HOOKS ==========
   const { createBus, updateBus, deleteBus, loading: busFormLoading } = useBusForm(() => {
     refetchBuses();
     refetchDrivers();
@@ -67,15 +60,12 @@ function Management() {
     refetchDrivers();
   });
 
-  // ========== DERIVED STATE ==========
   const filteredBuses = useFilteredData(buses, searchTerm, ['bus_number', 'plate_number']);
   const filteredDrivers = useFilteredData(drivers, searchTerm, ['full_name', 'email']);
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  // ========== HANDLERS ==========
   const handleSearchChange = (value) => setSearchTerm(value);
   
-  // Bus handlers
   const handleAddBus = () => {
     setSelectedBus(null);
     setModalTitle("Add New Bus");
@@ -101,7 +91,6 @@ function Management() {
     }
   };
   
-  // Driver handlers
   const handleEditDriver = (driver) => {
     setSelectedDriver(driver);
     setIsDriverModalOpen(true);
@@ -120,7 +109,6 @@ function Management() {
     return await assignDriver(selectedDriver.user_id, formData);
   };
   
-  // Delete handlers
   const openDeleteModal = (type, item) => {
     setDeleteType(type);
     setDeleteTarget(item);
@@ -148,14 +136,11 @@ function Management() {
     setDeleteType(null);
   };
 
-  // Helper functions for displaying assignments
   const getPrimaryAssignment = (bus) => {
     if (!bus.assignments || bus.assignments.length === 0) return null;
     return bus.assignments[0];
   };
-  
 
-  // ========== RENDER ==========
   return (
     <div className="mgmt-root">
       <MobileHeader setMenuOpen={setMenuOpen} />
@@ -170,14 +155,6 @@ function Management() {
           <AdminNavbar onSearchChange={handleSearchChange} initialSearchValue={searchTerm} />
           <div className="mgmt-content">
 
-            {/* DEBUG of Search */}
-            {/* {searchTerm && (
-              <div className="mgmt-search-info">
-                Showing results for: <strong>"{searchTerm}"</strong>
-              </div>
-            )} */}
-
-            {/* ========== BUSES TABLE ========== */}
             <div className="mgmt-table-card">
               <div className="mgmt-table-header">
                 <span className="mgmt-table-title">List of Buses</span>
@@ -254,7 +231,6 @@ function Management() {
               </div>
             </div>
 
-            {/* ========== DRIVERS TABLE ========== */}
             <div className="mgmt-table-card">
               <div className="mgmt-table-header">
                 <span className="mgmt-table-title">Drivers</span>
@@ -264,7 +240,6 @@ function Management() {
                   style={{ opacity: 0.5, cursor: 'not-allowed' }}
                   title="Drivers are added via Google Authentication only"
                 >
-                  + Add Driver (via Google Auth)
                 </button>
               </div>
               <div className="mgmt-table-scroll">
@@ -336,10 +311,7 @@ function Management() {
           <Footer />
         </div>
       </div>
-
-      {/* ========== MODALS ========== */}
       
-      {/* Bus Modal */}
       <BusModal
         isOpen={isBusModalOpen}
         onClose={() => setIsBusModalOpen(false)}
@@ -349,7 +321,6 @@ function Management() {
         title={modalTitle}
       />
 
-      {/* Bus Assignment Modal */}
       <AssignmentModal
         isOpen={isAssignmentModalOpen}
         onClose={() => setIsAssignmentModalOpen(false)}
@@ -362,7 +333,6 @@ function Management() {
         }}
       />
 
-      {/* Driver Edit Modal */}
       <DriverModal
         isOpen={isDriverModalOpen}
         onClose={() => setIsDriverModalOpen(false)}
@@ -371,7 +341,6 @@ function Management() {
         title="Edit Driver"
       />
 
-      {/* Driver Assignment Modal */}
       <DriverAssignmentsModal
         isOpen={isDriverAssignmentsModalOpen}
         onClose={() => setIsDriverAssignmentsModalOpen(false)}
@@ -384,7 +353,6 @@ function Management() {
         }}
       />
 
-      {/* Delete Confirmation Modal */}
       <DeleteConfirmModal
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
@@ -395,7 +363,6 @@ function Management() {
         loading={deleting}
       />
 
-      {/* Bus Assignment modals */}
       <BusAssignmentsModal
         isOpen={isBusAssignmentsModalOpen}
         onClose={() => setIsBusAssignmentsModalOpen(false)}
