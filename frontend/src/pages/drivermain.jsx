@@ -1,152 +1,219 @@
-import React, { useState, useEffect, useRef } from "react";
-import "../css/drivermain.css";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useDriverRoutes } from '../hooks/useDriverRoutes';
+import DriverNavbar from '../components/driver/DriverNavbar';
+import RouteCard from '../components/driver/RouteCard';
+import '../css/drivermain.css';
 
-/* LIVE CLOCK */
-function LiveClock() {
-  const [now, setNow] = useState(new Date());
+const DriverMain = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { routes, loading, error, activeTrip, checkingTrip, refetch } = useDriverRoutes();
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   useEffect(() => {
-    const t = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(t);
+    const timer = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
   }, []);
 
-  const time = now.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-  const date = now.toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  });
+  // Redirect to map if there's an active trip
+  useEffect(() => {
+    if (!checkingTrip && activeTrip) {
+      // If trip is en_route or delayed, go directly to map
+      // If trip is scheduled, we might want to show it differently
+      if (activeTrip.status === 'en_route' || activeTrip.status === 'delayed') {
+        navigate(`/driver/map/${activeTrip.trip_id}`);
+      }
+    }
+  }, [checkingTrip, activeTrip, navigate]);
 
-  return (
-    <div className="dm-clock-widget">
-      <div className="dm-clock-time">{time}</div>
-      <div className="dm-clock-date">{date}</div>
-    </div>
-  );
-}
+  const handleTripCreated = (tripId) => {
+    console.log('Trip created:', tripId);
+    // Navigation happens in the modal component
+  };
 
-/* DATA */
-const BUSES = [
-  {
-    id: 1,
-    number: "BUS #101",
-    from: "Trinoma",
-    to: "Malolos",
-    departure: "12:45 PM",
-    status: "On Time",
-  },
-  {
-    id: 2,
-    number: "BUS #101",
-    from: "Malolos",
-    to: "Trinoma",
-    departure: "1:30 PM",
-    status: "On Time",
-  },
-];
+  const handleContinueTrip = () => {
+    if (activeTrip) {
+      navigate(`/driver/map/${activeTrip.trip_id}`);
+    }
+  };
 
-/* BUS ROW */
-function BusRow({ bus }) {
-  return (
-    <div className="dm-bus-row">
-      <div className="dm-bus-number">{bus.number}</div>
+  const formatTime = (date) => {
+    return date.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: false 
+    });
+  };
 
-      <div className="dm-bus-route">
-        <div className="dm-route-item">
-          <span className="dm-route-label">FROM</span>
-          <span className="dm-route-value">{bus.from}</span>
-        </div>
-        <div className="dm-route-item">
-          <span className="dm-route-label">BOUND FOR</span>
-          <span className="dm-route-value">{bus.to}</span>
+  const formatDate = (date) => {
+    return date.toLocaleDateString('en-US', { 
+      weekday: 'short', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+  };
+
+  const formatTripTime = (datetime) => {
+    const date = new Date(datetime);
+    return date.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: false 
+    });
+  };
+
+  const getGreeting = () => {
+    const hour = currentDateTime.getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
+  };
+
+  // Show loading state while checking for active trip
+  if (checkingTrip || loading) {
+    return (
+      <div className="dm-root">
+        <DriverNavbar />
+        <div className="dm-body">
+          <div className="loading-container" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '60vh'
+          }}>
+            <div className="loading-spinner" style={{
+              width: '48px',
+              height: '48px',
+              border: '4px solid #e5e7eb',
+              borderTopColor: '#1e2d3d',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite'
+            }} />
+            <p style={{ marginTop: '20px', color: '#6b7280' }}>
+              {checkingTrip ? 'Checking for active trips...' : 'Loading your routes...'}
+            </p>
+          </div>
         </div>
       </div>
+    );
+  }
 
-      <div className="dm-bus-meta">
-        <div className="dm-departure">
-          <div className="dm-departure-label">DEPARTURE</div>
-          <div className="dm-departure-time">{bus.departure}</div>
-        </div>
-        <div className="dm-status-block">
-          <div className="dm-status-label">STATUS</div>
-          <div className="dm-status-pill">{bus.status}</div>
-        </div>
-        <button className="dm-start-btn">START TRIP</button>
-      </div>
-    </div>
-  );
-}
-
-/* MAIN COMPONENT */
-export default function DriverMain() {
   return (
     <div className="dm-root">
-
-      {/* ── NAVBAR ── */}
-      <nav className="dm-nav">
-
-        {/* Logo */}
-        <div className="dm-nav-logo">
-          <div className="dm-logo-seg m">M</div>
-          <div className="dm-logo-seg two">2</div>
-          <div className="dm-logo-seg b">B</div>
-        </div>
-
-        {/* Right side */}
-        <div className="dm-nav-right">
-
-          {/* User info + avatar */}
-          <div className="dm-nav-user">
-            <div className="dm-nav-user-info">
-              <span className="dm-nav-username">Admin123</span>
-              <span className="dm-nav-role">Admin</span>
+      <DriverNavbar />
+      
+      <div className="dm-body">
+        <div className="dm-welcome-card">
+          <div>
+            <div className="dm-welcome-name">
+              {getGreeting()}, {user?.full_name?.split(' ')[0] || 'Driver'}
             </div>
-            <div className="dm-nav-avatar">
-              <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
-                <circle cx="8.5" cy="6" r="3.2" fill="#111827"/>
-                <path d="M1.5 16c0-3.5 3.1-5.5 7-5.5s7 2 7 5.5" stroke="#111827" strokeWidth="1.4" fill="none" strokeLinecap="round"/>
-              </svg>
+            <div className="dm-welcome-hub">
+              <span className="dm-hub-dot"></span>
+              <span className="dm-hub-text">
+                Ready for your <span>next trip</span>
+              </span>
             </div>
           </div>
-
-          {/* Divider */}
-          <div className="dm-nav-divider" />
-
+          
+          <div className="dm-clock-widget">
+            <div className="dm-clock-time">{formatTime(currentDateTime)}</div>
+            <div className="dm-clock-date">{formatDate(currentDateTime)}</div>
+          </div>
         </div>
-      </nav>
 
-      {/* ── BODY ── */}
-      <main className="dm-body">
-
-        {/* Welcome card */}
-        <div className="dm-welcome-card">
-          <div className="dm-welcome-left">
-            <div className="dm-welcome-name">Welcome back, Capt. Arnold</div>
-            <div className="dm-welcome-hub">
-              <div className="dm-hub-dot" />
-              <div className="dm-hub-text">
-                Current Hub: <span>Trinoma</span>
+        {/* Active Trip Card - Show if there's a scheduled trip that hasn't started */}
+        {activeTrip && activeTrip.status === 'scheduled' && (
+          <div className="dm-section">
+            <div className="dm-section-label">CURRENT TRIP</div>
+            <div className="dm-bus-row" style={{ borderLeft: '4px solid #4aafd5' }}>
+              <div className="dm-bus-number">
+                {activeTrip.bus.bus_number}
+              </div>
+              
+              <div className="dm-bus-route">
+                <div className="dm-route-item">
+                  <span className="dm-route-label">Route</span>
+                  <span className="dm-route-value">{activeTrip.route.route_name}</span>
+                </div>
+                <div className="dm-route-item">
+                  <span className="dm-route-label">From</span>
+                  <span className="dm-route-value">{activeTrip.route.start_location}</span>
+                </div>
+                <div className="dm-route-item">
+                  <span className="dm-route-label">To</span>
+                  <span className="dm-route-value">{activeTrip.route.end_location}</span>
+                </div>
+              </div>
+              
+              <div className="dm-bus-meta">
+                <div className="dm-departure">
+                  <div className="dm-departure-label">Departure</div>
+                  <div className="dm-departure-time">{formatTripTime(activeTrip.scheduled_departure)}</div>
+                </div>
+                
+                <div className="dm-status-block">
+                  <div className="dm-status-label">Status</div>
+                  <div className="dm-status-pill" style={{background: '#fef3c7', color: '#d97706'}}>
+                    Scheduled
+                  </div>
+                </div>
+                
+                <button className="dm-start-btn" onClick={handleContinueTrip}>
+                  CONTINUE TRIP
+                </button>
               </div>
             </div>
           </div>
-          <LiveClock />
-        </div>
+        )}
 
-        {/* Assigned buses */}
         <div className="dm-section">
-          <div className="dm-section-label">Assigned Buses</div>
-          <div className="dm-bus-list">
-            {BUSES.map((bus) => (
-              <BusRow key={bus.id} bus={bus} />
-            ))}
+          <div className="dm-section-label">
+            {activeTrip ? 'OTHER ASSIGNED ROUTES' : 'ASSIGNED ROUTES'}
           </div>
+          
+          {error ? (
+            <div className="error-container" style={{padding: '40px', textAlign: 'center', color: '#ef4444'}}>
+              <p>{error}</p>
+              <button onClick={refetch} className="dm-start-btn" style={{marginTop: '16px'}}>
+                Try Again
+              </button>
+            </div>
+          ) : routes.length === 0 ? (
+            <div className="empty-container" style={{padding: '40px', textAlign: 'center', color: '#6b7280'}}>
+              <p>No routes assigned yet.</p>
+              <p style={{fontSize: '13px', marginTop: '8px'}}>
+                Contact your administrator to get assigned to a route.
+              </p>
+            </div>
+          ) : (
+            <div className="dm-bus-list">
+              {routes
+                .filter(route => {
+                  // If there's an active trip, filter out that route from the list
+                  if (activeTrip) {
+                    return route.route_id !== activeTrip.route.route_id;
+                  }
+                  return true;
+                })
+                .map(route => (
+                  <RouteCard 
+                    key={route.route_id} 
+                    route={route}
+                    onTripCreated={handleTripCreated}
+                  />
+                ))}
+            </div>
+          )}
         </div>
-
-      </main>
+      </div>
     </div>
   );
-}
+};
+
+export default DriverMain;
