@@ -9,7 +9,6 @@ const DriverNavbar = () => {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -58,7 +57,6 @@ const DriverNavbar = () => {
               </svg>
             </div>
             
-            {/* Dropdown Arrow */}
             <svg 
               width="12" 
               height="12" 
@@ -79,10 +77,8 @@ const DriverNavbar = () => {
             </svg>
           </div>
 
-          {/* Dropdown Menu */}
           {showDropdown && (
             <div className="dm-dropdown-menu">
-              {/* User Info Header */}
               <div className="dm-dropdown-header">
                 <div className="dm-dropdown-avatar">
                   {getInitials(user?.full_name)}
@@ -95,7 +91,6 @@ const DriverNavbar = () => {
 
               <div className="dm-dropdown-divider" />
 
-              {/* Settings - Disabled */}
               <button className="dm-dropdown-item disabled" disabled>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="3" />
@@ -104,7 +99,6 @@ const DriverNavbar = () => {
                 <span>Settings</span>
               </button>
 
-              {/* Logout */}
               <button 
                 className="dm-dropdown-item logout"
                 onClick={() => {
@@ -124,7 +118,6 @@ const DriverNavbar = () => {
         </div>
       </nav>
 
-      {/* Logout Confirmation Modal */}
       {showLogoutConfirm && (
         <div className="dm-logout-overlay" onClick={() => setShowLogoutConfirm(false)}>
           <div className="dm-logout-modal" onClick={(e) => e.stopPropagation()}>
