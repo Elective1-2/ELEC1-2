@@ -717,6 +717,122 @@ const getDriverActiveTrip = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/driver/trips/:tripId/details
+ * Get complete trip details for driver map page
+ */
+const getTripDetails = async (req, res) => {
+  const { tripId } = req.params;
+  const driverId = req.user.userId;
+
+  try {
+    // Verify driver owns this trip
+    const [tripCheck] = await pool.query(
+      'SELECT trip_id FROM trips WHERE trip_id = ? AND driver_id = ?',
+      [tripId, driverId]
+    );
+
+    if (tripCheck.length === 0) {
+      return res.status(403).json({ error: 'Not authorized to view this trip' });
+    }
+
+    // Get comprehensive trip data
+    const [trips] = await pool.query(
+      `SELECT 
+        t.trip_id,
+        t.scheduled_departure,
+        t.actual_departure,
+        t.status,
+        b.bus_id,
+        b.bus_number,
+        b.plate_number,
+        b.capacity,
+        u.full_name as driver_name,
+        u.phone as driver_phone,
+        r.route_id,
+        r.name as route_name,
+        r.start_location,
+        r.end_location,
+        r.base_duration_minutes,
+        r.distance_km,
+        pc.passenger_count,
+        pc.is_overflow,
+        pc.recorded_at as passenger_updated_at,
+        ll.latitude,
+        ll.longitude,
+        ll.speed,
+        ll.heading,
+        ll.reported_at as location_updated_at
+       FROM trips t
+       JOIN buses b ON t.bus_id = b.bus_id
+       JOIN users u ON t.driver_id = u.user_id
+       JOIN routes r ON t.route_id = r.route_id
+       LEFT JOIN passenger_counts pc ON t.trip_id = pc.trip_id
+       LEFT JOIN live_locations ll ON t.trip_id = ll.trip_id
+       WHERE t.trip_id = ?
+       ORDER BY ll.reported_at DESC
+       LIMIT 1`,
+      [tripId]
+    );
+
+    // Get latest congestion level
+    const [congestion] = await pool.query(
+      `SELECT congestion_level
+       FROM congestion_logs
+       WHERE trip_id = ? OR route_id = (SELECT route_id FROM trips WHERE trip_id = ?)
+       ORDER BY reported_at DESC
+       LIMIT 1`,
+      [tripId, tripId]
+    );
+
+    const trip = trips[0];
+    
+    res.json({
+      success: true,
+      trip: {
+        trip_id: trip.trip_id,
+        status: trip.status,
+        scheduled_departure: trip.scheduled_departure,
+        actual_departure: trip.actual_departure,
+        driver: {
+          name: trip.driver_name,
+          phone: trip.driver_phone
+        },
+        bus: {
+          bus_id: trip.bus_id,
+          bus_number: trip.bus_number,
+          plate_number: trip.plate_number,
+          capacity: trip.capacity
+        },
+        route: {
+          route_id: trip.route_id,
+          name: trip.route_name,
+          start_location: trip.start_location,
+          end_location: trip.end_location,
+          base_duration_minutes: trip.base_duration_minutes,
+          distance_km: trip.distance_km
+        },
+        passenger_count: trip.passenger_count ? {
+          count: trip.passenger_count,
+          is_overflow: trip.is_overflow === 1,
+          updated_at: trip.passenger_updated_at
+        } : null,
+        live_location: trip.latitude ? {
+          latitude: parseFloat(trip.latitude),
+          longitude: parseFloat(trip.longitude),
+          speed: trip.speed ? parseFloat(trip.speed) : null,
+          heading: trip.heading,
+          updated_at: trip.location_updated_at
+        } : null,
+        congestion_level: congestion.length > 0 ? congestion[0].congestion_level : 'low'
+      }
+    });
+  } catch (error) {
+    console.error('Get trip details error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 module.exports = {
   startTrip,
   reportLocation,
@@ -728,5 +844,6 @@ module.exports = {
   getDriverAssignedRoutes,      
   getAvailableDepartures,       
   createTripFromSchedule,
-  getDriverActiveTrip
+  getDriverActiveTrip,
+  getTripDetails
 };
