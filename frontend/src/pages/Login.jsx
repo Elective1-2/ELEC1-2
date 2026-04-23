@@ -11,7 +11,7 @@ function Login() {
   const navigate = useNavigate();
   
   const { login } = useAuth();
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const API_URL = import.meta.env.VITE_API_URL || '/api';
   
   const googleInitialized = useRef(false);
   const buttonRendered = useRef(false);
