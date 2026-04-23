@@ -8,14 +8,20 @@
   font-display: swap;
 }
 
+/* ── ROOT ── */
 .landing-root {
   font-family: 'Figtree', sans-serif;
   margin: 0;
   padding: 0;
 }
 
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+
 .landing-hero {
-  background: linear-gradient(rgba(26, 43, 60, 0.80), rgba(26, 43, 60, 0.80)), var(--hero-image) center/cover;
+  background: linear-gradient(rgba(26, 43, 60, 0.80), rgba(26, 43, 60, 0.80)),
+    url('../assets/herohome.png') center/cover;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -23,8 +29,8 @@
   text-align: center;
 }
 
-.landing-hero.mobile { min-height: 360px; padding: 60px 24px; }
-.landing-hero.tablet { min-height: 440px; padding: 80px 40px; }
+.landing-hero.mobile  { min-height: 360px; padding: 60px 24px; }
+.landing-hero.tablet  { min-height: 440px; padding: 80px 40px; }
 .landing-hero.desktop { min-height: 500px; padding: 80px 40px; }
 
 .landing-hero-title {
@@ -32,13 +38,13 @@
   font-family: 'Basement Grotesque', sans-serif;
   font-weight: 900;
   margin: 0 0 16px;
-  letter-spacing: -1px; /* Tighter tracking for the Grotesque look */
+  letter-spacing: -1px;
   text-transform: uppercase;
   line-height: 1.0;
 }
 
-.landing-hero.mobile .landing-hero-title { font-size: 52px; }
-.landing-hero.tablet .landing-hero-title { font-size: 72px; }
+.landing-hero.mobile  .landing-hero-title { font-size: 52px; }
+.landing-hero.tablet  .landing-hero-title { font-size: 72px; }
 .landing-hero.desktop .landing-hero-title { font-size: 80px; }
 
 .landing-hero-sub {
@@ -50,8 +56,8 @@
   margin: 0 0 28px;
 }
 
-.landing-hero.mobile .landing-hero-sub { font-size: 16px; }
-.landing-hero.tablet .landing-hero-sub,
+.landing-hero.mobile  .landing-hero-sub { font-size: 16px; }
+.landing-hero.tablet  .landing-hero-sub,
 .landing-hero.desktop .landing-hero-sub { font-size: 19px; }
 
 .landing-monitor-btn {
@@ -75,13 +81,17 @@
   transform: translateY(-2px);
 }
 
+/* ══════════════════════════════════════════
+   FEATURES SECTION
+══════════════════════════════════════════ */
+
 .landing-feat-section {
   background-color: #ebebeb;
   text-align: center;
 }
 
-.landing-feat-section.mobile { padding: 50px 20px; }
-.landing-feat-section.tablet { padding: 55px 32px; }
+.landing-feat-section.mobile  { padding: 50px 20px 80px; }
+.landing-feat-section.tablet  { padding: 55px 32px 80px; }
 .landing-feat-section.desktop { padding: 60px 40px; }
 
 .landing-feat-h1 {
@@ -103,7 +113,8 @@
 }
 
 @media (min-width: 800px) {
-  .landing-feat-h1, .landing-feat-h2 { font-size: 32px; }
+  .landing-feat-h1,
+  .landing-feat-h2 { font-size: 32px; }
 }
 
 .landing-feat-desc {
@@ -115,16 +126,16 @@
   line-height: 1.5;
 }
 
+/* ══════════════════════════════════════════
+   DESKTOP GRID
+══════════════════════════════════════════ */
+
 .landing-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   max-width: 1000px;
   margin: 0 auto;
-}
-
-@media (min-width: 800px) and (max-width: 1279px) {
-  .landing-grid { gap: 14px; max-width: 720px; }
 }
 
 .landing-card {
@@ -156,148 +167,256 @@
   font-weight: 400;
 }
 
-/* CAROUSEL (MOBILE & TABLET REFINEMENT) */
-.landing-carousel-wrap { 
-  position: relative; 
-  max-width: 600px; 
-  margin: 0 auto; 
-  overflow: hidden; 
-  padding: 20px 0; /* Increased padding for shadow clearance */
-}
+/* ══════════════════════════════════════════
+   CSS SCROLL-SNAP CAROUSEL
+══════════════════════════════════════════ */
 
-.landing-carousel-track { 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  gap: 15px; 
-  /* Smooth track movement */
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* SIDE CARDS (THE PREVIEW CARDS) */
-.landing-carousel-side {
-  background-color: #1A2B3C;
-  border-radius: 12px;
-  width: 12%; 
-  min-height: 160px;
-  opacity: 0.2; /* Lower opacity for more focus on the center */
-  flex-shrink: 0;
+.lc-wrapper {
   display: flex;
-  align-items: center;
   justify-content: center;
-  /* Added transition for when this card becomes the main card */
-  transition: transform 0.4s ease, opacity 0.4s ease;
+  container-type: inline-size;
 }
 
-.landing-carousel-side-title {
-  display: none; 
+.lc-carousel {
+  /* nav button styles */
+  --nav-btn-size: 44px;
+  --nav-btn-bg: #F1C40F;
+  --nav-btn-txt: #1A2B3C;
+  --nav-marker-bg: #9aa5b4;
+
+  /* dot sizes — inactive small, active big */
+  --dot-size: 10px;
+  --dot-size-active: 22px;
+
+  width: min(calc(100% - 2rem), 680px);
+  list-style: none;
+  margin: 0;
+  padding-block: 2rem;
+  padding-inline: 0;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(320px, 75vw);
+  gap: 0;
+
+  @supports not selector(::scroll-marker-group) {
+    gap: 1rem;
+  }
+
+  anchor-name: --lc-carousel;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+
+  &::before,
+  &::after {
+    content: '';
+  }
+
+  /* ── SCROLL MARKER GROUP (dots row) ── */
+  scroll-marker-group: after;
+  &::scroll-marker-group {
+    position: absolute;
+    position-anchor: --lc-carousel;
+    inline-size: min(90cqi, 500px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    gap: 16px;                        /* generous spacing between dots */
+    padding-block-start: 2rem;
+    top: anchor(bottom);
+    left: calc(anchor(left) - 10%);
+    right: calc(anchor(right) - 10%);
+  }
+
+  /* ── EACH CAROUSEL ITEM ── */
+  & > div {
+    position: relative;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    container-type: scroll-state;
+
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: 0 8px;
+
+    &.scroll-start {
+      scroll-initial-target: nearest;
+    }
+
+    /* ── THE CARD ── */
+    & > .lc-card-inner {
+      background-color: #1A2B3C;
+      border-radius: 20px;
+      padding: clamp(20px, 5vw, 40px) clamp(16px, 4vw, 32px);
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      min-height: clamp(160px, 30vw, 220px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: all 300ms ease-in-out;
+      transform-origin: center center;
+
+      @container not scroll-state(snapped: inline) {
+        scale: 0.82;
+        opacity: 0.38;
+        box-shadow: none;
+      }
+    }
+
+    /* ══════════════════════════════════════════
+       DOTS — large solid circles
+    ══════════════════════════════════════════ */
+    &::scroll-marker {
+      content: ' ';
+      height: var(--dot-size);
+      width: var(--dot-size);
+      background-color: var(--nav-marker-bg);   /* solid medium gray */
+      border-radius: 50%;
+      transition:
+        width      300ms cubic-bezier(0.34, 1.2, 0.64, 1),
+        height     300ms cubic-bezier(0.34, 1.2, 0.64, 1),
+        background-color 250ms ease,
+        box-shadow 250ms ease;
+      cursor: pointer;
+      opacity: 1;                               /* fully visible, no dimming */
+    }
+
+    /* ACTIVE DOT — larger + yellow */
+    &::scroll-marker:target-current {
+      height: var(--dot-size-active);
+      width: var(--dot-size-active);
+      background-color: #F1C40F;
+      box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+    }
+
+    /* Hover effect */
+    &::scroll-marker:where(:hover, :focus-visible) {
+      background-color: #F1C40F;
+      height: calc(var(--dot-size) + 3px);
+      width: calc(var(--dot-size) + 3px);
+    }
+
+    &::scroll-marker:focus-visible {
+      outline: 2px solid #F1C40F;
+      outline-offset: 3px;
+    }
+  }
+
+  /* ── NAV BUTTONS ── */
+  &::scroll-button(*) {
+    position: absolute;
+    position-anchor: --lc-carousel;
+    width: var(--nav-btn-size);
+    aspect-ratio: 1;
+    font: inherit;
+    background-color: var(--nav-btn-bg);
+    display: grid;
+    place-content: center;
+    color: var(--nav-btn-txt);
+    border: none;
+    border-radius: 50%;
+    opacity: 0.9;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+    font-size: 22px;
+    font-weight: 900;
+    font-family: monospace;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    top: anchor(center);
+    transform: translateY(-50%);
+  }
+
+  &::scroll-button(inline-start) {
+    content: '❮';
+    left: calc(anchor(left) - var(--nav-btn-size) / 2);
+  }
+
+  &::scroll-button(inline-end) {
+    content: '❯';
+    right: calc(anchor(right) - var(--nav-btn-size) / 2);
+  }
+
+  &::scroll-button(*):not(:disabled):where(:hover, :focus-visible) {
+    opacity: 1;
+    scale: 1.1;
+    background-color: #e2b80e;
+  }
+
+  &::scroll-button(*):focus-visible {
+    outline: 2px dashed var(--nav-btn-bg);
+    outline-offset: 4px;
+  }
+
+  &::scroll-button(*):disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
 }
 
-/* MAIN ACTIVE CARD */
-.landing-carousel-main {
-  background-color: #1A2B3C;
-  border-radius: 16px;
-  padding: 35px 25px;
-  flex: 1;
-  min-height: 210px;
-  box-sizing: border-box;
-  z-index: 2;
-  position: relative;
-  
-  /* --- CARD TRANSITION LOGIC --- */
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-              box-shadow 0.4s ease, 
-              background-color 0.3s ease;
-  
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+/* ── HIDE SCROLLBAR ── */
+.lc-carousel::-webkit-scrollbar {
+  display: none;
 }
 
-.landing-card-title {
+/* ── CAROUSEL CARD TEXT ── */
+.lc-card-title {
   font-family: 'Basement Grotesque', sans-serif;
   color: #F1C40F;
   font-weight: 900;
+  font-size: clamp(14px, 3.5vw, 18px);
+  margin: 0 0 10px;
+  line-height: 1.2;
   text-transform: uppercase;
-  margin-bottom: 12px;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.3px;
+  text-align: center;
+  transition: all 300ms ease-in-out;
+
+  @container not scroll-state(snapped: inline) {
+    opacity: 0.7;
+  }
 }
 
-.landing-card-desc {
+.lc-card-desc {
   font-family: 'Figtree', sans-serif;
   color: #cbd5e0;
-  font-size: 15px;
+  font-size: clamp(12px, 2.5vw, 14px);
   line-height: 1.6;
+  margin: 0;
   font-weight: 400;
-}
+  text-align: center;
+  transition: all 300ms ease-in-out;
 
-.landing-carousel-main:hover {
-  transform: scale(1.03); /* Subtle "pop" effect */
-  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-}
-
-/* NAVIGATION ARROWS */
-.landing-arrow-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #F1C40F;
-  border: none;
-  border-radius: 50%;
-  width: 46px; 
-  height: 46px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: all 0.2s ease;
-}
-.landing-arrow-left { left: 8px; }
-.landing-arrow-right { right: 8px; }
-
-.landing-arrow-btn:hover {
-  background-color: #e2b80e;
-  transform: translateY(-50%) scale(1.1);
-}
-
-.landing-arrow-btn:active {
-  transform: translateY(-50%) scale(0.9);
-}
-
-/* DOTS NAVIGATION */
-.landing-dots { 
-  display: flex; 
-  justify-content: center; 
-  gap: 12px; 
-  margin-top: 30px; 
-}
-
-.landing-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #4A5568;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  border: none;
-}
-
-.landing-dot.active { 
-  width: 35px; 
-  border-radius: 6px; 
-  background-color: #F1C40F; 
-}
-
-.landing-hero { --hero-image: url('../assets/herohome.png'); }
-
-/* MOBILE SPECIFIC OVERLAP FIX */
-@media (max-width: 500px) {
-  .landing-carousel-side {
-    display: none; 
-  }
-  .landing-carousel-main {
-    margin: 0 10px;
-    padding: 30px 20px;
+  @container not scroll-state(snapped: inline) {
+    opacity: 0;
   }
 }
 
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .lc-carousel {
+    --nav-btn-size: 38px;
+    --dot-size: 9px;
+    --dot-size-active: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lc-wrapper {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .landing-grid {
+    display: none;
+  }
+}

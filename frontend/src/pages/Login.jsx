@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/menu/Navbar';
 import "../css/Login.css";
 
 function Login() {
@@ -25,7 +25,7 @@ function Login() {
 
   const checkBackendHealth = async () => {
     try {
-      const res = await fetch('http://localhost:5000/health');
+      const res = await fetch(API_URL);
       if (res.ok) {
         setBackendStatus('online');
       } else {
@@ -50,9 +50,9 @@ function Login() {
         console.log('🔵 [4] Login successful, user role:', result.user.role);
         
         if (result.user.role === 'admin') {
-          navigate('/management');
+          navigate('/dashboard');
         } else if (result.user.role === 'driver') {
-          navigate('/tracking');
+          navigate('/drivermain');
         } else {
           navigate('/passenger');
         }

@@ -40,21 +40,6 @@ function AppRoutes() {
       <Route path="/drivermap" element={<DriverMap/>} />
       <Route path="/drivermain" element={<DriverMain/>} />
       <Route path="/tracking" element={<Tracking />} />
-
-      <Route
-        path="/analytics"
-        element={
-            <Analytics />
-        }
-      />
-
-      <Route 
-        path='/management' 
-        element={
-            <Management />
-        }
-      />
-
       
       <Route path="/" element={<Navigate to="/" replace />} />
     </Routes>

@@ -151,7 +151,7 @@ function Passenger() {
         <div className="dmp-clock-wrap">
           <LiveClock />
         </div>
-        <Link to={"/M2B"}>
+        <Link to={"/"}>
           <div className="dmp-logo">
             <div className="dmp-logo-seg seg-m">M</div>
             <div className="dmp-logo-seg seg-2">2</div>
@@ -241,7 +241,7 @@ function Passenger() {
 
       {/* RIGHT PANEL — map */}
       <div className="dmp-right">
-        <Link to={"/M2B"}>
+        <Link to={"/"}>
           <div className="dmp-map-logo">
             <div className="dmp-logo-seg seg-m">M</div>
             <div className="dmp-logo-seg seg-2">2</div>

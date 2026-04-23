@@ -16,7 +16,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-logo">
-          <Link to="/M2B">
+          <Link to="/">
             <img src={logo} alt="M2B Logo" className="logo-image" />
           </Link>
         </div>

@@ -49,12 +49,6 @@ const BUSES = [
   },
 ];
 
-const INITIAL_NOTIFICATIONS = [
-  { id: 1, message: "Your trip to Malolos is scheduled for 12:45 PM.", time: "10 mins ago", read: false },
-  { id: 2, message: "Bus #101 has been assigned to you.", time: "30 mins ago", read: false },
-  { id: 3, message: "Reminder: Complete your trip report.", time: "1 hour ago", read: true },
-];
-
 /* BUS ROW */
 function BusRow({ bus }) {
   return (
@@ -89,31 +83,6 @@ function BusRow({ bus }) {
 
 /* MAIN COMPONENT */
 export default function DriverMain() {
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS);
-  const notifRef = useRef(null);
-
-  const unreadCount = notifications.filter((n) => !n.read).length;
-
-  const markAsRead = (id) => {
-    setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
-  };
-
-  const markAllAsRead = () => {
-    setNotifications(notifications.map((n) => ({ ...n, read: true })));
-  };
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (notifRef.current && !notifRef.current.contains(e.target)) {
-        setShowNotifications(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   return (
     <div className="dm-root">
 
@@ -146,58 +115,6 @@ export default function DriverMain() {
 
           {/* Divider */}
           <div className="dm-nav-divider" />
-
-          {/* Notification bell + dropdown */}
-          <div ref={notifRef} className="dm-notif-container">
-            <button
-              className="dm-nav-bell"
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowNotifications(!showNotifications);
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M10 2a6 6 0 00-6 6v3.5L2.5 14h15L16 11.5V8a6 6 0 00-6-6z" fill="#111827"/>
-                <path d="M8 15.5a2 2 0 004 0" fill="#111827"/>
-              </svg>
-              {unreadCount > 0 && (
-                <div className="dm-bell-dot">{unreadCount > 9 ? "9+" : ""}</div>
-              )}
-            </button>
-
-            {/* Dropdown */}
-            {showNotifications && (
-              <div className="dm-notif-dropdown">
-                <div className="dm-notif-header">
-                  <span>Notifications</span>
-                  {unreadCount > 0 && (
-                    <button className="dm-notif-mark-all" onClick={markAllAsRead}>
-                      Mark all as read
-                    </button>
-                  )}
-                </div>
-                <div className="dm-notif-list">
-                  {notifications.length === 0 ? (
-                    <div className="dm-notif-empty">No notifications</div>
-                  ) : (
-                    notifications.map((notif) => (
-                      <div
-                        key={notif.id}
-                        className={`dm-notif-item ${!notif.read ? "unread" : ""}`}
-                        onClick={() => markAsRead(notif.id)}
-                      >
-                        <div className="dm-notif-content">
-                          <div className="dm-notif-message">{notif.message}</div>
-                          <div className="dm-notif-time">{notif.time}</div>
-                        </div>
-                        {!notif.read && <div className="dm-notif-dot" />}
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
 
         </div>
       </nav>
