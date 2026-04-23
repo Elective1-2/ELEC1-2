@@ -1,41 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from 'react-router-dom';
 import { useTripData } from "../hooks/useTripData";
 import LiveMap from "../components/LiveMap";
 import BusNumberModal from "../components/BusNumberModal";
+import TripDetails from "../components/passenger/TripDetails";
+import TripDetailsBottom from "../components/passenger/TripDetailsBottom";
+import LiveClock from "../components/passenger/LiveClock";
 import "../css/passenger.css";
-
-
-function LiveClock() {
-  const [now, setNow] = useState(new Date());
-  useEffect(() => {
-    const t = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(t);
-  }, []);
-
-  const timeStr = now.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-  const dateStr = now.toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  });
-
-  return (
-    <div className="dmp-clock">
-      <div className="dmp-clock-time">{timeStr}</div>
-      <div className="dmp-clock-date">{dateStr}</div>
-    </div>
-  );
-}
 
 function Passenger() {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [trackingBus, setTrackingBus] = useState(null);
   const [modalError, setModalError] = useState(null);
+  const [isBottomPanelOpen, setIsBottomPanelOpen] = useState(true);
   
   const { tripData, loading, error, stopTracking } = useTripData(trackingBus, !!trackingBus);
 
@@ -46,7 +23,7 @@ function Passenger() {
       handleTrackBus(trackingBusNumber);
       setIsModalOpen(false);
     }
-}, []);
+  }, []);
 
   const handleTrackBus = async (busNumber) => {
     setModalError(null);
@@ -60,6 +37,8 @@ function Passenger() {
       }
 
       setTrackingBus(busNumber);
+      setIsModalOpen(false);
+      setIsBottomPanelOpen(true); // Open panel when new bus is tracked
       return true;
     } catch (err) {
       setModalError(err.message);
@@ -68,9 +47,17 @@ function Passenger() {
   };
 
   const handleModalClose = () => {
-    if (!trackingBus) {
-      setIsModalOpen(false);
-    }
+    setIsModalOpen(false);
+    setModalError(null);
+  };
+
+  const handleTrackAnotherBus = () => {
+    setIsModalOpen(true);
+    setModalError(null);
+  };
+
+  const toggleBottomPanel = () => {
+    setIsBottomPanelOpen(prev => !prev);
   };
 
   const formatTime = (datetimeString) => {
@@ -80,15 +67,6 @@ function Passenger() {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
-    });
-  };
-
-  const formatDate = (datetimeString) => {
-    if (!datetimeString) return '—';
-    const date = new Date(datetimeString);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
     });
   };
 
@@ -131,89 +109,15 @@ function Passenger() {
         error={modalError}
       />
 
-      <div className="dmp-left">
-        <div className="dmp-clock-wrap">
-          <LiveClock />
-        </div>
-        <Link to={"/"}>
-          <div className="dmp-logo">
-            <div className="dmp-logo-seg seg-m">M</div>
-            <div className="dmp-logo-seg seg-2">2</div>
-            <div className="dmp-logo-seg seg-b">B</div>
-          </div>
-        </Link>
-        <div className="dmp-section-title">ACTIVE TRIP DETAILS</div>
+      <TripDetails
+        tripData={tripData}
+        formatTime={formatTime}
+        statusInfo={statusInfo}
+        congestionLevel={congestionLevel}
+        onTrackAnother={handleTrackAnotherBus}
+      />
 
-        {tripData && !loading ? (
-          <>
-            <div className="dmp-info-block dark full-width">
-              <div className="dmp-info-top">BUS NO.</div>
-              <div className="dmp-info-number">{tripData.bus?.busNumber || '—'}</div>
-              <div className="dmp-info-sub">Capacity: {tripData.bus?.capacity || '—'} passengers</div>
-            </div>
-
-            <div className="dmp-tag-row">
-              <div className="dmp-tag-block origin">
-                <div className="dmp-tag-label">ORIGIN</div>
-                <div className="dmp-tag-value">
-                  {tripData.trip?.startLocation?.split(',')[0] || '—'}
-                </div>
-              </div>
-              <div className="dmp-tag-block destination">
-                <div className="dmp-tag-label">DESTINATION</div>
-                <div className="dmp-tag-value">
-                  {tripData.trip?.endLocation?.split(',')[0] || '—'}
-                </div>
-              </div>
-            </div>
-
-            <div className="dmp-tag-row">
-              <div className={`dmp-tag-block ${statusInfo.class}`}>
-                <div className="dmp-tag-label">STATUS</div>
-                <div className="dmp-tag-value">{statusInfo.text}</div>
-              </div>
-              <div className="dmp-tag-block congestion">
-                <div className="dmp-tag-label">CONGESTION LEVEL</div>
-                <div className="dmp-tag-value">{congestionLevel}</div>
-              </div>
-            </div>
-
-            <div className="dmp-times-container">
-              <div className="dmp-times-row">
-                <div className="dmp-time-block">
-                  <div className="dmp-detail-label">DEPARTURE TIME</div>
-                  <div className="dmp-time-value">
-                    {formatTime(tripData.trip?.scheduledDeparture)}
-                  </div>
-                  <div className="dmp-time-underline green" />
-                </div>
-                <div className="dmp-time-block">
-                  <div className="dmp-detail-label">EXPECTED ARRIVAL TIME</div>
-                  <div className="dmp-time-value">
-                    {tripData.eta?.text || '—'}
-                  </div>
-                  <div className="dmp-time-underline gray" />
-                </div>
-              </div>
-            </div>
-
-            <div className="dmp-detail-card">
-              <div className="dmp-detail-label">DRIVER</div>
-              <div className="dmp-driver-name">
-                {tripData.driver?.name || '—'}
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="dmp-info-block dark full-width">
-            <div className="dmp-info-top">NO BUS TRACKED</div>
-            <div className="dmp-info-number">—</div>
-            <div className="dmp-info-sub">Enter a bus number to track</div>
-          </div>
-        )}
-      </div>
-
-      <div className="dmp-right">
+      <div className={`dmp-right ${trackingBus && !isBottomPanelOpen ? 'expanded' : ''}`}>
         <Link to={"/"}>
           <div className="dmp-map-logo">
             <div className="dmp-logo-seg seg-m">M</div>
@@ -231,137 +135,53 @@ function Passenger() {
           destination={tripData?.trip?.endLocation}
         />
 
-      </div>
-
-      <div className="dmp-bottom">
-        <div className="dmp-section-title">ACTIVE TRIP DETAILS</div>
-
-        {tripData && !loading ? (
-          <>
-            <div className="dmp-tablet-grid">
-              <div className="dmp-tablet-left-col">
-                <div className="dmp-info-block dark full-width">
-                  <div className="dmp-info-top">BUS NO.</div>
-                  <div className="dmp-info-number">{tripData.bus?.busNumber || '—'}</div>
-                  <div className="dmp-info-sub">Capacity: {tripData.bus?.capacity || '—'}</div>
-                </div>
-              </div>
-              <div className="dmp-tablet-right-col">
-                <div className="dmp-times-container">
-                  <div className="dmp-times-row">
-                    <div className="dmp-time-block">
-                      <div className="dmp-detail-label">DEPARTURE TIME</div>
-                      <div className="dmp-time-value">
-                        {formatTime(tripData.trip?.scheduledDeparture)}
-                      </div>
-                      <div className="dmp-time-underline green" />
-                    </div>
-                    <div className="dmp-time-block">
-                      <div className="dmp-detail-label">EXPECTED ARRIVAL TIME</div>
-                      <div className="dmp-time-value">
-                        {tripData.eta?.text || '—'}
-                      </div>
-                      <div className="dmp-time-underline gray" />
-                    </div>
-                  </div>
-                </div>
-                <div className="dmp-detail-card">
-                  <div className="dmp-detail-label">DRIVER</div>
-                  <div className="dmp-driver-name">
-                    {tripData.driver?.name || '—'}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="dmp-tag-row">
-              <div className="dmp-tag-block origin">
-                <div className="dmp-tag-label">ORIGIN</div>
-                <div className="dmp-tag-value">
-                  {tripData.trip?.startLocation?.split(',')[0] || '—'}
-                </div>
-              </div>
-              <div className="dmp-tag-block destination">
-                <div className="dmp-tag-label">DESTINATION</div>
-                <div className="dmp-tag-value">
-                  {tripData.trip?.endLocation?.split(',')[0] || '—'}
-                </div>
-              </div>
-              <div className={`dmp-tag-block ${statusInfo.class}`}>
-                <div className="dmp-tag-label">STATUS</div>
-                <div className="dmp-tag-value">{statusInfo.text}</div>
-              </div>
-              <div className="dmp-tag-block congestion">
-                <div className="dmp-tag-label">CONGESTION LEVEL</div>
-                <div className="dmp-tag-value">{congestionLevel}</div>
-              </div>
-            </div>
-
-            <div className="dmp-mobile-stack">
-              <div className="dmp-info-block dark full-width">
-                <div className="dmp-info-top">BUS NO.</div>
-                <div className="dmp-info-number">{tripData.bus?.busNumber || '—'}</div>
-                <div className="dmp-info-sub">Capacity: {tripData.bus?.capacity || '—'}</div>
-              </div>
-              <div className="dmp-tag-row">
-                <div className="dmp-tag-block origin">
-                  <div className="dmp-tag-label">ORIGIN</div>
-                  <div className="dmp-tag-value">
-                    {tripData.trip?.startLocation?.split(',')[0] || '—'}
-                  </div>
-                </div>
-                <div className="dmp-tag-block destination">
-                  <div className="dmp-tag-label">DESTINATION</div>
-                  <div className="dmp-tag-value">
-                    {tripData.trip?.endLocation?.split(',')[0] || '—'}
-                  </div>
-                </div>
-              </div>
-              <div className="dmp-tag-row">
-                <div className={`dmp-tag-block ${statusInfo.class}`}>
-                  <div className="dmp-tag-label">STATUS</div>
-                  <div className="dmp-tag-value">{statusInfo.text}</div>
-                </div>
-                <div className="dmp-tag-block congestion">
-                  <div className="dmp-tag-label">CONGESTION LEVEL</div>
-                  <div className="dmp-tag-value">{congestionLevel}</div>
-                </div>
-              </div>
-              <div className="dmp-times-container">
-                <div className="dmp-times-row">
-                  <div className="dmp-time-block">
-                    <div className="dmp-detail-label">DEPARTURE TIME</div>
-                    <div className="dmp-time-value">
-                      {formatTime(tripData.trip?.scheduledDeparture)}
-                    </div>
-                    <div className="dmp-time-underline green" />
-                  </div>
-                  <div className="dmp-time-block">
-                    <div className="dmp-detail-label">EXPECTED ARRIVAL TIME</div>
-                    <div className="dmp-time-value">
-                      {tripData.eta?.text || '—'}
-                    </div>
-                    <div className="dmp-time-underline gray" />
-                  </div>
-                </div>
-              </div>
-              <div className="dmp-detail-card">
-                <div className="dmp-detail-label">DRIVER</div>
-                <div className="dmp-driver-name">
-                  {tripData.driver?.name || '—'}
-                </div>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="dmp-info-block dark full-width">
-            <div className="dmp-info-top">NO BUS TRACKED</div>
-            <div className="dmp-info-number">—</div>
-            <div className="dmp-info-sub">Enter a bus number to track</div>
-          </div>
+        {trackingBus && (
+          <button 
+            className="dmp-toggle-panel-btn"
+            onClick={toggleBottomPanel}
+            title={isBottomPanelOpen ? 'Hide details' : 'Show details'}
+          >
+            <svg 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2.5" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+              style={{ transform: isBottomPanelOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease' }}
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
         )}
 
+        {trackingBus && (
+          <button 
+            className="dmp-map-track-btn"
+            onClick={handleTrackAnotherBus}
+            title="Track another bus"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              <line x1="11" y1="8" x2="11" y2="14" />
+              <line x1="8" y1="11" x2="14" y2="11" />
+            </svg>
+          </button>
+        )}
       </div>
+
+      <TripDetailsBottom
+        tripData={tripData}
+        formatTime={formatTime}
+        statusInfo={statusInfo}
+        congestionLevel={congestionLevel}
+        onTrackAnother={handleTrackAnotherBus}
+        isOpen={isBottomPanelOpen}
+        onToggle={toggleBottomPanel}
+      />
     </div>
   );
 }

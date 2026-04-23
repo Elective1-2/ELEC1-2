@@ -10,6 +10,7 @@
   flex-direction: column;
 }
 
+/* ── NAVBAR ── */
 .dm-nav {
   background: #1e2d3d;
   display: flex;
@@ -39,16 +40,16 @@
   font-size: 16px;
   color: #fff;
 }
-
+/* FIX: exact colors from screenshot */
 .dm-logo-seg.m   { background: #2c3e55; color: #fff; }
 .dm-logo-seg.two { background: #4aafd5; color: #fff; }
 .dm-logo-seg.b   { background: #e8a020; color: #fff; }
 
-
+/* nav right — white container with black text and icons */
 .dm-nav-right {
   display: flex;
   align-items: center;
-  background: #ffffff;
+  background: #1a2b3c;
   border-radius: 10px;
   overflow: visible;
 }
@@ -67,16 +68,17 @@
   line-height: 1.25;
 }
 
+/* FIX: black/dark text for username */
 .dm-nav-username {
   font-size: 13px;
   font-weight: 700;
-  color: #111827;
+  color: #ffffff;
 }
 
 .dm-nav-role {
   font-size: 10px;
   font-weight: 500;
-  color: #6b7280;
+  color: #ffffff;
 }
 
 .dm-nav-avatar {
@@ -84,7 +86,7 @@
   height: 32px;
   border-radius: 50%;
   background: transparent;
-  border: 2px solid #111827;
+  border: 2px solid #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,9 +96,10 @@
 .dm-nav-avatar svg {
   width: 26px;
   height: 26px;
-  color: #111827;
+  color: #ffffff;
 }
 
+/* FIX: vertical divider between user and bell */
 .dm-nav-divider {
   width: 1px;
   height: 36px;
@@ -121,6 +124,7 @@
   border: 2px solid #ffffff;
 }
 
+/* ── BODY ── */
 .dm-body {
   flex: 1;
   padding: 28px 28px 40px;
@@ -129,6 +133,7 @@
   gap: 0;
 }
 
+/* ── WELCOME CARD ── */
 .dm-welcome-card {
   background: #fff;
   border-radius: 16px;
@@ -172,6 +177,7 @@
   color: #374151;
 }
 
+/* Clock widget */
 .dm-clock-widget {
   background: #f3f4f6;
   border-radius: 12px;
@@ -194,6 +200,7 @@
   margin-top: 1px;
 }
 
+/* ── ASSIGNED BUSES SECTION ── */
 .dm-section {
   margin-top: 28px;
 }
@@ -213,6 +220,7 @@
   gap: 10px;
 }
 
+/* ── BUS ROW ── */
 .dm-bus-row {
   background: #f8fafc;
   border: 1px solid #e5e7eb;
@@ -232,6 +240,7 @@
   min-width: 100px;
 }
 
+/* FIX: route section takes remaining space, items inline */
 .dm-bus-route {
   display: flex;
   align-items: center;
@@ -240,6 +249,7 @@
   min-width: 0;
 }
 
+/* FIX: each route item is inline label+value side by side */
 .dm-route-item {
   display: flex;
   align-items: center;
@@ -262,6 +272,7 @@
   color: #374151;
 }
 
+/* FIX: meta section aligned right */
 .dm-bus-meta {
   display: flex;
   align-items: center;
@@ -270,6 +281,7 @@
   margin-left: auto;
 }
 
+/* FIX: departure and status both have label on top, value below */
 .dm-departure {
   text-align: center;
 }
@@ -333,7 +345,9 @@
 
 .dm-start-btn:hover { background: #2d4156; }
 
-
+/* ════════════════════════════
+   TABLET  (600–1023px)
+════════════════════════════ */
 @media (max-width: 1023px) {
   .dm-nav         { padding: 0 18px; height: 58px; }
   .dm-logo-seg    { width: 34px; height: 34px; font-size: 14px; }
@@ -357,7 +371,9 @@
   }
 }
 
-
+/* ════════════════════════════
+   MOBILE  (< 600px)
+════════════════════════════ */
 @media (max-width: 599px) {
   .dm-nav         { padding: 0 14px; height: 52px; }
   .dm-logo-seg    { width: 28px; height: 28px; font-size: 11px; }
@@ -419,6 +435,7 @@
   }
 }
 
+/* ── NOTIFICATION DROPDOWN ── */
 .dm-notif-container {
   position: relative;
   display: flex;
@@ -535,6 +552,7 @@
   color: #9ca3af;
 }
 
+/* Modal Styles for Departure Selector */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -730,6 +748,7 @@
   cursor: not-allowed;
 }
 
+/* Loading spinner for modal */
 .loading-indicator {
   display: flex;
   flex-direction: column;
@@ -751,6 +770,8 @@
   to { transform: rotate(360deg); }
 }
 
+
+/* Button spinner animation */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
@@ -759,6 +780,7 @@
   display: inline-block;
 }
 
+/* Disabled button states */
 .btn-confirm:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -769,8 +791,293 @@
   cursor: not-allowed;
 }
 
+/* Form select disabled state */
 .form-select:disabled {
   background: #f9fafb;
   color: #9ca3af;
   cursor: not-allowed;
+}
+
+/* ── DROPDOWN MENU ── */
+.dm-nav-right {
+  position: relative;
+}
+
+.dm-nav-user {
+  position: relative;
+  transition: background 0.2s ease;
+  border-radius: 10px;
+}
+
+.dm-nav-user:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.dm-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e5e7eb;
+  min-width: 260px;
+  z-index: 1000;
+  overflow: hidden;
+  animation: dropdownIn 0.2s ease;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dm-dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #f9fafb;
+}
+
+.dm-dropdown-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #1e2d3d;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.dm-dropdown-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.dm-dropdown-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dm-dropdown-email {
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dm-dropdown-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 0;
+}
+
+/* ── DROPDOWN ITEMS (Matching Admin Sidebar) ── */
+.dm-dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  margin: 2px 8px;
+  width: calc(100% - 16px);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #7a96b0;
+  text-align: left;
+}
+
+.dm-dropdown-item:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.07);
+  color: #374151;
+}
+
+.dm-dropdown-item svg {
+  flex-shrink: 0;
+  color: #7a96b0;
+  transition: all 0.2s ease;
+}
+
+.dm-dropdown-item:hover:not(.disabled) svg {
+  color: #374151;
+}
+
+/* Logout specific - matching admin sidebar */
+.dm-dropdown-item.logout {
+  color: #7a96b0;
+  margin-bottom: 8px;
+}
+
+.dm-dropdown-item.logout:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.dm-dropdown-item.logout:hover svg {
+  color: #ef4444;
+  transform: translateX(2px);
+}
+
+/* Settings disabled */
+.dm-dropdown-item.disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.dm-dropdown-item.disabled:hover {
+  background: none;
+  border-color: transparent;
+  color: #9ca3af;
+}
+
+.dm-dropdown-item.disabled svg {
+  color: #9ca3af;
+}
+
+/* ── LOGOUT CONFIRMATION MODAL ── */
+.dm-logout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dm-logout-modal {
+  background: #ffffff;
+  border-radius: 16px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.dm-logout-modal-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.dm-logout-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  font-family: 'Inter', sans-serif;
+}
+
+.dm-logout-modal-body {
+  padding: 20px 24px;
+}
+
+.dm-logout-modal-body p {
+  margin: 0;
+  font-size: 15px;
+  color: #6b7280;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+}
+
+.dm-logout-modal-footer {
+  padding: 16px 24px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dm-logout-btn-cancel,
+.dm-logout-btn-confirm {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.dm-logout-btn-cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.dm-logout-btn-cancel:hover {
+  background: #e5e7eb;
+}
+
+.dm-logout-btn-confirm {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.dm-logout-btn-confirm:hover {
+  background: #dc2626;
+}
+
+/* ── RESPONSIVE DROPDOWN ── */
+@media (max-width: 599px) {
+  .dm-dropdown-menu {
+    min-width: 240px;
+    right: -10px;
+  }
+  
+  .dm-dropdown-header {
+    padding: 12px;
+  }
+  
+  .dm-dropdown-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+  
+  .dm-dropdown-item {
+    padding: 10px 12px;
+    font-size: 13px;
+    gap: 10px;
+    margin: 1px 6px;
+    width: calc(100% - 12px);
+  }
+  
+  .dm-dropdown-item svg {
+    width: 16px;
+    height: 16px;
+  }
 }

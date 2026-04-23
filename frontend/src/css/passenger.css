@@ -616,3 +616,266 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* ── TRACK ANOTHER BUS BUTTON ── */
+.dmp-track-another-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #1e2d3d;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.dmp-track-another-btn:hover {
+  background: #2d4156;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(30, 45, 61, 0.3);
+}
+
+.dmp-track-another-btn:active {
+  transform: translateY(0);
+}
+
+.dmp-track-another-btn svg {
+  flex-shrink: 0;
+}
+
+/* Inline track button (when no bus tracked) */
+.dmp-track-btn-inline {
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.dmp-track-btn-inline:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+/* Floating map button for tablet/mobile */
+.dmp-map-track-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1e2d3d;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.dmp-map-track-btn:hover {
+  background: #2d4156;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.dmp-map-track-btn:active {
+  transform: scale(0.95);
+}
+
+/* Hide floating button on desktop */
+@media (min-width: 1024px) {
+  .dmp-map-track-btn {
+    display: none;
+  }
+}
+
+/* Adjust for tablet */
+@media (max-width: 1023px) and (min-width: 600px) {
+  .dmp-map-track-btn {
+    bottom: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Adjust for mobile */
+@media (max-width: 599px) {
+  .dmp-map-track-btn {
+    bottom: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .dmp-map-track-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .dmp-track-another-btn {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+}
+
+/* ── BOTTOM PANEL SLIDE ── */
+.dmp-bottom {
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+              max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease;
+  overflow: hidden;
+}
+
+.dmp-bottom.closed {
+  transform: translateY(calc(100% - 44px));
+  max-height: 44px !important;
+  opacity: 0.95;
+}
+
+.dmp-bottom.open {
+  transform: translateY(0);
+  max-height: 60vh;
+  opacity: 1;
+}
+
+/* ── BOTTOM PANEL HANDLE ── */
+.dmp-bottom-handle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dmp-bottom-handle-bar {
+  width: 40px;
+  height: 4px;
+  background: #d1d5db;
+  border-radius: 2px;
+  margin-bottom: 4px;
+  transition: background 0.2s ease;
+}
+
+.dmp-bottom-handle:hover .dmp-bottom-handle-bar {
+  background: #9ca3af;
+}
+
+.dmp-bottom-chevron {
+  color: #6b7280;
+  transition: transform 0.3s ease, color 0.2s ease;
+}
+
+.dmp-bottom-chevron.open {
+  transform: rotate(180deg);
+}
+
+.dmp-bottom-chevron.closed {
+  transform: rotate(0deg);
+}
+
+.dmp-bottom-handle:hover .dmp-bottom-chevron {
+  color: #374151;
+}
+
+/* ── TOGGLE PANEL FLOATING BUTTON ── */
+.dmp-toggle-panel-btn {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.2s ease;
+  color: #374151;
+}
+
+.dmp-toggle-panel-btn:hover {
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: #111827;
+}
+
+.dmp-toggle-panel-btn:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+/* Hide toggle button on desktop */
+@media (min-width: 1024px) {
+  .dmp-toggle-panel-btn {
+    display: none;
+  }
+  
+  .dmp-bottom {
+    display: none !important;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 1023px) and (min-width: 600px) {
+  .dmp-toggle-panel-btn {
+    top: 12px;
+    width: 36px;
+    height: 36px;
+  }
+  
+  .dmp-toggle-panel-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 599px) {
+  .dmp-toggle-panel-btn {
+    top: 10px;
+    width: 32px;
+    height: 32px;
+  }
+  
+  .dmp-toggle-panel-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Map expands when bottom panel is closed */
+.dmp-right.expanded {
+  flex: 1 1 100%;
+}
+
+/* Smooth map height transition */
+.dmp-right {
+  transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}

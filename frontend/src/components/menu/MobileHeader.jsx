@@ -6,14 +6,12 @@ import logoImage from "../../assets/M2B logo for DB BG.png";
 function MobileHeader({ setMenuOpen }) {
   return (
     <div className="mobile-header">
-      {/* Logo — LEFT */}
       <div className="mobile-header-left">
         <Link to="/dashboard">
         <img src={logoImage} alt="M2B Logo" className="mobile-logo-img" />
         </Link>
       </div>
 
-      {/* Hamburger — RIGHT (space-between handles placement) */}
       <button
         className="mobile-hamburger"
         onClick={() => setMenuOpen(prev => !prev)}
