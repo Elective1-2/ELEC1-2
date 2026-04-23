@@ -48,7 +48,7 @@ app.use('/api/', limiter);
 
 // CORS configuration - UPDATE for production
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173', //todo: pls help
+  origin: process.env.FRONTEND_URL || 'https://m2b-p2p.com', //todo: pls help
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
@@ -82,7 +82,7 @@ app.get('/health', (req, res) => {
 
 // Only serve static files in production
   if (process.env.NODE_ENV === 'production') {
-    const frontendBuildPath = path.join(__dirname, '/dist');
+    const frontendBuildPath = path.join(__dirname, '../dist');
     
     // Add this debug code
     const fs = require('fs');
@@ -96,7 +96,7 @@ app.get('/health', (req, res) => {
     }
     
     app.use(express.static(frontendBuildPath));
-    app.get('/*splat', (req, res) => {
+    app.get(/.*/, (req, res) => {
       res.sendFile(path.join(frontendBuildPath, 'index.html'));
     });
   }else {
