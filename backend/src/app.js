@@ -82,7 +82,7 @@ app.get('/health', (req, res) => {
 
 // Only serve static files in production
   if (process.env.NODE_ENV === 'production') {
-    const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
+    const frontendBuildPath = path.join(__dirname, '../dist');
     
     // Add this debug code
     const fs = require('fs');
@@ -137,6 +137,8 @@ if (process.env.NODE_ENV !== 'production') {
 // Global error handler (keep this for all environments)
 app.use((err, req, res, next) => {
   console.error('❌ Error:', err.stack);
+
+  
   
   // Handle specific error types
   if (err.type === 'entity.parse.failed') {
