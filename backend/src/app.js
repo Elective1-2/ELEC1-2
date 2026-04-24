@@ -27,7 +27,6 @@ console.log(`  - DB_HOST: ${process.env.DB_HOST ? 'SET ✓' : 'NOT SET ✗'}`);
 console.log(`  - DB_USER: ${process.env.DB_USER ? 'SET ✓' : 'NOT SET ✗'}`);
 console.log(`  - DB_NAME: ${process.env.DB_NAME ? 'SET ✓' : 'NOT SET ✗'}`);
 console.log(`  - PORT: ${process.env.PORT || 'NOT SET (will use 5000)'}`);
-console.log(`  - FRONTEND_URL: ${process.env.FRONTEND_URL || 'NOT SET'}`);
 
 const router = require('./routes/index.routes');
 console.log('✅ [app.js] Routes loaded');
@@ -35,52 +34,25 @@ console.log('✅ [app.js] Routes loaded');
 const app = express();
 console.log('✅ [app.js] Express app created');
 
-// CORS configuration - MUST come before other middleware
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, Postman)
-    if (!origin) return callback(null, true);
-    
-    const allowedOrigins = [
-      process.env.FRONTEND_URL,
-      'https://m2b-p2p.com',
-      'http://localhost:5173',
-      'http://localhost:3000',
-    ].filter(Boolean); // Remove undefined/null values
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      console.log(`❌ CORS blocked origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'X-Requested-With'],
-  exposedHeaders: ['Set-Cookie'],
-};
+// Security middleware
+app.use(helmet());
 
-app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options('*', cors(corsOptions));
-
-// Security middleware - configure helmet to work with CORS
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" },
-  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
-}));
-
-// Rate limiting - simplified
+// Rate limiting - prevent abuse
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
   message: { error: 'Too many requests, please try again later.' },
-  standardHeaders: true,
-  legacyHeaders: false,
+  skipSuccessfulRequests: true, // Don't count successful requests against limit
 });
 app.use('/api/', limiter);
+
+// CORS configuration - UPDATE for production
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173', //todo: pls help
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+}));
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
@@ -90,7 +62,7 @@ app.use(cookieParser());
 // Request logging (development only)
 if (process.env.NODE_ENV !== 'production') {
   app.use((req, res, next) => {
-    console.log(`📝 ${req.method} ${req.url} - Origin: ${req.headers.origin || 'none'}`);
+    console.log(`📝 ${req.method} ${req.url}`);
     next();
   });
 }
@@ -109,7 +81,7 @@ app.get('/health', (req, res) => {
 });
 
 // Only serve static files in production
-if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
     
     // Add this debug code
@@ -127,7 +99,7 @@ if (process.env.NODE_ENV === 'production') {
     app.get('*', (req, res) => {
       res.sendFile(path.join(frontendBuildPath, 'index.html'));
     });
-} else {
+  }else {
   // Development mode - just the API root response
   app.get('/*splat', (req, res) => {
     res.json({
@@ -145,6 +117,10 @@ if (process.env.NODE_ENV === 'production') {
     });
   });
 }
+
+// Note: The 404 handler and error handler below should ONLY apply to API routes
+// But since we're serving React for all non-API routes in production,
+// we need to move them inside the development conditional
 
 // For development, keep the 404 handler
 if (process.env.NODE_ENV !== 'production') {
