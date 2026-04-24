@@ -112,7 +112,7 @@ function Tracking() {
         />
 
         <div className="track-main">
-          <AdminNavbar/>
+          {/* <AdminNavbar/> */}
 
           <div className="track-content">
 
