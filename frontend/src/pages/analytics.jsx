@@ -97,6 +97,7 @@ function Analytics() {
                   className="week-nav-btn"
                   onClick={() => setWeekOffset(prev => prev - 1)}
                 >
+                  ← Prev Week 
                 </button>
                 <span className="week-range">
                   {formatDate(weeklyRidership.weekStart)} - {formatDate(weeklyRidership.weekEnd)}
