@@ -48,7 +48,7 @@ const limiter = rateLimit({
   skipSuccessfulRequests: true, // Don't count successful requests against limit
 });
 app.use('/api/', limiter);
-
+// WAG MO KASI TANGGALIN TO
 app.use(cors({
   origin: [
     'https://www.m2b-p2p.com', 
