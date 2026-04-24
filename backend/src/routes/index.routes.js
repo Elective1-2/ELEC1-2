@@ -166,7 +166,7 @@ router.get('/maps/directions', getDirections);
 router.post('/maps/geocode', geocode);
 router.post('/maps/reverse-geocode', reverseGeocode);
 
-router.use('/*splat', (req, res) => {
+router.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
