@@ -75,68 +75,69 @@ A dashboard that helps track and analyze public transportation performance. Made
       |-- MySQL Database
 
 ## Data Flow
-[Driver App] ---> (GPS Data) ---> [Backend API] ---> [Database]
-                                         |
-                                         v
-                                  [Real-time Engine]
-                                         |
-             -------------------------------------------------
-             |                                               |
-     [Admin Dashboard]                              [Passenger UI]
-     (analytics, monitoring)                     (tracking, ETA)
-
+```
+[Driver App] ---> (GPS Data) ---> [Backend API] ---> [Database]  
+                                         |  
+                                         v  
+                                  [Real-time Engine]  
+                                         |  
+             -------------------------------------------------  
+             |                                               |  
+     [Admin Dashboard]                              [Passenger UI]  
+     (analytics, monitoring)                     (tracking, ETA)  
+```
 ## Database Schema
-database-instance (MySQL)
-├── tables
-│   ├── users
-│   │   ├── id (int, pk)
-│   │   ├── username (varchar)
-│   │   ├── role (enum: 'admin', 'driver')
-│   │   └── password_hash (text)
-│   ├── buses
-│   │   ├── id (int, pk)
-│   │   ├── bus_number (string)
-│   │   └── capacity (int)
-│   ├── routes
-│   │   ├── id (int, pk)
-│   │   └── route_name (string)
-│   ├── stops
-│   │   ├── id (int, pk)
-│   │   ├── route_id (fk)
-│   │   ├── stop_name (string)
-│   │   └── sequence (int)
-│   └── trips (historical)
-│       ├── id (int, pk)
-│       ├── start_time (timestamp)
-│       ├── delay_minutes (int)
-│       └── ridership_total (int)
+database-instance (MySQL)  
+├── tables  
+│   ├── users  
+│   │   ├── id (int, pk)  
+│   │   ├── username (varchar)  
+│   │   ├── role (enum: 'admin', 'driver')  
+│   │   └── password_hash (text)  
+│   ├── buses  
+│   │   ├── id (int, pk)  
+│   │   ├── bus_number (string)  
+│   │   └── capacity (int)  
+│   ├── routes  
+│   │   ├── id (int, pk)  
+│   │   └── route_name (string)  
+│   ├── stops  
+│   │   ├── id (int, pk)  
+│   │   ├── route_id (fk)  
+│   │   ├── stop_name (string)  
+│   │   └── sequence (int)  
+│   └── trips (historical)  
+│       ├── id (int, pk)  
+│       ├── start_time (timestamp)  
+│       ├── delay_minutes (int)  
+│       └── ridership_total (int)  
 
 ## Application Flow
 
-Landing Page
-├── About Us
-│   ├── Mission
-│   ├── Vision
-│   ├── What We Do
-│   └── The Creators
-│
-├── Schedule
-│   └── Select Station / Destination
-│       └── Route Schedule
-│
-├── Passenger
-│   └── Track Your Bus
-│       ├── Map View
-│       └── Active Trip Details
-│
-├── Driver
-│   └── Dashboard
-│       ├── Map
-│       └── Trip Details
-│
-└── Admin
-    └── Login
-        ├── Dashboard
-        ├── Live Tracking
-        ├── Analytics
-        └── Management
+Landing Page  
+├── About Us  
+│   ├── Mission  
+│   ├── Vision  
+│   ├── What We Do  
+│   └── The Creators  
+│  
+├── Schedule  
+│   └── Select Station / Destination  
+│       └── Route Schedule  
+│  
+├── Passenger  
+│   └── Track Your Bus  
+│       ├── Map View  
+│       └── Active Trip Details  
+│  
+├── Driver  
+│   └── Dashboard  
+│       ├── Map  
+│       └── Trip Details  
+│  
+└── Admin  
+    └── Login  
+        ├── Dashboard  
+        ├── Live Tracking  
+        ├── Analytics  
+        └── Management  
