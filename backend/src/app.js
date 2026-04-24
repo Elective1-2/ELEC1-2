@@ -35,47 +35,54 @@ console.log('✅ [app.js] Routes loaded');
 const app = express();
 console.log('✅ [app.js] Express app created');
 
-// CORS configuration - MUST come before other middleware
-const corsOptions = {
+// CRITICAL: CORS must be set up BEFORE any routes
+const allowedOrigins = [
+  'https://m2b-p2p.com',
+  'https://www.m2b-p2p.com',
+  'http://localhost:5173',
+  'http://localhost:3000',
+].filter(Boolean);
+
+app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, Postman)
-    if (!origin) return callback(null, true);
+    // Allow requests with no origin (server-to-server, mobile apps, curl, etc.)
+    if (!origin) {
+      return callback(null, true);
+    }
     
-    const allowedOrigins = [
-      process.env.FRONTEND_URL,
-      'https://m2b-p2p.com',
-      'http://localhost:5173',
-      'http://localhost:3000',
-    ].filter(Boolean); // Remove undefined/null values
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      console.log(`❌ CORS blocked origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
+      console.warn(`⚠️ CORS blocked origin: ${origin}`);
+      callback(null, false); // Don't throw error, just don't set CORS headers
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'X-Requested-With'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: [
+    'Content-Type', 
+    'Authorization', 
+    'Cookie', 
+    'X-Requested-With',
+    'Accept',
+    'Origin'
+  ],
   exposedHeaders: ['Set-Cookie'],
-};
-
-app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options('*', cors(corsOptions));
-
-// Security middleware - configure helmet to work with CORS
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" },
-  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+  maxAge: 86400, // Cache preflight for 24 hours
 }));
 
-// Rate limiting - simplified
+// Handle OPTIONS preflight for all routes
+app.options('*', cors());
+
+// Security middleware - Important: configure AFTER CORS
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+}));
+
+// Rate limiting - Remove skipSuccessfulRequests as it can cause issues
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   message: { error: 'Too many requests, please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
@@ -87,48 +94,59 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
-// Request logging (development only)
-if (process.env.NODE_ENV !== 'production') {
-  app.use((req, res, next) => {
-    console.log(`📝 ${req.method} ${req.url} - Origin: ${req.headers.origin || 'none'}`);
-    next();
-  });
-}
+// ADD DETAILED LOGGING FOR ALL API REQUESTS
+app.use('/api', (req, res, next) => {
+  console.log(`📝 [${new Date().toISOString()}] ${req.method} ${req.url}`);
+  console.log(`   Origin: ${req.headers.origin || 'none'}`);
+  console.log(`   Headers:`, JSON.stringify(req.headers, null, 2));
+  
+  // Track response
+  const originalSend = res.send;
+  res.send = function(data) {
+    console.log(`   Response Status: ${res.statusCode}`);
+    console.log(`   Response Headers:`, JSON.stringify(res.getHeaders(), null, 2));
+    return originalSend.call(this, data);
+  };
+  
+  next();
+});
 
-// API Routes (must come BEFORE static file serving)
+// API Routes
 app.use('/api', router);
 
-// Health check endpoint (no rate limiting)
+// Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ 
     status: 'ok', 
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    cors: {
+      allowedOrigins: allowedOrigins,
+      requestOrigin: req.headers.origin || 'none'
+    }
   });
 });
 
 // Only serve static files in production
 if (process.env.NODE_ENV === 'production') {
-    const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
-    
-    // Add this debug code
-    const fs = require('fs');
-    console.log(`📁 Checking frontend path: ${frontendBuildPath}`);
-    console.log(`📁 Path exists: ${fs.existsSync(frontendBuildPath)}`);
-    
-    if (fs.existsSync(frontendBuildPath)) {
-      const files = fs.readdirSync(frontendBuildPath);
-      console.log(`📁 Files in dist: ${files.join(', ')}`);
-      console.log(`📁 index.html exists: ${fs.existsSync(path.join(frontendBuildPath, 'index.html'))}`);
-    }
-    
-    app.use(express.static(frontendBuildPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(frontendBuildPath, 'index.html'));
-    });
+  const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
+  
+  const fs = require('fs');
+  console.log(`📁 Checking frontend path: ${frontendBuildPath}`);
+  console.log(`📁 Path exists: ${fs.existsSync(frontendBuildPath)}`);
+  
+  if (fs.existsSync(frontendBuildPath)) {
+    const files = fs.readdirSync(frontendBuildPath);
+    console.log(`📁 Files in dist: ${files.join(', ')}`);
+    console.log(`📁 index.html exists: ${fs.existsSync(path.join(frontendBuildPath, 'index.html'))}`);
+  }
+  
+  app.use(express.static(frontendBuildPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendBuildPath, 'index.html'));
+  });
 } else {
-  // Development mode - just the API root response
   app.get('/*splat', (req, res) => {
     res.json({
       name: 'M2B Bus Tracker API',
@@ -139,6 +157,7 @@ if (process.env.NODE_ENV === 'production') {
         trips: '/api/trips',
         buses: '/api/buses',
         routes: '/api/admin/routes',
+        schedules: '/api/schedules',
         maps: '/api/maps',
         admin: '/api/admin'
       }
@@ -146,23 +165,37 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// For development, keep the 404 handler
-if (process.env.NODE_ENV !== 'production') {
-  // 404 handler - route not found
-  app.use((req, res) => {
-    res.status(404).json({ 
-      error: 'Route not found',
-      path: req.originalUrl,
-      method: req.method
-    });
+// 404 handler for API routes
+app.use('/api/*', (req, res) => {
+  console.log(`❌ 404: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ 
+    error: 'API route not found',
+    path: req.originalUrl,
+    method: req.method,
+    availableEndpoints: {
+      auth: '/api/auth',
+      trips: '/api/trips',
+      buses: '/api/buses',
+      routes: '/api/admin/routes',
+      schedules: '/api/schedules',
+      maps: '/api/maps',
+      admin: '/api/admin'
+    }
   });
-}
+});
 
-// Global error handler (keep this for all environments)
+// Global error handler
 app.use((err, req, res, next) => {
-  console.error('❌ Error:', err.stack);
+  console.error('❌ Error:', err.message);
+  console.error('Stack:', err.stack);
   
-  // Handle specific error types
+  // Always set CORS headers in error responses
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+  }
+  
   if (err.type === 'entity.parse.failed') {
     return res.status(400).json({ error: 'Invalid JSON payload' });
   }
@@ -171,8 +204,7 @@ app.use((err, req, res, next) => {
     return res.status(409).json({ error: 'Duplicate entry detected' });
   }
   
-  // Default error response
-  res.status(500).json({ 
+  res.status(err.status || 500).json({ 
     error: 'Something went wrong!',
     message: process.env.NODE_ENV === 'development' ? err.message : undefined
   });
