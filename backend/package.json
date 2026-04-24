@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "build": "echo 'Skipping frontend build - backend only' && exit 0"
   },
   "keywords": [],
   "author": "",
