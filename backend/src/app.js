@@ -101,7 +101,7 @@ app.get('/health', (req, res) => {
     });
   }else {
   // Development mode - just the API root response
-  app.get('/', (req, res) => {
+  app.get('/*splat', (req, res) => {
     res.json({
       name: 'M2B Bus Tracker API',
       version: '1.0.0',
