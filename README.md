@@ -54,25 +54,25 @@ A dashboard that helps track and analyze public transportation performance. Made
 - npm
 
 ## Deployment Diagram
-[ Client Layer ]
-      |
-      |-- React Web App (Passenger/Admin) --> Hosted on Hostinger
-      |-- React Native / Web App (Driver) --> Mobile Browser/PWA
-      |
-[ Interaction Layer ]
-      |
-      V
-[ API Gateway / Load Balancer ]
-      |
-[ Application Layer ]
-      |
-      |-- Node.js + Express.js Server
-      |     |
-      |     |-- [ Google Maps APIs ] (External Service)
-      |
-[ Data Layer ]
-      |
-      |-- MySQL Database
+[ Client Layer ]  
+      |  
+      |-- React Web App (Passenger/Admin) --> Hosted on Hostinger  
+      |-- React Native / Web App (Driver) --> Mobile Browser/PWA  
+      |  
+[ Interaction Layer ]  
+      |  
+      V  
+[ API Gateway / Load Balancer ]  
+      |  
+[ Application Layer ]  
+      |  
+      |-- Node.js + Express.js Server  
+      |     |  
+      |     |-- [ Google Maps APIs ] (External Service)  
+      |  
+[ Data Layer ]  
+      |  
+      |-- MySQL Database  
 
 ## Data Flow
 ```
