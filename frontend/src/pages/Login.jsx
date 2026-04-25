@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Navbar from '../components/menu/Navbar';
+import Navbar from '../components/menu/NavBar';
 import "../css/Login.css";
 
 function Login() {
@@ -11,7 +11,7 @@ function Login() {
   const navigate = useNavigate();
   
   const { login } = useAuth();
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const API_URL = import.meta.env.VITE_API_URL || '/api';
   
   const googleInitialized = useRef(false);
   const buttonRendered = useRef(false);

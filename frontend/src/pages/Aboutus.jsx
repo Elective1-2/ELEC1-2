@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/Aboutus.css';
 
-import Navbar from '../components/menu/Navbar';
+import Navbar from '../components/menu/NavBar';
 import Footer from '../components/menu/Footer';
 
 import glenPic from '../assets/glen.jpg'; 

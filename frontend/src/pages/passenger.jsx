@@ -29,8 +29,9 @@ function Passenger() {
     setModalError(null);
     
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/buses/${busNumber}/active-trip`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/buses/${busNumber}/active-trip`);
       const data = await response.json();
+
 
       if (!response.ok) {
         throw new Error(data.error || 'Bus not found or no active trip');

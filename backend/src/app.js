@@ -21,6 +21,9 @@ console.log('✅ [app.js] Path loaded');
 require('dotenv').config();
 console.log('✅ [app.js] Dotenv configured');
 
+
+console.log(` TRY 1`);
+
 console.log('📊 [app.js] Environment variables check:');
 console.log(`  - NODE_ENV: ${process.env.NODE_ENV || 'NOT SET'}`);
 console.log(`  - DB_HOST: ${process.env.DB_HOST ? 'SET ✓' : 'NOT SET ✗'}`);
@@ -45,10 +48,13 @@ const limiter = rateLimit({
   skipSuccessfulRequests: true, // Don't count successful requests against limit
 });
 app.use('/api/', limiter);
-
-// CORS configuration - UPDATE for production
+// WAG MO KASI TANGGALIN TO
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173', //todo: pls help
+  origin: [
+    'https://www.m2b-p2p.com', 
+    'https://m2b-p2p.com', 
+    'http://localhost:5173'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
@@ -82,7 +88,7 @@ app.get('/health', (req, res) => {
 
 // Only serve static files in production
   if (process.env.NODE_ENV === 'production') {
-    const frontendBuildPath = path.join(__dirname, '../../public_html/.builds/source/repository/frontend/dist');
+    const frontendBuildPath = path.join(__dirname, '../dist');
     
     // Add this debug code
     const fs = require('fs');
@@ -96,7 +102,7 @@ app.get('/health', (req, res) => {
     }
     
     app.use(express.static(frontendBuildPath));
-    app.get('*', (req, res) => {
+    app.get(/.*/, (req, res) => {
       res.sendFile(path.join(frontendBuildPath, 'index.html'));
     });
   }else {
@@ -137,6 +143,8 @@ if (process.env.NODE_ENV !== 'production') {
 // Global error handler (keep this for all environments)
 app.use((err, req, res, next) => {
   console.error('❌ Error:', err.stack);
+
+  
   
   // Handle specific error types
   if (err.type === 'entity.parse.failed') {
